@@ -11,7 +11,7 @@ const profileroutes = require('./routes/profile-routes').route
 
 app.use(cookieSession({
     maxAge:2*60*60*1000,
-    keys:[keys.session.cookieKey]
+    keys:[process.env.cookieKey]
 }))
 //initialoze passport
 app.use(passport.initialize())
@@ -40,7 +40,7 @@ app.use('/navbar2', require('./routes/navbar2'));
 app.use('/images', require('./routes/images'));
 
 app.listen(SERVER_PORT, function () {
-    console.log("Server started on http://localhost:3420/");
+    console.log("Server started on https://payrollv2.herokuapp.com/");
 });
 
 

@@ -3,7 +3,8 @@ const GoogleStrategy = require('passport-google-oauth20')
 const FacebookStrategy = require('passport-facebook')
 const LocalStrategy = require('passport-local').Strategy
 var crypto = require('crypto'); 
-const keys = require('./keys')
+const dotenv = require("dotenv")
+dotenv.config()
 const User = require('../database').User
 function isEmpty(obj) {
     for(var key in obj) {
@@ -26,9 +27,9 @@ passport.deserializeUser((id,done)=>{
 })
 passport.use(
     new GoogleStrategy({
-        callbackURL:"http://localhost:3420/auth/google/redirect",
-        clientID:keys.google.clientID,
-        clientSecret: keys.google.clientSecret
+        callbackURL:"https://payrollv2.herokuapp.com/auth/google/redirect",
+        clientID:process.env.clientIDg,
+        clientSecret: process.env.clientSecretg
         //options for google strategy
     },(accessToken,refreshToken,profile,done)=>{
         console.log("passport callback function fired ")
@@ -60,9 +61,9 @@ passport.use(
     })
 )
 passport.use(new FacebookStrategy({
-    clientID: keys.facebook.clientID,
-    clientSecret: keys.facebook.clientSecret,
-    callbackURL: "http://localhost:3420/auth/facebook/redirect",
+    clientID: process.env.clientIDf,
+    clientSecret: process.env.clientSecretf,
+    callbackURL: "https://payrollv2.herokuapp.com/auth/facebook/redirect",
     profileFields: ['id','displayName','photos','email']
   },
   function(accessToken, refreshToken, profile, done) {

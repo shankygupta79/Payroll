@@ -4,9 +4,10 @@ const Sequelize = require('sequelize')
 var path=require('path')
 const User = require('../database').User
 const nodemailer = require('nodemailer'); 
-const keys = require('../config/keys') 
+const dotenv = require("dotenv")
+dotenv.config()
 route.get('/', (req, res) => {
-    res.redirect('http://localhost:3420/login')
+    res.redirect('https://payrollv2.herokuapp.com/login')
 })
 
 
@@ -142,30 +143,28 @@ route.post('/signup',(req,res)=>{
     })
    
 })
-
 function sendmail(tomailid,hash,fp){
     var d = new Date();
     var tm = d.getTime();
     let mailTransporter = nodemailer.createTransport({ 
         service: 'gmail', 
+        //zebcrxozzvbluqri
         auth: { 
-            user: keys.gmail.mail, 
-            pass: keys.gmail.password
+            user: process.env.mail, 
+            pass: process.env.mpassword
         } 
     }); 
-    //shankygupta79@gmail.com
-    //tusharchopra123@gmail.com
     let mailDetails={}
     if(fp==1){
         mailDetails = { 
-            from: keys.gmail.mail,
+            from: process.env.mail,
             to: tomailid, 
             subject: 'Reset Your Password', 
             text: 'Reset your password by clicking on the link (link is valid upto five minutes only) '+'https://login.tush.tech/forgot?id='+hash+'&tm='+tm+'&mail='+tomailid,
         };
     }else if(fp==0){
     mailDetails = { 
-        from: keys.gmail.mail,
+        from: process.env.mail,
         to: tomailid, 
         subject: 'Activate Your Account', 
         text: 'Verify your account by clicking on the link '+'https://login.tush.tech/activate?id='+hash+'&mail='+tomailid+'&tm='+tm+' .'+ 'This Link will expire in 10 minutes',

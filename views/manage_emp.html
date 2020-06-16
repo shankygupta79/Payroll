@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
-    <link rel="stylesheet" href="http://localhost:3420/employee/css">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/employee/css">
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -96,21 +96,21 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="http://localhost:3420/navbar2"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
         var log = new Vue({
             el: "#Index",
             data: {
-                myArray: [{ name: 'Worker 1', empid:1,dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'http://localhost:3420/images/emp_man' },
-                { name: 'Worker 2', empid:1,dep: 'Department1', des: 'Designation1', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_man' },
-                { name: 'Worker 3',empid:1, dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'http://localhost:3420/images/emp_fem' },
-                { name: 'Worker 4',empid:1, dep: 'Dep3', des: 'Des3', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_fem' },
-                { name: 'Worker 8',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_man' },
-                { name: 'Worker 6',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_man' },
-                { name: 'Worker 7',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_fem' },
-                { name: 'Worker 9',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2020', photo: 'http://localhost:3420/images/emp_fem' }],
+                myArray: [{ name: 'Worker 1', empid:1,dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
+                { name: 'Worker 2', empid:1,dep: 'Department1', des: 'Designation1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
+                { name: 'Worker 3',empid:1, dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' },
+                { name: 'Worker 4',empid:1, dep: 'Dep3', des: 'Des3', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' },
+                { name: 'Worker 8',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
+                { name: 'Worker 6',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
+                { name: 'Worker 7',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' },
+                { name: 'Worker 9',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2020', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' }],
                 sortfield: 'Name',
                 sortarr:['Name','Department','Designation','Date of Joining'],
                 sortarr2:['name','des','dep','doj'],
@@ -161,14 +161,14 @@
                     }
                     return 0;
                 },edit(idx){
-                    window.location.href="http://localhost:3420/employee/edit_emp?empid="+idx
+                    window.location.href="https://payrollv2.herokuapp.com/employee/edit_emp?empid="+idx
                 }
 
             }
         })    
     </script>
 
-    <script src="http://localhost:3420/navbar2/collapsing"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 
 </html>

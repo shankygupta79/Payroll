@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
-const keys = require('./config/keys')
-const db = new Sequelize(keys.mysql.DATABASE,keys.mysql.USER ,keys.mysql.PASSWORD , {
-    host:keys.mysql.HOST,
+const dotenv = require("dotenv")
+dotenv.config()
+const db = new Sequelize(process.env.DATABASE,process.env.USER ,process.env.PASSWORD , {
+    host:process.env.HOST,
     dialect: 'mysql',
     port:3306,
   operatorsAliases: false,
@@ -12,7 +13,7 @@ const db = new Sequelize(keys.mysql.DATABASE,keys.mysql.USER ,keys.mysql.PASSWOR
     idle: 10000
   }
 })
-host='http://localhost:3420/';
+host='https://payrollv2.herokuapp.com/';
 const User = db.define('User_local',{
     userId:{
         type: Sequelize.STRING,
