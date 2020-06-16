@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
     <link rel="stylesheet" href="../payslips/css">
 
 
@@ -105,9 +105,9 @@
                                 v-if="myArray[i-1].name.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
                                 <td>{{myArray[i-1].name}}</td>
                                 <td>{{symbol}} {{myArray[i-1].salary}}</td>
-                                <td><button @click="download(i.date)" class="btn btn-success"><i class="fa fa-download"
-                                            style="color:white" aria-hidden="true"></i>&nbsp Download</button>
-                                    <button @click="print(i.date)" class="btn btn-danger"><i class="fa fa-print"
+                                <td><button @click="download(myArray[i-1].empid,myArray[i-1].name)" class="btn btn-success"><i class="fa fa-download"
+                                            style="color:white" aria-hidden="true"></i> Download</button>
+                                    <button @click="print(myArray[i-1].empid,myArray[i-1].name)" class="btn btn-danger"><i class="fa fa-print"
                                             style="color:white" aria-hidden="true"></i>&nbsp Print</button></td>
 
                             </tr>
@@ -141,7 +141,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -155,9 +155,9 @@
                 pages: [], start: 1, total: 100, end: 1, current: 1,
                 head: ['Name', 'Final Amount', 'Actions'],
                 sortfield: 'name',
-                myArray: [{ name: 'Jimmy2', salary: 50 },
-                { name: 'Jimmy3', salary: 60 },
-                { name: 'Jimmy1', salary: 80 }],
+                myArray: [{ empid:1,name: 'Jimmy2', salary: 50 },
+                { empid:2,name: 'Jimmy3', salary: 60 },
+                { empid:3,name: 'Jimmy1', salary: 80 }],
                 success: 1,
                 error: 1,
                 yearlist: [],
@@ -235,8 +235,8 @@
 
                 }, dwonload(idx) {
 
-                }, print(idx) {
-
+                }, print(idx,name) {
+                    window.location.href="http://localhost:3420/payslips/printsingle?id="+idx+"&name="+name;
                 }, printall() {
 
                 }, year() {
@@ -259,7 +259,7 @@
         })    
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

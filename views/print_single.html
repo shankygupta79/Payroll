@@ -1,0 +1,78 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Pay Slip</title>
+</head>
+
+<body>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index">
+        PAYSLIP
+
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                myArray: [{empid:'1',salary:'60',advance:'10',holiday:'10',bonus:'5',total:'20'}],
+                name:'',
+                id:'',
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    var params=this.getParams()
+                    params.id=this.id;
+                    params.name=this.name
+
+                }, printData() {
+                    var divToPrint = this.$refs.printTable
+                    newWin = window.open("");
+                    newWin.document.write(divToPrint.outerHTML);
+                    newWin.print();
+                    newWin.close();
+                },getParams(url) {
+                  var params = {};
+                  var parser = document.createElement('a');
+                  parser.href = url;
+                  var query = parser.search.substring(1);
+                  var vars = query.split('&');
+                  for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split('=');
+                    params[pair[0]] = decodeURIComponent(pair[1]);
+                  }
+                  console.log(params)
+                  return params;
+                }
+
+            }
+        })    
+    </script>
+
+</body>
+
+</html>

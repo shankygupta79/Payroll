@@ -154,10 +154,7 @@ a.article:hover {
     #navbar-top.active {
         z-index: 100;
     }
-    #content2.active{
-        z-index: 0;
-        background-color: rgb(168, 156, 156);
-    }
+    
     
 }
 #sidebarCollapse{

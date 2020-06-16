@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 const dotenv = require("dotenv")
 dotenv.config()
 route.get('/', (req, res) => {
-    res.redirect('https://payrollv2.herokuapp.com/login')
+    res.redirect('http://localhost:3420/login')
 })
 
 
