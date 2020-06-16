@@ -1,0 +1,141 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:3420/dashboard/css">
+    <link rel="stylesheet" href="http://localhost:3420/dashboard/style2">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading">
+            <div id="content2">
+                <div class="bord">
+                    <div class="headin center">Dashboard</div>
+                    <div class="roww"></div>
+                    <div class="sbox">
+                        <b>{{total}}</b>
+                        <i class="fa fa-users" style="color:green" aria-hidden="true"></i><br>
+                        Totol Employees
+                    </div>
+                    <div class="sbox">
+                        <b>{{department}}</b>
+                        <i class="fa fa-fort-awesome" style="color:rgb(255, 217, 0)" aria-hidden="true"></i><br>
+                        Departments &nbsp&nbsp&nbsp
+                    </div>
+                    <div class="sbox">
+                        <b>{{present}}</b>
+                        <i class="fa fa-user" style="color:blue" aria-hidden="true"></i><br>
+                        Present Today
+                    </div>
+                    <div class="sbox">
+                        <b>{{absent}}</b>
+                        <i class="fa fa-bed" style="color:red" aria-hidden="true"></i><br>
+                        Absent Today
+                    </div><br>
+                    <iframe
+                        src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23039BE5&amp;ctz=Asia%2FKolkata&amp;src=ZW4uaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%237986CB&amp;mode=AGENDA&amp;showTz=0&amp;showCalendars=1&amp;showPrint=0"
+                        style="border:solid 1px #777" class="mbox" height="350" frameborder="0" scrolling="no"></iframe>
+
+                    <div class="mbox2">
+                        <div style="display: table;" class="center">Attendance Analysis</div>
+                    <div id="chart" style="height: 330px;">
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="http://localhost:3420/navbar2"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                myArray: [],
+                total: 5,
+                present: 4,
+                department: 1,
+                absent: 1,
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                }
+
+            }
+        })
+
+    </script>
+    <script type = "text/javascript" src = "https://www.gstatic.com/charts/loader.js"></script>
+    <script type = "text/javascript">
+       google.charts.load('current', {packages: ['corechart']});     
+    </script>
+    <script type="text/javascript">
+        function drawChart() {
+            // Define the chart to be drawn.
+            var data = google.visualization.arrayToDataTable([
+               ['Month', 'Present', 'Absent'],
+               ['January',  1200,      50],
+               ['Februaury',  1000,      400],
+               ['March',  1170,      440],
+               ['April',  1250,       480],
+               ['May',  1530,540],
+               ['June',  1530,      540],
+               ['July',  1530,      540],
+               ['August',  1530,      540],
+               ['September',  1530,      540],
+               ['October',  1530,      540],
+               ['November',  1530,      540],
+               ['December',  1530,      540],
+            ]);
+
+            var options = {
+               title: 'Attendance (in percentage)',
+               isStacked:'percent'	  
+            };  
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.BarChart(document.getElementById('chart'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+        
+    </script>
+    
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
+</body>
+
+</html>

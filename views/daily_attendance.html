@@ -1,0 +1,233 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Attendance | Daily</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/attendance/css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading">
+            <div id="content2">
+                <div class="bord">
+                    <div class="headin center">Daily Attendance </div>
+                    <div class="roww"></div>
+                    <div class="dateon">
+                        <strong style="display: inline-block;">Select Date : </strong>
+                        <input style="display: inline-block;" class="" type="date" v-model="select_date">
+                        <button style="display: inline-block;" @click="submit()" style="padding: 5px 30px;"
+                            class="btn btn-success">Get Employee List
+                        </button>
+                    </div>
+                    <div v-if="getlist" >
+                        <br>
+                        <b>Date : {{select_date}}</b><br>
+                        <div style="display: inline;">
+                            Show <select @change="entryfun(entry)" v-model="entry">
+                                <option value="5">5</option>
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select> entries
+
+                        </div>
+
+                        <div class="input-icons">
+                            <input placeholder="Search" type="text" class="form-control" v-model="query">
+
+                        </div>
+                    
+
+                    <table id='tblData'>
+                        <tr>
+                            <th v-for="i in head" v-bind:data="i"><b>{{i}}</b>
+                                <i class="fa fa-sort-amount-asc" v-show="!sorticon" @click="sort(i,'asc')"
+                                    v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                                <i class="fa fa-sort-amount-desc" v-show="sorticon" @click="sort(i,'desc')"
+                                    v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                                <i class="fa fa-arrows-v" @click="sort(i,'asc')" v-if="i.toLowerCase()!=sortfield"
+                                    style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+
+                            </th>
+                        </tr>
+                        <tr v-for="i in myArray.length"
+                            v-if="myArray[i-1].name.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
+                            <td>{{i}}</td>
+                            <td>{{myArray[i-1].name}}</td>
+                            <td>{{myArray[i-1].at_by}}</td>
+                            <td>
+                                <input style="display: inline-block;width: 50%;" type='number'
+                                    v-bind:placeholder="myArray[i-1].etb">
+                                <div style="display: inline-block;" class="media2">%</div>
+
+
+                            </td>
+                            <td class="presenti media">
+                                <select @change="attendance(i-1)" class="form-control" id="myselection">
+                                    <option>Present</option>
+                                    <option>Absent</option>
+                                </select>
+                            </td>
+                            <td class="presenti media2">
+                                <select @change="attendance(i-1)" id="myselection">
+                                    <option>Present</option>
+                                    <option>Absent</option>
+                                </select>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <br>
+                    <div class='pagination-container'>
+                        Showing {{start}} to {{end}} of {{total}} entries
+                        <nav style="display: inline;">
+                            <ul class="pagination">
+
+                                <li data-page="prev" id="previ">
+                                    Previous </li>
+                                <li v-for="i in pages" @click="paging(i,entry)">
+                                    <strong v-if="i==current" id="currentpage">{{i}}</strong>
+                                    <strong v-else>{{i}}</strong>
+                                </li>
+                                <li data-page="next" id="next">
+                                    Next
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!--Pagination END-->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="http://localhost:3420/navbar2"></script>
+    <script>
+        var app = new Vue({
+            el: "#Index",
+            data: {
+                A: 'ab', P: 'pr',
+                entry: 5,
+                query: '',
+                select_date: '',getlist:0,
+                sorticon: 0,
+                pages: [], start: 1, total: 100, end: 1, current: 1,
+                head: ['S.No', 'Employee Name', 'Attendance By', 'Extra Time Bonus', 'Status'],
+                sortfield: 'name',
+                myArray: [{ name: 'Jimmy Anderson', at_by: 'Admin', etb: '0', status: 'Present' },
+                { name: 'Jimmy Anderson', at_by: 'Admin', etb: '0', status: 'Present' },
+                { name: 'Jimmy Anderson', at_by: 'Admin', etb: '5', status: 'Present' },
+                { name: 'Jimmy Anderson', at_by: 'Admin', etb: '0', status: 'Present' }],
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    this.total = this.myArray.length;
+                    this.entryfun(this.entry);
+                    this.sort(this.sortfield);
+                }, entryfun(entry) {
+                    this.paging(1, entry)
+                    var total_pages = Math.ceil(this.total / entry)
+                    this.pages = []
+                    for (i = 1; i <= total_pages; i++) {
+                        this.pages.push(i)
+                    }
+                }, sort(name, type) {
+                    this.sorticon = !this.sorticon;
+                    this.sortfield = name.toLowerCase();
+                    if (this.sortfield == 'action') {
+                        return
+                    } else if (this.sortfield == 'date') {
+                        this.myArray.sort(this.comparedate)
+                        if (type == 'desc') {
+                            this.myArray.reverse(this.comparedate)
+                        }
+                    } else {
+                        this.myArray.sort(this.compare)
+                        if (type == 'desc') {
+                            this.myArray.reverse(this.compare)
+                        }
+
+                    }
+                    this.paging(1, this.entry)
+
+                }, compare(a, b) {
+                    if (this.sortfield == 'holiday') {
+
+                        var nameA = a[this.sortfield]
+                        var nameB = b[this.sortfield]
+                    } else {
+                        var nameA = parseInt(a[this.field])
+                        var nameB = parseInt(b[this.field])
+                    }
+                    if (nameA < nameB) { return -1; }
+                    if (nameA > nameB) { return 1; }
+                    return 0;
+                },
+                comparedate(a, b) {
+                    var nameA = a[this.sortfield]
+                    var nameB = b[this.sortfield]
+                    nameA = nameA.slice(6, 10) + nameA.slice(3, 5) + nameA.slice(0, 2)
+                    nameB = nameB.slice(6, 10) + nameB.slice(3, 5) + nameB.slice(0, 2)
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                }, paging(pageno, entry) {
+                    this.current = pageno
+                    entry = parseInt(entry)
+                    pageno = pageno - 1
+                    this.start = pageno * (entry) + 1;
+                    this.end = pageno * entry + entry;
+
+                }, attendance(idx) {
+                    $(document).ready(function () {
+                        var value = $("#myselection option:selected");
+                        alert(value.text());
+                    });
+                },submit(){
+                    this.getlist=1;
+                }
+
+            }
+        })    
+    </script>
+
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
+</body>
+
+</html>

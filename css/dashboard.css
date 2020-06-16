@@ -1,0 +1,78 @@
+.bord{
+    border: 1px solid rgb(7, 47, 99);
+    display: table;
+    padding: 10px;
+    width: 95%;
+    margin: 3%;
+}
+.headin{
+    font-weight: bold;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2em;
+    background: inherit; 
+    width: 100%;
+    padding: 4px;
+    
+}
+.roww{
+    padding: 15px 10px;
+    border-top: 1px solid black;
+    
+}  
+.sbox i{
+    font-size: 3em;
+    float: right;
+}
+.sbox b{
+    font-size: 3em;
+}
+.center{
+    text-align: center;
+}
+.sbox{
+    display: inline-block;
+    width: 20%;
+    margin: 2%;
+    padding: 1%;
+    border-radius: 10%;
+    border: 2px solid brown;
+    font-size: 1em;
+    font-weight: bold;
+
+}
+.mbox{
+    display: inline-block;
+    width: 30%;
+    margin: 2%;
+    font-size: 1em;
+    font-weight: bold;
+    height: 350px;
+
+}
+.mbox2{
+    display: inline-block;
+    width: 65%;
+    font-size: 1em;
+    font-weight: bold;
+    height: 350px;
+
+}
+
+@media (min-width:260px) and (max-width:814px){
+    .sbox{
+        width: 45%;
+    }
+    .mbox{
+        width: 90% !important;
+        height: 250px;
+    }
+    .mbox2{
+        height: 250px;
+        width: 250px;
+        overflow-x: scroll;
+    }
+}
+.date-label{
+    background-color: pink !important;
+}

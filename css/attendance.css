@@ -1,0 +1,207 @@
+table{       
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    font-size: 18px;
+    background-color: white;
+    align-content: center;
+    font-family: HelveticaNeueW01-Thin,HelveticaNeueW02-Thin,HelveticaNeueW10-35Thin,sans-serif;
+    width: 100%;
+}
+
+.bord{
+    border: 1px solid rgb(7, 47, 99);
+    display: table;
+    padding: 10px;
+    width: 95%;
+    margin: 3%;
+}
+.headin{
+    font-weight: bold;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2em;
+    background: inherit; 
+    width: 100%;
+    padding: 4px;
+    
+}
+.options{
+    display: inline-block;
+    max-width: 95%;
+}
+table.center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+.btn{
+    padding:1px 5px;
+}
+
+tr th[data='Extra-Time Bonus']{
+    width: 10%;
+}
+
+th{
+    background-color: red;
+    color:white;
+}
+.status{
+    background-color: rgb(93, 228, 93);
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 1%;
+}
+
+tr:nth-child(odd) {
+    background: linear-gradient(rgb(253, 194, 194),rgb(252, 226, 226));
+}
+tr:hover{
+    background: #9abdf5;
+}
+#piechart_3d{
+    width: 90%;
+    height: 400px;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.report tr{
+    background-color: white;
+    border: none;
+    padding: 0;
+}
+.report td{
+    background-color: white;
+    border: none;
+    padding: 0;
+}
+
+#border{
+    background-color: white;
+}
+#asc,#desc{
+    float:right;
+}
+
+  
+.input-icons { 
+    float:right;
+} 
+.roww{
+    padding: 15px 10px;
+    border-top: 1px solid black;
+    
+}  
+.form-control { 
+    padding: 1px; 
+    width: 100%;
+} 
+.media{
+    display: inline;
+}
+
+.pagination{
+    float: right;
+}
+tr th i{
+    float: right;;
+}
+.pagination li:hover{
+    cursor: pointer;
+    color: blue;
+}
+#currentpage{
+    background-color: lightblue;
+    color: blue
+}
+.pagination li{
+    padding: 1px 5px;
+    background-color: lightblue;
+    font-size: 1em;
+    border-right: 0.5px solid white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+#previ,#next{
+    background-color: rgb(154, 154, 168);
+    color:black;
+    border-radius: 3px;
+}
+.inp-block{
+    margin-left: 10%;
+    display: inline-block;
+    width: 250px;
+}
+.field{
+    display: inline-block;
+    margin-left: 5%;
+    padding: 10px;
+}
+.error{
+    background-image:linear-gradient(10deg, #d50000 0%, #fc362f 74%);
+    border-left: 5px solid #8d0e0e;
+    color: white;
+    padding:7px;
+    font-size: 12px;
+}
+.dateon{
+    display: inline-block;
+}
+.center{
+    text-align: center;
+}
+.media2{
+    display: none;
+}
+.media{
+    display: block;
+}
+.success{
+    background-image:linear-gradient(10deg, #2f8f03 0%, #28e952 74%);
+    border-left: 5px solid #015a01;
+    color: white;
+    padding:7px;
+    font-size: 12px;
+}
+@media (min-width:260px) and (max-width:814px){
+    .input-icons{
+        float: left;
+    }
+    .pagination{
+        float: left;
+    }
+    .headin{
+        font-size: 1.5em;
+    }
+    td,button,th,.btn,#asc,#desc,b{
+        font-size: 0.7em;
+        text-size-adjust: auto;
+    }
+    table{
+        font-size: 0.85em;
+    }
+
+    .media{
+        display: none;
+    }
+    .media2{
+        display: block;
+    }
+    .inp-block{
+        width: 200px;
+    }
+    .presenti{
+        width: 70px;
+    }
+    .form-control{
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    #piechart_3d{
+        height: 200px;
+    }
+    
+}

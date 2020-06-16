@@ -1,0 +1,108 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Holiday | Edit Holiday</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/holiday/css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading">
+            <div id="content2" class="center">
+                <div class="bord">
+                    <div class="headin center">Edit Holiday</div>
+                    <div class="roww"></div>
+                    <div class="form-group">
+                            <div class="field" >Date :&nbsp&nbsp;</div>
+                            <input class="inp-block" class="inputi form-control" type="date" v-model="date"><br>
+                            
+                            <div class="field">Name : </div>
+                            <input class="inp-block" class="inputi form-control" placeholder="Enter holiday" type="text"
+                                v-model="date"><br>
+                     
+
+                    </div>
+                    <div class="roww"></div>
+                    <div v-if="error" class="error"> 
+                        {{message_error}} !
+                      </div> <br>
+                      <div v-if="success" class="success"> 
+                        {{message_success}} !
+                      </div> <br>
+                    <div class="center">
+                    <button @click="save(date,name)" style="padding: 5px 30px;" class="btn btn-success">Edit </button>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="http://localhost:3420/navbar2"></script>
+    <script>
+        var app = new Vue({
+            el: "#Index",
+            data: {
+                error:1,
+                success:1,
+                message_error:"Fields cannot be left empty !",
+                message_success:"Holiday changed successfully",
+                date: '',
+                name: '',
+
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    console.log(this.getParams(window.location))
+                },getParams(url) {
+                  var params = {};
+                  var parser = document.createElement('a');
+                  parser.href = url;
+                  var query = parser.search.substring(1);
+                  var vars = query.split('&');
+                  for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split('=');
+                    params[pair[0]] = decodeURIComponent(pair[1]);
+                  }
+                  return params;
+                }
+
+            }
+        })    
+    </script>
+
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
+</body>
+
+</html>

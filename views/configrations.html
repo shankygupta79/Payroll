@@ -1,0 +1,234 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Configrations</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/settings/css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading">
+            <div id="content2">
+                <div class="bord">
+                    <div class="headin center"> Configrations </div>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link tab" :class="company" @click="tab('company')">Company Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link tab" :class="system" @click="tab('system')">System</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link tab" :class="logo" @click="tab('logo')">Logo</a>
+                        </li>
+
+                    </ul>
+                    <div v-show="logo=='active tabcol'">
+                        <br><label class="label2">Company Logo&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;</label>
+                        <div class="inl"><input type="file" class="inp" placeholder="Photo"></div>
+                        <br><br>
+                        <img src="http://localhost:3420/images/logo" class="image">
+                        <br><br>
+
+
+                    </div>
+                    <div v-show="system=='active tabcol'">
+                        <br><br><label class="label2">Currency :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;</label>
+                        <div class="inl"><select @change="theme()" v-model="none" class="inp" id="myselection">
+                                <option>INR (₹)</option>
+                                <option>USD ($)</option>
+                                <option>EUR (€)</option>
+                                <option>CAD ($)</option>
+                                <option>CNY (¥)</option>
+                                <option>FKP (£)</option>
+                                <option>MYR (RM)</option>
+                                <option>THB (฿)</option>
+                            </select></div><br><br>
+                        <div class="label2">Office will remain closed on these days</div><br>
+
+                        <div class="weektable">
+                            <table>
+                                <tr>
+                                    <div class="week ">
+                                        Monday : <input type="checkbox" v-model="mon">
+                                    </div>
+                                    <div class="week ">
+                                        Tuesday : <input type="checkbox" v-model="tues">
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <div class="week ">
+                                        Wednesday : <input type="checkbox" v-model="wed">
+                                    </div>
+                                    <div class="week ">
+                                        Thursday : <input type="checkbox" v-model="thurs">
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <div class="week ">
+                                        Friday : <input type="checkbox" v-model="fri">
+                                    </div>
+                                    <div class="week">
+                                        Saturday : <input type="checkbox" v-model="sat">
+                                    </div>
+                                </tr>
+                                <div class="week">
+                                    Sunday: <input type="checkbox" v-model="sun">
+                                </div><br><br>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+                    <div v-show="company=='active tabcol'" >
+                        <div class="detailtable">
+                        <br><table>
+                            <tr>
+                                <td style="font-weight: bold;">Componay Name :</td>
+                                <td>
+                                    <input class="inp-block form-control" class="form-control" placeholder="Enter Company Name"
+                                    v-model="name" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Phone :</td>
+                                <td>
+                                    <input class="inp-block form-control" class="form-control" placeholder="Enter Company number"
+                                    v-model="phone" type="number">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Email :</td>
+                                <td>
+                                    <input class="inp-block form-control" class="form-control" placeholder="Enter Company Email ID"
+                                    v-model="email" type="mail">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Website :</td>
+                                <td>
+                                    <input class="inp-block form-control" class="form-control" placeholder="Enter Website URL"
+                                    v-model="website" type="mail">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Company Address :</td>
+                                <td>
+                                    <input class="inp-block form-control" class="form-control" placeholder="Enter Company Address"
+                                    v-model="address" type="mail">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">State :</td>
+                                <td>
+                                    <input class="inp-block form-control" class="form-control" placeholder="Enter State"
+                                    v-model="state" type="mail">
+                                </td style="font-weight: bold;">
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Country:</td>
+                                <td>
+                                    <input class="inp-block form-control" class="form-control" placeholder="Enter Country"
+                                        v-model="country" type="mail">
+                                </td>
+                            </tr>
+
+                        </table><br></div>
+
+                    </div>
+
+                    <div v-if="error" class="error">
+                        {{message_error}} !
+                    </div> <br>
+                    <div v-if="success" class="success">
+                        {{message_success}} !
+                    </div> <br>
+                    <div class="center">
+                        <button @click="save()" class="btn btn-success">SAVE </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="http://localhost:3420/navbar2"></script>
+
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                none: 'INR (₹)',
+                myArray: [],
+                mon: '', tues: '', wed: '', thurs: '', fri: '', sat: '', sun: '',
+                name:'',phone:'',email:'',address:'',state:'',country:'',website:'',
+                company: 'active tabcol',
+                system: '',
+                logo: '',
+                success: 1,
+                error: 1,
+                message_error: "Dont leave empty response",
+                message_success: "Configartions changed and saved!",
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                }, tab(val) {
+                    this.company = "";
+                    this.system = "";
+                    this.logo = "";
+
+                    if (val == 'company') {
+                        this.company = 'active tabcol';
+                    } else if (val == "system") {
+                        this.system = 'active tabcol';
+                    } else {
+                        this.logo = "active tabcol";
+                    }
+                }
+
+            }
+        })    
+    </script>
+
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
+</body>
+
+</html>

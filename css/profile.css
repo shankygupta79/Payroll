@@ -1,0 +1,235 @@
+.bord{
+    border: 1px solid rgb(7, 47, 99);
+    display: table;
+    padding: 10px;
+    width: 95%;
+    margin: 3%;
+}
+.tab{
+    color: blue !important;
+    background-color: #F5F7FA;
+    border: 1px solid rgb(194, 183, 183) !important;
+    border-bottom: none !important;
+}
+
+.week{
+    width: 22%;
+    display: inline-block;
+}
+.tab:hover{
+    color: blue !important;
+    margin: 1px;
+    background-color: white;
+    border: 1px solid black;
+}
+.active,.active:hover{
+    
+    color: white !important;
+    border: 1px solid rgb(65, 63, 63) !important;
+    border-bottom: none !important;
+    
+}
+.tabcol{
+    background-color: rgb(253, 144, 144) !important;
+}
+.headin{
+    font-weight: bold;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2em;
+    background: inherit; 
+    width: 100%;
+    padding: 4px;
+    
+}
+.roww{
+    padding: 15px 10px;
+    border-top: 1px solid black;
+    
+}  
+.error{
+    background-image:linear-gradient(10deg, #d50000 0%, #fc362f 74%);
+    border-left: 5px solid #8d0e0e;
+    color: white;
+    padding:7px;
+    font-size: 12px;
+}
+.weektable,
+.center{
+    text-align: center;
+}
+.success{
+    background-image:linear-gradient(10deg, #2f8f03 0%, #28e952 74%);
+    border-left: 5px solid #015a01;
+    color: white;
+    padding:7px;
+    font-size: 12px;
+}
+.inp-block{
+    margin-left: 10%;
+    display: inline-block;
+    width: 250px;
+}
+.field{
+    display: inline-block;
+    margin-left: 5%;
+    padding: 10px;
+}
+.detailtable{
+    text-align: center;
+    min-width: 95%;
+    margin-left: 20%;
+}
+@media (min-width:260px) and (max-width:814px){
+    .inp-block{
+        width: 200px;
+    }
+    .week{
+        width: 45%;
+        font-size: 0.75em;
+        align-self: start;
+    }
+    .weektable{
+        text-align: start ;
+    }
+}
+.bord2{
+    display: table;
+    padding: 10px;
+    width: 95%;
+    margin: 3%;
+}
+.bord{
+    border: 1px solid rgb(7, 47, 99);
+    display: table;
+    padding: 10px;
+    width: 95%;
+    margin: 3%;
+}
+.roww{
+    padding: 15px 10px;
+    border-top: 1px solid black;
+    
+}  
+.sbox i{
+    font-size: 3em;
+    float: right;
+}
+
+.center{
+    text-align: center;
+}
+
+.mbox{
+    display: inline-block;
+    width: 45%;
+    margin: 5px;
+    padding: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 3%;
+    border: 2px solid brown;
+    font-size: 1em;
+    height: 350px;
+    overflow-y: hidden;
+
+}
+.error{
+    background-image:linear-gradient(10deg, #d50000 0%, #fc362f 74%);
+    border-left: 5px solid #8d0e0e;
+    color: white;
+    padding:7px;
+    font-size: 12px;
+}
+.center{
+    text-align: center;
+}
+.success{
+    background-image:linear-gradient(10deg, #2f8f03 0%, #28e952 74%);
+    border-left: 5px solid #015a01;
+    color: white;
+    padding:7px;
+    font-size: 12px;
+}
+.row{
+    margin: 0.5%;
+}
+.label2{
+    font-size: 14px;
+    font-weight: 800;
+    float: left;
+    margin-left: 20%;
+}
+
+.inl{
+    display: inline-block;
+    font-size: 14px;
+    
+}
+.inp{
+    float: right;
+    width: 210px;
+    margin-left: 0 !important;
+}
+.image{
+    width: 100px;
+    height: 100px;
+    margin-left: 34%;
+    background-color: whitesmoke;
+    border: 1px solid grey;
+    border-radius: 2px;
+}
+th, td { 
+    text-align:right; 
+    padding:5px 
+  
+} 
+@media (min-width:260px) and (max-width:814px){
+    
+    .mbox{
+        width: 90% !important;
+        height: 250px;
+        overflow-x: scroll;
+        overflow-y: scroll;
+    }
+    .inp-block{
+        width: 280px;
+        font-size: 0.75em;
+    }
+    .inp{
+        width: 100px;
+        font-size: 0.75em;
+    }.label2{
+        font-size: 1em;
+        margin-left: 0;
+    }.image{
+        margin-left: 60%;
+        text-align: right;
+    }
+    .detailtable{
+        text-align: right;
+        margin-left: 0%;
+    }
+    .input-icons{
+        float: left;
+    }
+    .pagination{
+        float: left;
+    }
+    .headin{
+        font-size: 1.5em;
+    }
+    td,button,th,.btn,#asc,#desc,b{
+        font-size: 0.7em;
+        text-size-adjust: auto;
+    }
+    .media{
+        display: none;
+    }
+    td{
+        overflow-x: scroll;
+    }
+    
+    
+}
+

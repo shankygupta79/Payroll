@@ -1,0 +1,400 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title> Add Employee </title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/employee/css">
+
+    <meta name="csrf-token" content="XYZ123">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading">
+            <div id="content2">
+                <div class="headin center"> Add Employee </div>
+                <div class="mbox">
+                    <table class="addtable">
+                        <tr>
+                            <td><b class="subheadin">
+                                    <li>Basic Information</li>
+                                </b></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><b>Employee Name*</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="name" type="text"
+                                    placeholder="Employee name">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{name}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Gender</b></td>
+                            <td><select class="form-control" v-if="edit" v-model="gen">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </td>
+                            <td class="edittb" v-if="!edit">{{gen}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Date of Birth</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="dob" type="date"
+                                    placeholder="Date of birth">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{dob}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Father's Name</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="father" type="text"
+                                    placeholder="Father Name">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{father}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Father's Number</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="fnum" type="number"
+                                    placeholder="Father Mobile Number">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{fnum}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Mother's Name</b></td>
+                            <td>
+                                <div class="inp-block"><input class="form-control" v-if="edit" v-model="mother"
+                                        type="text" placeholder="Mother's name"></div>
+                            </td>
+                            <td class="edittb" v-if="!edit">{{mother}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Mother's Number</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="mnum" type="number"
+                                    placeholder="Mother Mobile Number">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{mnum}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Email ID</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="mail" type="email"
+                                    placeholder="Enter Email ID">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{mail}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Landline</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="landnum" type="number"
+                                    placeholder="Enter Ladline Number">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{landnum}}</td>
+                        </tr>
+
+
+
+
+
+                    </table>
+                </div>
+                <div class="mbox rightside">
+                    <table class="addtable">
+
+                        <tr>
+                            <td>&nbsp</td>
+                            <td>&nbsp</td>
+                        </tr>
+                        <tr>
+                            <td><b>Alternate Num</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="anum" type="number"
+                                    placeholder="Enter Alternate Number">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{anum}}</td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><b>Photo</b></td>
+                            <td><input class="form-control" v-if="edit" type="file" placeholder="Photo">
+                            </td>
+                            <td class="edittb" v-if="!edit">
+                                <img src="http://localhost:3420/images/emp_man" class="image" width="120px" height="120px"> </td>
+                        </tr>
+
+
+                        <tr>
+                            <td><b>Address Line 1</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="address1" type="text"
+                                    placeholder="Enter address ">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{address1}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Address Line 2</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="address2" type="text"
+                                    placeholder="Enter address ">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{address2}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Adhaar Number</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="aadhar" type="text"
+                                    placeholder="Aaadhar number (indian users)">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{aadhar}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>PAN Number</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="aadhar" type="text"
+                                    placeholder="Pan number (indian users)">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{pan}}</td>
+                        </tr>
+
+
+                    </table>
+                </div>
+                <div class="mbox">
+                    <table class="addtable">
+                        <tr>
+                            <td><b class="subheadin">
+                                    <li>Work Information</li>
+                                </b></td>
+
+                        </tr>
+                        <tr>
+                            <td><b>Employee ID</b></td>
+                            <td><input class="form-control" v-if="edit" type="text" placeholder="Auto Generated"
+                                    v-model="empid" readonly>
+                            </td>
+                            <td class="edittb" v-if="!edit">{{empid}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Date of Joining</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="doj" type="date"
+                                    placeholder="Enter date of joining">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{doj}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Salary (per month)*</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="salary" type="number"
+                                    placeholder="Enter salary">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{salary}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Department*</b></td>
+                            <td><select class="form-control" v-if="edit" v-model="dep">
+                                    <option v-for="i in departments">{{i}}</option>
+                                </select>
+
+                            </td>
+                            <td class="edittb" v-if="!edit">{{dep}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Designation</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="des" type="text"
+                                    placeholder="Enter Designation">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{des}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Status</b></td>
+                            <td><select class="form-control" v-if="edit" v-model="status">
+                                    <option>Active</option>
+                                    <option>In-Active</option>
+                                </select>
+                            </td>
+                            <td class="edittb" v-if="!edit">{{status}}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+                <div class="mbox rightside">
+                    <table class="addtable">
+                        <tr>
+                            <td><b class="subheadin">
+                                    <li>Bank Information</li>
+                                </b></td>
+                            <td>&nbsp
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Account Holder Name</b></td>
+                            <td class="edittb" v-if="!edit"><input class="form-control" v-if="edit" v-model="accname"
+                                    type="text" placeholder="Acc. holder name">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{accname}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Account Number</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="accnum" type="text"
+                                    placeholder="Acc. number">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{accnum}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Bank Name</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="bname" type="text"
+                                    placeholder="Bank Name">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{bname}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Branch IFSC Code</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="ifsc" type="text"
+                                    placeholder="IFSC Code">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{ifsc}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Branch</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="branch" type="text"
+                                    placeholder="Branch">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{branch}}</td>
+                        </tr>
+
+
+                    </table>
+
+                </div><br>
+                <div class="doc"><b>
+                        <li>Already uploaded Documents !</li>
+                    </b></div>
+                <div class="doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No Documents Uploaded !</div>
+                <div class="subheadin doc" v-if="edit">
+                    <li>Upload More Documents !</li>
+                </div>
+                <form id="upload-widget" v-if="edit" method="post" action="/upload" class="dropzone doc">
+                    <div class="fallback">
+                        <input name="file" type="file" multiple />
+                    </div>
+                </form>
+                <div v-if="error" class="error">
+                    {{message_error}} !
+                </div> <br>
+                <div v-if="success" class="success">
+                    {{message_success}} !
+                </div> <br>
+                <div class="center">
+                    <button @click="save()" style="padding: 5px 30px;" class="btn btn-success" v-if="edit">SAVE
+                    </button>
+                </div>
+                <div class="center">
+                    <button @click="editfun()" style="padding: 5px 30px;" class="btn btn-warning"
+                        v-if="!edit">EDIT</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="http://localhost:3420/navbar2"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                myArray: [],
+                empid: 420,
+                edit: 0,
+                departments: ['Dep 1', 'Dep 2'],
+                name: 'Jimmy', gen: 'Male', dob: '20JUN2020', num: '00', fnum: '00', mnum: '00',
+                anum: '00', address1: 'DELHI1', address2: 'DELHI2', aadhar: 'xxxx-xxxx-xxxx-xxxx', pan: 'XX0000',
+                father: 'NONE', mother: 'NONE', mail: 'none@gmail.com', landnum: '011-00',
+                accname: 'DAAKU', accnum: '420', ifsc: 'XXXXXX', bname: 'Loot', branch: 'Aloo',
+                des: 'Designation', dep: 'Department', salary: '000', doj: '21JUN2020',
+                status: 'Active',
+                success: 1,
+                error: 1,
+                message_error: "Dont leave empty response",
+                message_success: "Configartions changed and saved!",
+            },
+            created: function () {
+
+                this.load();
+            },
+            methods: {
+                load: function () {
+
+                    if (this.departments.length == 0) {
+                        console.log(this.departments.length)
+                        this.message_error = "You have to create the department first !"
+                    } else {
+                        this.dep = this.departments[0];
+                    }
+
+                }, editfun() {
+                    this.edit = !this.edit
+                }, save() {
+                    this.edit = !this.edit
+                }
+
+            }
+        })    
+    </script>
+    <script type="text/javascript">
+        Dropzone.options.uploadWidget = {
+            paramName: 'file',
+            maxFilesize: 2,
+            maxFiles: 3,
+            dictDefaultMessage: 'Drag an image here to upload, or click to select one',
+            headers: {
+                'x-csrf-token': document.querySelector('meta[name=csrf-token]').getAttributeNode('content').value,
+            },
+            acceptedFiles: 'image/*',
+            init: function () {
+                this.on('success', function (file, resp) {
+                    console.log(file);
+                    console.log(resp);
+                    console.log("UPLOADED SUCCESFULL")
+                });
+                this.on('thumbnail', function (file) {
+                    console.log(file)
+                    if (file.accepted !== false) {
+                        if (file.width < 640 || file.height < 480) {
+                            file.rejectDimensions();
+                        } else {
+                            file.acceptDimensions();
+                        }
+                    }
+                });
+            },
+            accept: function (file, done) {
+                file.acceptDimensions = done;
+                file.rejectDimensions = function () {
+                    done('The image must be at least 640 x 480px');
+                };
+            }
+        };
+    </script>
+
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
+</body>
+
+</html>

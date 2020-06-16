@@ -1,0 +1,145 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Attendance Report</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading">
+            <div id="content2">
+                <div class="bord">
+                    <table class="report">
+                        <tr>
+                        <td><strong class="options">Select Employee :</strong></td>
+                    <td><strong class="options">Select Year :</strong></td>
+                <td><strong class="options">Select Month :</strong></td>
+                    </tr>
+                      <tr>
+                    <td><select class="form-control options" v-model="select_emp">
+                            <option v-for="i in employee">{{i}}</option>
+                        </select></td>
+                        <td><select class="form-control options" v-model="select_year">
+                            <option v-for="i in yearlist">{{i}}</option>
+                        </select></td>
+                    <td><select class="form-control options" v-model="select_month">
+                            <option v-for="i in monthlist">{{i}}</option>
+                        </select></td>
+                    </tr>
+                    </table><br>
+                    <div v-if="error" class="error">
+                        {{message_error}} !
+                    </div> <br>
+                    <div v-if="success" class="success">
+                        {{message_success}} !
+                    </div> <br>
+                    <div class="center">
+                        <button @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show Report
+                        </button>
+                    </div>
+                    <div class="center headin"></div>
+                    <div class="row"></div>
+                    <div id="piechart_3d"></div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="http://localhost:3420/navbar2"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                myArray: [],
+                success: 1,
+                error: 1,
+                employee: ['All Employee', 'Emp1', "Emp2", "Emp3"],
+                yearlist: [],
+                monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
+                select_year: '',
+                select_emp: 'All Employee',
+                select_month: '',
+                message_error: "Enter the full details",
+                message_success: "Attendace report loaded successfully",
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    this.year();
+                }, submit() {
+                    google.charts.load("current", { packages: ["corechart"] });
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                        var data = google.visualization.arrayToDataTable([
+                            ['Status', 'Days in a month'],
+                            ['Present', 11],
+                            ['Absent', 9],
+                            ['Holiday', 10]
+                        ]);
+
+                        var options = {
+                            title: 'Attendance Report',
+                            is3D: true,
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                        chart.draw(data, options);
+                    }
+                }, year() {
+                    var d = new Date();
+                    var n = d.getFullYear() + 1;
+                    var y = 2020;
+                    do {
+                        this.yearlist.push(y)
+                        y++;
+                    } while (n != y);
+                    this.select_month=this.monthlist[d.getMonth()];
+                    this.select_year=n-1;
+                }
+
+            }
+        })
+
+    </script>
+
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
+</body>
+
+</html>

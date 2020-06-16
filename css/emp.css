@@ -1,0 +1,126 @@
+
+.bord{
+    border: 1px solid rgb(7, 47, 99);
+    display: table;
+    padding: 10px;
+    width: 95%;
+    margin: 3%;
+}
+.headin{
+    font-weight: bold;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2em;
+    background: inherit; 
+    width: 100%;
+    padding: 4px;
+    
+}
+.btn{
+    padding:1px 5px;
+}
+.roww{
+    padding: 15px 10px;
+    border-top: 1px solid black;
+    
+}  
+.addtable{
+    width: 98%;
+}
+
+td{
+    /*border: 0.5px dashed rgb(0, 0, 0);*/
+    min-width: 98%;
+}
+.empbox{
+    width: 23%;
+    border-radius: 10px;
+    border: 1px solid gray;
+    display: inline-block;
+    margin: 2px;
+    padding: 5px;
+}
+.empbox:hover{
+    background-color: whitesmoke;
+    transform: scale(1.05);
+}
+.mbox{
+    width: 45%;
+    display: inline-block;
+}
+.media{
+    display: inline;
+}
+th, td { 
+    text-align:right; 
+    padding:5px;
+} 
+
+.rightside{
+    vertical-align: top;
+}
+.error{
+    background-image:linear-gradient(10deg, #d50000 0%, #fc362f 74%);
+    border-left: 5px solid #8d0e0e;
+    color: white;
+    padding:7px;
+    font-size: 12px;
+}
+.tabman,.tabman2{
+    font-size: 0.75em;
+}
+.image{
+    border: 1px grey solid;
+    border-radius: 10px;
+}
+.edittb{
+    text-align: left;
+}
+.tabman2{
+    display: none;
+}
+.tabman2 td {
+    min-width: 100px !important;
+    text-align:center !important;
+    align-self: center !important;
+    padding: 0;
+}
+.center{
+    text-align: center;
+}
+.subheadin{
+    color: green;
+    font-weight: bold;
+    font-size: 18px;
+    overflow-x: visible;
+}
+.success{
+    background-image:linear-gradient(10deg, #2f8f03 0%, #28e952 74%);
+    border-left: 5px solid #015a01;
+    color: white;
+    padding:7px;
+    font-size: 12px;
+}
+@media (min-width:260px) and (max-width:814px){
+    
+    .headin{
+        font-size: 1.5em;
+    }
+
+    
+    .mbox{
+        width: 95%;
+    }
+    .rightside{
+        vertical-align: unset;
+    }.empbox{
+        width: 47%;
+    }.tabman{
+        display: none;
+    }.tabman2{
+        display: block;
+        font-size: 0.6em;
+    }
+   
+    
+}

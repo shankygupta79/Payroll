@@ -1,0 +1,157 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>User | Edit User</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/users/css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading">
+            <div id="content2">
+                <div class="bord2">
+                    <div class="mbox">
+                        <div class="headin center">Edit User</div>
+                        <div class="roww"></div>
+
+                        <label class="label2">Name :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <div class="inl"><input type="text" class="inp" placeholder="Email user's name"></div>
+                        <br><br><label class="label2">Photo :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;</label>
+                        <div class="inl"><input type="file" class="inp" placeholder="Photo"></div>
+                        <br><br><label class="label2">Email : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;
+                        </label>
+                        <div class="inl"><input type="email" class="inp" placeholder="Enter Email or username"></div>
+                        <br><br><label class="label2">Password : &nbsp;</label>
+                        <div class="inl"><input type="password" class="inp" placeholder="Email strong password"></div>
+
+
+
+                    </div>
+                    <div class="mbox center">
+                        <div class="headin center">Module Access</div>
+                        <div class="roww"></div>
+                        <label class="label2">Employee : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <div class="inl"><input type="checkbox" v-model="view_emp"></div>
+                        <div class="inl">View </div>
+                        <div class="inl"><input type="checkbox" v-model="edit_emp"></div>
+                        <div class="inl">Edit</div>
+                        <br><br><label class="label2">Department : &nbsp;</label>
+                        <div class="inl"><input type="checkbox" v-model="view_dep"></div>
+                        <div class="inl">View </div>
+                        <div class="inl"><input type="checkbox" v-model="edit_dep"></div>
+                        <div class="inl">Edit</div>
+                        <br><br><label class="label2">Attendance : &nbsp;</label>
+                        <div class="inl"><input type="checkbox" v-model="view_att"></div>
+                        <div class="inl">View </div>
+                        <div class="inl"><input type="checkbox" v-model="edit_att"></div>
+                        <div class="inl">Edit</div>
+                        <br><br><label class="label2">Holidays :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;</label>
+                        <div class="inl"><input type="checkbox" v-model="view_hol"></div>
+                        <div class="inl">View </div>
+                        <div class="inl"><input type="checkbox" v-model="edit_hol"></div>
+                        <div class="inl">Edit</div>
+                        <br><br><label class="label2">Payslips :
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <div class="inl"><input type="checkbox" v-model="view_pay"></div>
+                        <div class="inl">View </div>
+                        <div class="inl"><input type="checkbox" v-model="edit_pay"></div>
+                        <div class="inl">Edit</div>
+
+                    </div>
+                    <div v-if="error" class="error">
+                        {{message_error}} !
+                    </div> <br>
+                    <div v-if="success" class="success">
+                        {{message_success}} !
+                    </div> <br>
+                    <div class="center">
+                        <button @click="save()" style="padding: 5px 30px;" class="btn btn-success">EDIT </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="http://localhost:3420/navbar2"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                myArray: [],
+                success: 1,
+                error: 1,
+                newpass: '',
+                name: '',
+                mail: '',
+                edit_emp: false, view_emp: false,
+                edit_att: false, view_att: false,
+                edit_dep: false, view_dep: false,
+                edit_pay: false, view_pay: false,
+                edit_hol: false, view_hol: false,
+                message_error: "Fields Cannot be left empty ! ",
+                message_success: "Changes done successfully ! ",
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    console.log(this.getParams(window.location))
+                },getParams(url) {
+                  var params = {};
+                  var parser = document.createElement('a');
+                  parser.href = url;
+                  var query = parser.search.substring(1);
+                  var vars = query.split('&');
+                  for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split('=');
+                    params[pair[0]] = decodeURIComponent(pair[1]);
+                  }
+                  return params;
+                },save() {
+                    console.log(this.edit_emp, this.view_emp)
+                }
+
+            }
+        })    
+    </script>
+
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+:root {
+    --navbar-color: rgb(25, 51, 151);
+    --dropdown-box:whitesmoke ;
+    --body:white;
+    --text:white;
+    --text-hover:rgb(95, 118, 212);
+
+   
+    
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--body);
+
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    color: #999;
+}
+
+a,
+a:hover,
+a:focus {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.navbar {
+    padding: 15px 10px;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    width: 200px;
+    top: 0;
+    left: 0;
+    height: 200%;
+    z-index: 999;
+    background: var(--navbar-color);
+    color: var(--text);
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    margin-left: -200px;
+}
+
+#sidebar .sidebar-header {
+    padding: 0px;
+    background:var(--navbar-color);
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--text-hover);
+}
+
+#sidebar ul p {
+    color: #fff;
+    text-align: center;
+    padding: 0px;
+    margin: 0 !important;  
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: var(--navbar-color);;
+    background: var(--dropdown-box);
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: var(--text);
+    background: var(--text-hover);
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: var(--text-hover);
+}
+
+a.download {
+    background: #fff;
+    color: var(--navbar-color);
+}
+
+a.article,
+a.article:hover {
+    background: var(--text-hover) !important;
+    color: var(--text) !important;
+}
+
+
+#navbar-top {
+    width: calc(100% - 200px);
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#navbar-top.active {
+    width: 100%;
+}
+
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -200px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #navbar-top{
+        width: 100%;
+    }
+    #navbar-top.active {
+        width: calc(100% - 200px);
+    }
+    
+}
+#sidebarCollapse{
+    cursor: pointer;
+}
+.navbarr {
+    overflow: hidden;
+    background-color: var(--navbar-color);;
+   
+}
+  
+
+  
+.dropdown2 {
+    float: right;
+    overflow: hidden;
+}
+
+.navbarr a:hover,span:hover,.dropdown2 a:hover :not(#i){
+    background-color: var(--navbar-color);
+    color: var(--text); 
+}
+
+#sidebarCollapse,.navbarr a,span{
+    padding: 12px 16px;
+    text-decoration: none;
+    text-align: center;
+    float: left;
+    color:var(--text);
+    
+}
+.dropbtn{
+    padding:13px 16px
+}
+.navbarr button{
+    border: none;
+    outline: none;
+    background-color: inherit;
+    color: var(--text);
+}
+  
+.dropdown2-content{
+    display: none;
+    position: absolute;
+    background-color: whitesmoke;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+#content2{
+    padding: 15px 15px;
+    display: none;
+}
+.dropdown2-content a {
+    float: none;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: black;
+    text-align: left;
+}
+  
+
+  
+.dropdown2:hover .dropdown2-content {
+    display: block;
+}
+#Loading{
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  border-radius: 30px;
+    font-family: HelveticaNeueW01-Thin,HelveticaNeueW02-Thin,HelveticaNeueW10-35Thin,sans-serif;
+
+}
+.logo{
+    max-width: 100%;
+    height: 150px;
+    align-content: self;
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

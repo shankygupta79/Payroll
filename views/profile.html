@@ -1,0 +1,118 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Profile</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/settings/css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading">
+            <div id="content2">
+                <div class="bord">
+                    <div class="headin center">Profile</div>
+                    <div class="roww"></div>
+
+                    <label class="label2">Profile Photo :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;</label>
+                    <div class="inl"><input type="file" class="inp" placeholder="Photo"></div>
+                    <br><br>
+                    <img src="http://localhost:3420/images/profile" class="image">
+                    <br><br>
+                    <label class="label2">Color Theme :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;</label>
+                    <div class="inl"><select @change="theme()" v-model="none" class="inp" id="myselection" >
+                        <option >Theme 1</option>
+                        <option >Theme 2</option>
+                        <option >Theme 3</option>
+                        <option >Theme 4</option>
+                        <option >Theme 5</option>
+                        <option >Theme 6</option>
+                        <option >Theme 7</option>
+                        <option >Theme 8</option>
+                    </select></div>
+                    
+                    
+                    
+                </div>
+                <div v-if="error" class="error">
+                    {{message_error}} !
+                </div> <br>
+                <div v-if="success" class="success">
+                    {{message_success}} !
+                </div> <br>
+                <div class="center">
+                    <button @click="save()"style="padding: 5px 30px;" class="btn btn-success">SAVE </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="http://localhost:3420/navbar2"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                none:'',
+                myArray: [],
+                success: 1,
+                error: 1,
+                message_error: "Dont leave empty response",
+                message_success: "Setting changed !",
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    this.none=localStorage.getItem('panelTheme')
+                },theme(){
+                    $(document).ready(function() { 
+                        var value = $("#myselection option:selected"); 
+                        console.log(value.text())
+                        localStorage.setItem('panelTheme', value.text());
+                        window.location.reload()
+                    }); 
+                }
+
+            }
+        })  
+          
+    </script>
+
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
+</body>
+
+</html>
