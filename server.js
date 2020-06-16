@@ -4,9 +4,10 @@ const path=require('path')
 const app = express();
 const authroutes = require('./routes/auth-routes').route
 const passportSetup = require('./config/passport-setup')
-const keys = require('./config/keys')
 const cookieSession = require('cookie-session')
 const passport = require('passport')
+const dotenv = require("dotenv")
+dotenv.config()
 const profileroutes = require('./routes/profile-routes').route
 
 app.use(cookieSession({

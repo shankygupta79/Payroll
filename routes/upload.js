@@ -4,11 +4,12 @@ var multer  = require('multer');
 const path=require('path')
 const User = require('./db').User
 const cloudinary = require('cloudinary');
-const keys = require('../config/keys')
+const dotenv = require("dotenv")
+dotenv.config()
 cloudinary.config({
-  cloud_name: keys.cloudinary.cloud_name,
-  api_key: keys.cloudinary.api_key,
-  api_secret:keys.cloudinary.api_secret
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret:process.env.api_secret
 });
 var storage = multer.diskStorage({
   filename: function (req, file, cb) {
