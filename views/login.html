@@ -15,7 +15,7 @@
   <!-- Latest compiled and minified bootstap CSS -->
 
   <link rel="stylesheet" href="/signup/css">
-  <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+  <link rel="stylesheet" href="http://localhost:3420/settings/style2">
 
 </head>
 
@@ -169,7 +169,7 @@
             }, function (data) {
               console.log(data)
               if (data === 'true') {
-                window.location.href = 'https://payrollv2.herokuapp.com/dashboard';
+                window.location.href = 'http://localhost:3420/dashboard';
               } else if (data[0] === 'wp') {
                 acc.message = " Incorrect Password";
                 acc.error = 1;

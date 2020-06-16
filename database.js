@@ -13,7 +13,7 @@ const db = new Sequelize(process.env.DATABASE,process.env.USER ,process.env.PASS
     idle: 10000
   }
 })
-host='https://payrollv2.herokuapp.com/';
+host='http://localhost:3420/';
 const User = db.define('User_local',{
     userId:{
         type: Sequelize.STRING,
