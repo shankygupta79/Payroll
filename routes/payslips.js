@@ -26,6 +26,9 @@ route.get('/list', authCheck, (req, res) => {
 route.get('/printsingle', authCheck, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/print_single.html'))
 })
+route.get('/printmultiple', authCheck, (req, res) => {
+    res.sendFile(path.join(__dirname, '../views/print_multiple.html'))
+})
 route.get('/printcss', authCheck, (req, res) => {
     res.sendFile(path.join(__dirname, '../css/printcss.css'))
 })

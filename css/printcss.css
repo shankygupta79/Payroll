@@ -1,0 +1,37 @@
+.headin{
+    font-weight: bold;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2em;
+    background: inherit; 
+    width: 100%;
+    padding: 4px;
+    vertical-align: middle;
+    
+}
+.roww{
+    padding: 15px 10px;
+    border-top: 1px solid black;
+    
+}  
+.center{
+    text-align: center;
+}
+.numbering,.info{
+    width: 95%;
+    border-collapse: collapse;
+    word-wrap: break-word;
+}
+.numbering td{
+    border: 1px solid black;
+    margin: 0;
+}
+.numbering th{
+    border: 1px solid black;
+}
+@media print{
+   
+    .noprint{
+        display: none;
+    }
+}

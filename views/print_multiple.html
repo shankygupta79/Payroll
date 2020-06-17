@@ -28,54 +28,103 @@
 
 
     <div id="Index">
-        <div id="print">
-            <div class="center info headin" style="height: 110px;"><img src="../images/logo" width="100px"
+
+        <table class="noprint">
+            <tr>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">ID</label>
+                    <input type="checkbox" class="form-check-input" id="idcheck" checked>
+                </td>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Name</label>
+                    <input type="checkbox" class="form-check-input" id="namecheck" checked>
+                </td>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Department</label>
+                    <input type="checkbox" class="form-check-input" id="depcheck" checked>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Designation</label>
+                    <input type="checkbox" class="form-check-input" id="descheck" checked>
+                </td>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Phone No.</label>
+                    <input type="checkbox" class="form-check-input" id="phonecheck" checked> 
+                </td>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Account No.</label>
+                    <input type="checkbox" class="form-check-input" id="acccheck" checked>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Company Name</label>
+                    <input type="checkbox" class="form-check-input" id="cnamecheck" checked>
+                </td>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Logo</label>
+                    <input type="checkbox" class="form-check-input" id="logocheck" checked> 
+                </td>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Header</label>
+                    <input type="checkbox" class="form-check-input" id="headerrcheck" checked> 
+                </td>
+            </tr>
+
+        </table>
+
+        <button @click="print()" class="noprint" style="padding:3px 15px"><i class="fa fa-print" style="color:white"
+                aria-hidden="true"></i>&nbsp Print All</button>
+        <div id="print" v-for="i in 8">
+            <div class="center info headin headerr" style="height: 110px;"><img class="logo" src="../images/logo" width="100px"
                     style="float: left;" height="100px">
-                <div style="vertical-align: middle;"><br>{{company}}</div>
+                <div class="cname" style="vertical-align: middle;"><br>{{company}}</div>
             </div>
             <div class="roww info"></div>
             <div class="center info" style="font-size: 18px;"><b>PAYSLIP FOR MONTH OF {{month}}-{{year}}</b></div><br>
 
             <table class="info">
                 <tr>
-                    <td>
+                    <td class="id">
                         Employee ID :
                     </td>
-                    <td>
+                    <td class="id">
                         {{myArray2[0].empid}}
                     </td>
-                    <td>
+                    <td class="name">
                         Name :
                     </td>
-                    <td>
+                    <td class="name">
                         {{myArray2[0].name}}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="dep">
                         Department :
                     </td>
-                    <td>
+                    <td class="dep">
                         {{myArray2[0].department}}
                     </td>
-                    <td>
+                    <td class="des">
                         Designation :
                     </td>
-                    <td>
+                    <td class="des">
                         {{myArray2[0].designation}}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="phone">
                         Phone Number :
                     </td>
-                    <td>
+                    <td class="phone">
                         {{myArray2[0].number}}
                     </td>
-                    <td>
+                    <td class="acc">
                         Account Number :
                     </td>
-                    <td>
+                    <td class="acc">
                         {{myArray2[0].accnum}}
                     </td>
                 </tr>
@@ -187,12 +236,11 @@
                     this.id = params.id;
                     this.month = params.month
                     this.year = params.year
-                    this.print()
+                    //this.print()
 
                 }, print() {
-                    var divcontent = document.getElementById('print').innerHTML;
                     window.print()
-                    setTimeout(function () { window.close(); }, 3000);
+                    setTimeout(function () { window.close(); }, 2000);
 
                 }, getParams(url) {
                     var params = {};
@@ -208,7 +256,34 @@
                 }
 
             }
-        })    
+        })
+        $('#idcheck').on('click', function () {
+            $('.id').toggleClass('noprint');
+        });
+        $('#cnamecheck').on('click', function () {
+            $('.cname').toggleClass('noprint');
+        });
+        $('#logocheck').on('click', function () {
+            $('.logo').toggleClass('noprint');
+        });
+        $('#headerrcheck').on('click', function () {
+            $('.headerr').toggleClass('noprint');
+        });
+        $('#namecheck').on('click', function () {
+            $('.name').toggleClass('noprint');
+        });
+        $('#depcheck').on('click', function () {
+            $('.dep').toggleClass('noprint');
+        });
+        $('#descheck').on('click', function () {
+            $('.des').toggleClass('noprint');
+        });
+        $('#phonecheck').on('click', function () {
+            $('.phone').toggleClass('noprint');
+        });
+        $('#acccheck').on('click', function () {
+            $('.acc').toggleClass('noprint');
+        });
     </script>
 
 </body>
