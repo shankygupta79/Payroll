@@ -105,7 +105,7 @@
                                 v-if="myArray[i-1].name.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
                                 <td>{{myArray[i-1].name}}</td>
                                 <td>{{symbol}} {{myArray[i-1].salary}}</td>
-                                <td><button @click="print(myArray[i-1].empid)" class="btn btn-success"><i class="fa fa-download"
+                                <td><button @click="download(myArray[i-1].empid)" class="btn btn-success"><i class="fa fa-download"
                                             style="color:white" aria-hidden="true"></i> Download</button>
                                     <button @click="print(myArray[i-1].empid)" class="btn btn-danger"><i class="fa fa-print"
                                             style="color:white" aria-hidden="true"></i>&nbsp Print</button></td>
@@ -233,10 +233,12 @@
                         this.end = this.total
                     }
 
-                }, dwonload(idx) {
+                }, download(idx) {
+                    var x="https://payrollv2.herokuapp.com/payslips/printsingle?id="+idx+"&month="+this.select_month+"&year="+this.select_year+"&action=download";
+                    window.open(x, "_blank")
 
                 }, print(idx) {
-                    var x="https://payrollv2.herokuapp.com/payslips/printsingle?id="+idx+"&month="+this.select_month+"&year="+this.select_year;
+                    var x="https://payrollv2.herokuapp.com/payslips/printsingle?id="+idx+"&month="+this.select_month+"&year="+this.select_year+"&action=print";
                     window.open(x, "_blank")
                 }, printall() {
                     var x="https://payrollv2.herokuapp.com/payslips/printmultiple?&month="+this.select_month+"&year="+this.select_year;

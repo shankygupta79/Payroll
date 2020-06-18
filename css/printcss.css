@@ -9,6 +9,7 @@
     vertical-align: middle;
     
 }
+
 .roww{
     padding: 15px 10px;
     border-top: 1px solid black;
@@ -28,6 +29,9 @@
 }
 .numbering th{
     border: 1px solid black;
+}
+#print{
+    background-color: white;
 }
 @media print{
    

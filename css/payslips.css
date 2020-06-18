@@ -101,9 +101,19 @@ table{
     align-content: center;
     font-family: HelveticaNeueW01-Thin,HelveticaNeueW02-Thin,HelveticaNeueW10-35Thin,sans-serif;
     width: 100%;
+    word-wrap: break-word;
 
 }
+.wow{
+    display: none;
+}
+.tabman td input{
+    width: 80px;
 
+}
+.hey180{
+    width: 180px !important;
+}
 .headin{
     font-weight: bold;
     color: black;
@@ -113,6 +123,9 @@ table{
     width: 100%;
     padding: 4px;
     
+}
+label{
+    font-weight: 800;
 }
 table.center {
     margin-left: auto;
@@ -138,7 +151,34 @@ tr:nth-child(odd) {
 tr:hover{
     background: #9abdf5;
 }
-
+.bord{
+    border: 1px solid rgb(7, 47, 99);
+    display: table;
+    padding: 10px;
+    width: 95%;
+    margin: 3%;
+}
+.empbox{
+    width: 47%;
+    border-radius: 10px;
+    border: 1px solid gray;
+    display: inline-block;
+    margin: 2px;
+    padding: 5px;
+}
+img{
+    border-radius: 50px;
+}
+.green{
+    color: darkgreen;
+}
+.red{
+    color:red;
+}
+.empbox:hover{
+    background-color: whitesmoke;
+    transform: scale(1.05);
+}
 .report tr{
     background-color: white;
     border: none;
@@ -229,6 +269,9 @@ tr th i{
     td{
         max-width: 100px;
         overflow-x: scroll;
+    }
+    .empbox{
+        width: 97%;
     }
     
     

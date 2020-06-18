@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Collapsible sidebar using Bootstrap 4</title>
+    <title>Calculator </title>
 </head>
 
 <body>
@@ -37,43 +37,119 @@
             <navbar-top></navbar-top>
             <img src="../images/loading" id="Loading">
             <div id="content2">
-                <div id="navba">
-                    <button id="changecolor" class="btn btn-danger">Change Theme </button></div>
-                <h2>Collapsible Sidebar Using Bootstrap 4</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <div class="line"></div>
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <div class="line"></div>
+                <div class="bord">
+                    <div class="headin center">Calculator</div>
+                    <div class="roww"></div>
+                    <table class="report">
+                        <tr>
+                            <td><strong class="options">Select Year :</strong></td>
+                            <td><strong class="options">Select Month :</strong></td>
+                            <td></td>
+                        </tr>
+                        <tr>
 
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <td><select class="form-control options" v-model="select_year">
+                                    <option v-for="i in yearlist">{{i}}</option>
+                                </select></td>
+                            <td><select class="form-control options" v-model="select_month">
+                                    <option v-for="i in monthlist">{{i}}</option>
+                                </select></td>
+                            <td>
+                                <div class="center">
+                                    <button @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show Analysis
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table><br>
+                    
+                    <div v-show="paylist">
+                    <div>
+                        
+                        <div style="display: inline-block;">
+                            <label>Add Bonus</label>
+                            <input type="checkbox" id="bonuscheck">    
+                        </div>
+                        
+                        <div style="display: inline-block;">
+                            <label>Add Deductions</label>
+                            <input type="checkbox" id="deductioncheck">
+                        </div>
+                        <div style="display: inline-block;">
+                            <label>Add Text</label>
+                            <input type="checkbox" id="textcheck">    
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <b style="display: inline-block;">Sort By : </b>
+                        <div style="display: inline-block;">
+                            <select @change="sort(sortfield)" class="form-control" v-model="sortfield">
+                                <option v-for="i in sortarr">
+                                    {{i}}
+                                </option>
+                            </select>
+                        </div>
+                    </div><br>
+                    <div class="empbox center"  v-for="i in myArray.length">
+                        <b>{{myArray[i-1].name}}</b><br>
+                        <table class="tabman">
+                            <tr>
+                                <td colspan="2">
+                                    <img v-bind:src="myArray[i-1].photo" height="80px" width="80px">
+                                </td>
+                                <td> <b>Net Pay: </b></td>
+                                <td><b>{{symbol}} 60</b></td>
+                            </tr>
+                            <tr>
+                                <td> <b>Salary : </b></td>
+                                <td class="green" v-show="!edit">{{symbol}}{{list[i-1].salary}}</td>
+                                <td v-show="edit"><input v-model="list[i-1].salary" type="number"> </td>
 
-                <div class="line"></div>
+                                <td> <b>Holidays : </b></td>
+                                <td class="red" v-show="!edit">{{symbol}}{{list[i-1].holidays}}</td>
+                                <td v-show="edit"><input v-model="list[i-1].holidays" type="number"> </td>
 
-                <h3>Lorem Ipsum Dolor</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </tr>
+                            <tr>
+                                <td> <b>Extra Time : </b></td>
+                                <td class="red" v-show="!edit">{{symbol}}{{list[i-1].extra}}</td>
+                                <td v-show="edit"><input v-model="list[i-1].advance" type="number"> </td>
+
+                                <td> <b>Advance : </b></td>
+                                <td class="red" v-show="!edit">{{symbol}}{{list[i-1].advance}}</td>
+                                <td v-show="edit"><input v-model="list[i-1].advance" type="number"> </td>
+                            </tr>
+                            <tr>
+                                <td class="bonus wow" > <b>Bonus : </b></td>
+                                <td class="green bonus wow" v-show="!edit">{{symbol}}{{list[i-1].bonus}}</td>
+                                <td class="bonus wow" v-show="edit"><input v-model="list[i-1].bonus" type="number"> </td>
+
+                                <td class="deduction wow"> <b>Deduction: </b></td>
+                                <td class="red deduction wow" v-show="!edit">{{symbol}}{{list[i-1].deduction}}</td>
+                                <td class="deduction wow" v-show="edit"><input v-model="list[i-1].deduction" type="number"> </td>
+                            </tr>
+                            <tr>
+                                <td class="text wow"> <b>Narration : </b></td>
+                                <td class="text wow" v-show="!edit" colspan="3">{{list[i-1].text}}</td>
+                                <td class="text wow" colspan="3" v-show="edit"><input class="hey180" v-model="list[i-1].text" type="text"> </td>
+
+                            </tr>
+
+                        </table>
+                        
+
+
+                    </div>
+                    <div class="center" v-if="!edit">
+                        <button @click="editfun()"style="padding: 5px 30px;" class="btn btn-success">Edit</button>
+                    </div>
+                    <div class="center" v-if="edit">
+                        <button @click="save()"style="padding: 5px 30px;" class="btn btn-success">Save</button>
+                    </div>
+                </div>
+                
+                </div>
+                
             </div>
         </div>
 
@@ -86,17 +162,111 @@
         var log = new Vue({
             el: "#Index",
             data: {
-                myArray: [],
+                myArray: [{ name: 'Worker 1', empid: 1, dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
+                { name: 'Worker 2', empid: 1, dep: 'Department1', des: 'Designation1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
+                { name: 'Worker 3', empid: 1, dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' },
+                { name: 'Worker 4', empid: 1, dep: 'Dep3', des: 'Des3', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' },
+                { name: 'Worker 8', empid: 1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
+                { name: 'Worker 6', empid: 1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
+                { name: 'Worker 7', empid: 1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' },
+                { name: 'Worker 9', empid: 1, dep: 'Dep1', des: 'Des1', doj: '23-04-2020', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' }],
+                sortfield: 'Name',
+                symbol: '$',
+                list: [{ salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
+                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
+                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
+                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
+                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
+                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
+                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
+                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'}],
+                sortarr: ['Name', 'Department', 'Designation', 'Date of Joining'],
+                sortarr2: ['name', 'des', 'dep', 'doj'],
+                yearlist: [],
+                monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
+                select_year: '',
+                select_month: '',
+                paylist: 0,
+                edit:0,
             },
             created: function () {
                 this.load();
             },
             methods: {
                 load: function () {
+                    this.sort(this.sortfield);
+                    this.year();
+                }, sort(name, type) {
+                    var i = 0;
+                    if (name == "Name") {
+                        i = 0
+                    } else if (name == 'Department') {
+                        i = 1
+                    } else if (name == 'Designation') {
+                        i = 2
+                    } else if (name == "Date of Joining") {
+                        i = 3
+                    }
+                    this.sortfield = this.sortarr2[i];
+                    console.log(this.sortfield)
+                    if (this.sortfield == 'name' || this.sortfield == 'dep' || this.sortfield == 'des') {
+                        this.myArray.sort(this.compare)
+                    } else if (this.sortfield == 'doj') {
+                        this.myArray.sort(this.comparedate)
+
+                    }
+
+                }, compare(a, b) {
+                    var nameA = a[this.sortfield]
+                    var nameB = b[this.sortfield]
+                    if (nameA < nameB) { return -1; }
+                    if (nameA > nameB) { return 1; }
+                    return 0;
+                },
+                comparedate(a, b) {
+                    var nameA = a[this.sortfield]
+                    var nameB = b[this.sortfield]
+                    nameA = nameA.slice(6, 10) + nameA.slice(3, 5) + nameA.slice(0, 2)
+                    nameB = nameB.slice(6, 10) + nameB.slice(3, 5) + nameB.slice(0, 2)
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                },year() {
+                    var d = new Date();
+                    var n = d.getFullYear() + 1;
+                    var y = 2020;
+                    do {
+                        this.yearlist.push(y)
+                        y++;
+                    } while (n != y);
+                    this.select_month = this.monthlist[d.getMonth()];
+                    this.select_year = n - 1;
+                }, submit() {
+                    this.paylist = 1
+                },editfun(){
+                    this.edit=1
+                },save(){
+                    this.edit=0
                 }
 
             }
         })    
+        $('#bonuscheck').on('click', function () {
+            console.log("AYA")
+            $('.bonus').toggleClass('wow');
+        });
+        $('#textcheck').on('click', function () {
+            console.log("AYA")
+            $('.text').toggleClass('wow');
+        });
+        $('#deductioncheck').on('click', function () {
+            console.log("AYA")
+            $('.deduction').toggleClass('wow');
+        });
     </script>
 
     <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>

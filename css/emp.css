@@ -6,6 +6,10 @@
     width: 95%;
     margin: 3%;
 }
+img{
+    border-radius: 50px;
+}
+
 .headin{
     font-weight: bold;
     color: black;

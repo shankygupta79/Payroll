@@ -28,7 +28,7 @@
 
 
     <div id="Index">
-        <div id="print">
+        <div id="print" ref="hi">
             <div class="center info headin" style="height: 110px;"><img src="../images/logo" width="100px"
                     style="float: left;" height="100px">
                 <div style="vertical-align: middle;"><br>{{company}}</div>
@@ -187,7 +187,16 @@
                     this.id = params.id;
                     this.month = params.month
                     this.year = params.year
-                    this.print()
+                    
+                    if(params.action=='download'){
+                        setTimeout(function () { log.down(); }, 500);
+                    }else{
+                        this.print()
+                    }
+                    
+
+
+
 
                 }, print() {
                     var divcontent = document.getElementById('print').innerHTML;
@@ -205,10 +214,24 @@
                         params[pair[0]] = decodeURIComponent(pair[1]);
                     }
                     return params;
+                }, down() {
+                    console.log(this.$refs.hi);
+                    window.html2canvas(this.$refs.hi).then(canvas => {
+                        image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
+                        var link = document.createElement('a');
+                        link.download = "my-image.png";
+                        link.href = image;
+                        link.click();
+                        window.close()
+                    }).catch((error) => {
+                        console.log("Erorr Occured", error)
+                    });
+                    
                 }
 
             }
-        })    
+        })
+
     </script>
 
 </body>
