@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Login | App</title>
+  <title>Sign Up | App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
@@ -98,6 +98,9 @@
               placeholder="Password">
           </div>
         </div>
+        <div v-if="error" class="error"> 
+          {{message}} !
+        </div><br>
         <div class="center">
           <button type="button" @click="submit()" class="btn">Sign Up</button></div>
         
@@ -154,11 +157,11 @@
             username: this.username,
           }, function (data) {
 
-            console.log(data.email)
+            console.log(data)
             if (data.data == "ms") {
               acc.message = "An activtion Mail Has Been Sent to your Mail and you will be redirected automatically to the login page";
               setTimeout(() => {
-                window.location.href = "https://login.tush.tech/login"
+                window.location.href = "https://payrollv2.herokuapp.com/login"
               }, 4000);
               acc.error = 1;
             } else if (data.data == "ae") {
