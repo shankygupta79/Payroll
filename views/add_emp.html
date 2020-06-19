@@ -17,9 +17,7 @@
     <link rel="stylesheet" href="https://payrollv2.herokuapp.com/employee/css">
 
     <meta name="csrf-token" content="XYZ123">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
@@ -94,7 +92,18 @@
                             <td><input class="form-control" v-model="mail" type="email" placeholder="Enter Email ID">
                             </td>
                         </tr>
-
+                        <tr>
+                            <td><b>Landline</b></td>
+                            <td><input class="form-control" v-model="landnum" type="number"
+                                    placeholder="Enter Ladline Number">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Mobile Number</b></td>
+                            <td><input class="form-control" v-model="num" type="number"
+                                    placeholder="Enter Mobile Number">
+                            </td>
+                        </tr>
 
 
 
@@ -109,21 +118,17 @@
                         </tr>
                         <tr>
                             <td><b>Photo</b></td>
-                            <td><input class="form-control" type="file" placeholder="Photo">
+                            <td>
+                                <form method="post" action="https://payrollv2.herokuapp.com/employee/add_emp/uploadpr"
+                                    class="dropzone">
+                                    <div class="fallback">
+                                        <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
+                                    </div>
+
+                                </form>
                             </td>
                         </tr>
-                        <tr>
-                            <td><b>Landline</b></td>
-                            <td><input class="form-control" v-model="landnum" type="number"
-                                    placeholder="Enter Ladline Number">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><b>Mobile Number</b></td>
-                            <td><input class="form-control" v-model="num" type="number"
-                                    placeholder="Enter Mobile Number">
-                            </td>
-                        </tr>
+
                         <tr>
                             <td><b>Alternate Num</b></td>
                             <td><input class="form-control" v-model="anum" type="number"
@@ -148,7 +153,7 @@
                         </tr>
                         <tr>
                             <td><b>PAN Number</b></td>
-                            <td><input class="form-control" v-model="aadhar" type="text"
+                            <td><input class="form-control" v-model="pan" type="text"
                                     placeholder="Pan number (indian users)">
                             </td>
                         </tr>
@@ -248,19 +253,20 @@
                 <div class="subheadin">
                     <li>Upload Documents !</li>
                 </div>
-                <form id="upload-widget" method="post" action="/upload" class="dropzone">
+                <form id="upload-widget" method="post" action="https://payrollv2.herokuapp.com/employee/add_emp/upload"
+                    class="dropzone">
                     <div class="fallback">
                         <input name="file" type="file" multiple />
                     </div>
                 </form>
-                <div v-if="error" class="error">
+                <div v-show="error" class="error">
                     {{message_error}} !
                 </div> <br>
-                <div v-if="success" class="success">
+                <div v-show="success" class="success">
                     {{message_success}} !
                 </div> <br>
                 <div class="center">
-                    <button @click="save()" style="padding: 5px 30px;" class="btn btn-success">SAVE </button>
+                    <button @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}}</button>
                 </div>
             </div>
         </div>
@@ -282,10 +288,11 @@
                 accname: '', accnum: '', ifsc: '', bname: '', branch: '',
                 des: '', dep: '', salary: '', doj: '',
                 status: 'Active',
-                success: 1,
-                error: 1,
+                success: 0,
+                error: 0,
                 message_error: "Dont leave empty response",
                 message_success: "Configartions changed and saved!",
+                word: 'Save',
             },
             created: function () {
 
@@ -301,6 +308,57 @@
                         this.dep = this.departments[0];
                     }
 
+
+                }, save() {
+                    if (this.salary == "") {
+                        this.error = 1,
+                            this.message_error = "Salary cannot be left Empty ! "
+                    } else {
+                        this.word = "Saving..."
+                        $.post('./add_empdata', {
+                            fname: this.father,
+                            mname: this.mother,
+                            gender: this.gen,
+                            dob: this.dob,
+                            aadhaar: this.aadhar,
+                            pan: this.pan,
+                            fnum: this.fnum,
+                            mnum: this.mnum,
+                            anum: this.anum,
+                            add1: this.address1,
+                            add2: this.address2,
+                            land: this.landnum,
+                            salary: this.salary,
+                            bname: this.bname,
+                            ifsc: this.ifsc,
+                            accnum: this.accnum,
+                            accname: this.accname,
+                            branch: this.branch,
+                            status: this.status,
+                            name: this.name,
+                            doj: this.doj,
+                            des: this.des,
+                            dep: this.dep,
+                            email: this.mail,
+                            pnum: this.num,
+
+                        }, function (data) {
+                            console.log(data.message)
+                            if (data.message != 'true') {
+                                log.error = 1
+                                log.message_error = data.message
+
+                            } else {
+                                log.error = 0
+                                log.success = 1
+                                log.message_success = "Employee Added SuccessFully !"
+                                setTimeout(() => {
+                                    window.location.href = "add_emp"
+                                }, 1000);
+                            }
+                        })
+                    }
+
                 }
 
             }
@@ -310,7 +368,7 @@
         Dropzone.options.uploadWidget = {
             paramName: 'file',
             maxFilesize: 2,
-            maxFiles: 3,
+            maxFiles: 5,
             dictDefaultMessage: 'Drag an image here to upload, or click to select one',
             headers: {
                 'x-csrf-token': document.querySelector('meta[name=csrf-token]').getAttributeNode('content').value,
@@ -318,27 +376,12 @@
             acceptedFiles: 'image/*',
             init: function () {
                 this.on('success', function (file, resp) {
-                    console.log(file);
                     console.log(resp);
                     console.log("UPLOADED SUCCESFULL")
                 });
-                this.on('thumbnail', function (file) {
-                    console.log(file)
-                    if (file.accepted !== false) {
-                        if (file.width < 640 || file.height < 480) {
-                            file.rejectDimensions();
-                        } else {
-                            file.acceptDimensions();
-                        }
-                    }
-                });
+
             },
-            accept: function (file, done) {
-                file.acceptDimensions = done;
-                file.rejectDimensions = function () {
-                    done('The image must be at least 640 x 480px');
-                };
-            }
+
         };
     </script>
 

@@ -5,7 +5,7 @@ var $onlineConfigMap = ["ptype"=>["1"=>"BRA","2"=>"PANTIES","3"=>"BRA PANTY SET"
     "pref"=>["1"=>"Tummy Tuckers","2"=>"No Panty Line","3"=>"Mid Waist","4"=>"Low Waist","5"=>"Boyshorts","6"=>"Hipsters","7"=>"Bikini/Cheekini","8"=>"Maternity","9"=>"Thong /G-String","10"=>"Padded","11"=>"Push-Up"
     ,"12"=>"Bridal","13"=>"Cotton Print","14"=>"Fancy Lacy","16"=>"Non Padded","17"=>"Under Wired","18"=>"Wirefree","19"=>"Minimizer Bra","20"=>"Regular Bra","21"=>"Front Open","22"=>"Pack of 3",
     "23"=>"Laundary Bag","24"=>"Undergarment Kit","25"=>"Silicon/Sticons","26"=>"Pad","27"=>"Mask","28"=>"Teenager Bra","29"=>"Topless Bra","30"=>"Regular Cooton Bra","31"=>"Safety Panty","32"=>"Gents Lower",
-    "33"=>"Ladies Lower","34"=>"Gym Wear","35"=>"Beach Bikini Set","36"=>"Body Stocking","37"=>"Stocking","38"=>"Sock","39"=>"Panty Liner"],
+    "33"=>"Ladies Lower","34"=>"Gym Wear","35"=>"Beach Bikini Set","36"=>"Body Stocking","37"=>"Stocking","38"=>"Sock","39"=>"Panty Liner","40"=>"Tube"],
     "style"=>["1"=>"T-Shirt Bra","2"=>"Push Up Bra","3"=>"Multiway Bra","4"=>"Strapless Bra","5"=>"Low Back Bra","6"=>"Balconette Bra","7"=>"Plunge Bra","8"=>"Nursing Bra","9"=>"Saree Shapewear","10"=>"Shaper Panties",
         "11"=>"Full Body Shaper","12"=>"Thigh Shapers","13"=>"Shaping Camis & Slips","14"=>"Waist Cinchers","15"=>"Half Sleeves","16"=>"Cut Sleeves","17"=>"Frock","18"=>"A-line","19"=>"Tank Set","20"=>"Bikini Set",
         "21"=>"Shrug","22"=>"Sarong","23"=>"Bridal","24"=>"Baby Doll","25"=>"Slips & Camis","26"=>"Shorts Sets","27"=>"Capri Sets","28"=>"Pyjama Sets","29"=>"Maternity Bras","30"=>"Backless bra",
