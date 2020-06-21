@@ -13,11 +13,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/employee/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/employee/css">
+    <link rel="stylesheet" href="http://localhost:3420/employee/style2">
+    <link rel="stylesheet" href="http://localhost:3420/employee/css">
 
     <meta name="csrf-token" content="XYZ123">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
@@ -34,8 +35,8 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            <img src="../images/loading" id="Loading">
-            <div id="content2">
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2">
                 <div class="headin center"> Add Employee </div>
                 <div class="mbox">
                     <table class="addtable">
@@ -118,8 +119,8 @@
                         </tr>
                         <tr>
                             <td><b>Photo</b></td>
-                            <td>
-                                <form method="post" action="https://payrollv2.herokuapp.com/employee/add_emp/uploadpr"
+                            <td @click="photo()">
+                                <form method="post" action="http://localhost:3420/employee/add_emp/uploadpr"
                                     class="dropzone">
                                     <div class="fallback">
                                         <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
@@ -188,7 +189,7 @@
                         <tr>
                             <td><b>Department*</b></td>
                             <td><select class="form-control" v-model="dep">
-                                    <option v-for="i in departments">{{i}}</option>
+                                    <option v-for="i in departments">{{i.depname}}</option>
                                 </select>
 
                             </td>
@@ -253,12 +254,14 @@
                 <div class="subheadin">
                     <li>Upload Documents !</li>
                 </div>
-                <form id="upload-widget" method="post" action="https://payrollv2.herokuapp.com/employee/add_emp/upload"
-                    class="dropzone">
-                    <div class="fallback">
-                        <input name="file" type="file" multiple />
-                    </div>
-                </form>
+                <div @click="docum()">
+                    <form id="upload-widget" method="post" action="http://localhost:3420/employee/add_emp/upload"
+                        class="dropzone">
+                        <div class="fallback">
+                            <input name="file" type="file" multiple />
+                        </div>
+                    </form>
+                </div>
                 <div v-show="error" class="error">
                     {{message_error}} !
                 </div> <br>
@@ -273,7 +276,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -293,6 +296,7 @@
                 message_error: "Dont leave empty response",
                 message_success: "Configartions changed and saved!",
                 word: 'Save',
+                time: 0,
             },
             created: function () {
 
@@ -301,62 +305,83 @@
             methods: {
                 load: function () {
 
-                    if (this.departments.length == 0) {
-                        console.log(this.departments.length)
-                        this.message_error = "You have to create the department first !"
-                    } else {
-                        this.dep = this.departments[0];
-                    }
+                    axios.get('http://localhost:3420/department/api/dep')
+                        .then(function (Response) {
+                            log.departments = Response
+                            if (Response.length == 0) {
+                                log.error = 1
+                                log.message_error = "You have not created a Department !"
+                            }
+                            log.loaderoff()
+                        })
 
 
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
+                }, photo() {
+                    this.time = 5
+                }, docum() {
+                    this.time = 10
                 }, save() {
+                    if (this.dep == "") {
+                        this.error = 1;
+                        this.message_error = "Department cannot be left Empty ! "
+                        return;
+                    } 
                     if (this.salary == "") {
-                        this.error = 1,
-                            this.message_error = "Salary cannot be left Empty ! "
+                        this.error = 1;
+                        this.message_error = "Salary cannot be left Empty ! "
+                        return;
                     } else {
                         this.word = "Saving..."
-                        $.post('./add_empdata', {
-                            fname: this.father,
-                            mname: this.mother,
-                            gender: this.gen,
-                            dob: this.dob,
-                            aadhaar: this.aadhar,
-                            pan: this.pan,
-                            fnum: this.fnum,
-                            mnum: this.mnum,
-                            anum: this.anum,
-                            add1: this.address1,
-                            add2: this.address2,
-                            land: this.landnum,
-                            salary: this.salary,
-                            bname: this.bname,
-                            ifsc: this.ifsc,
-                            accnum: this.accnum,
-                            accname: this.accname,
-                            branch: this.branch,
-                            status: this.status,
-                            name: this.name,
-                            doj: this.doj,
-                            des: this.des,
-                            dep: this.dep,
-                            email: this.mail,
-                            pnum: this.num,
+                        setTimeout(function () {
+                            $.post('./add_empdata', {
+                                fname: log.father,
+                                mname: log.mother,
+                                gender: log.gen,
+                                dob: log.dob,
+                                aadhaar: log.aadhar,
+                                pan: log.pan,
+                                fnum: log.fnum,
+                                mnum: log.mnum,
+                                anum: log.anum,
+                                add1: log.address1,
+                                add2: log.address2,
+                                land: log.landnum,
+                                salary: log.salary,
+                                bname: log.bname,
+                                ifsc: log.ifsc,
+                                accnum: log.accnum,
+                                accname: log.accname,
+                                branch: log.branch,
+                                status: log.status,
+                                name: log.name,
+                                doj: log.doj,
+                                des: log.des,
+                                dep: log.dep,
+                                email: log.mail,
+                                pnum: log.num,
 
-                        }, function (data) {
-                            console.log(data.message)
-                            if (data.message != 'true') {
-                                log.error = 1
-                                log.message_error = data.message
+                            }, function (data) {
+                                console.log(data.message)
+                                if (data.message != 'true') {
+                                    log.error = 1
+                                    log.message_error = data.message
 
-                            } else {
-                                log.error = 0
-                                log.success = 1
-                                log.message_success = "Employee Added SuccessFully !"
-                                setTimeout(() => {
-                                    window.location.href = "add_emp"
-                                }, 1000);
-                            }
-                        })
+                                } else {
+                                    log.error = 0
+                                    log.success = 1
+                                    log.message_success = "Employee Added SuccessFully !"
+                                    setTimeout(() => {
+                                        window.location.href = "add_emp"
+                                    }, 1000);
+                                }
+                            })
+                        }, log.time * 1000);
                     }
 
                 }
@@ -385,7 +410,7 @@
         };
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

@@ -7,12 +7,14 @@ function isEmpty(obj) {
   }
   return true;
 }
+var xid = 0;
 const authCheck = (req, res, next) => {
   if (isEmpty(req.user)) {
     //user is not logged in
     res.redirect('/login')
   } else {
-    //if logged in
+    xid = req.user[0].id
+    console.log(xid)
     next()
   }
 }

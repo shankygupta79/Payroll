@@ -13,11 +13,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/holiday/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/holiday/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
@@ -31,8 +32,8 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            <img src="../images/loading" id="Loading">
-            <div id="content2" class="center">
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2" class="center">
                 <div class="bord">
                     <div class="headin center">Edit Holiday</div>
                     <div class="roww"></div>
@@ -42,7 +43,7 @@
                             
                             <div class="field">Name : </div>
                             <input class="inp-block" class="inputi form-control" placeholder="Enter holiday" type="text"
-                                v-model="date"><br>
+                                v-model="name"><br>
                      
 
                     </div>
@@ -52,9 +53,9 @@
                       </div> <br>
                       <div v-if="success" class="success"> 
                         {{message_success}} !
-                      </div> <br>
+                      </div> 
                     <div class="center">
-                    <button @click="save(date,name)" style="padding: 5px 30px;" class="btn btn-success">Edit </button>
+                    <button @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}} </button>
                     </div>
                     
                 </div>
@@ -64,25 +65,42 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script>
-        var app = new Vue({
+        var log = new Vue({
             el: "#Index",
             data: {
-                error:1,
-                success:1,
+                error:0,
+                success:0,
                 message_error:"Fields cannot be left empty !",
                 message_success:"Holiday changed successfully",
                 date: '',
                 name: '',
+                word:"EDIT",
+                idx:'',
 
             },
             created: function () {
                 this.load();
             },
             methods: {
-                load: function () {
-                    console.log(this.getParams(window.location))
+                load: function () { 
+                    var params = this.getParams(window.location.href)
+                    
+                    axios.get('http://localhost:3420/holiday/api/holiday?id='+params.id)
+                        .then(function (Response1) {
+                            log.idx=params.id
+                            log.name=Response1.holname,
+                            log.date=Response1.date
+                            log.date=log.date.slice(6,10)+"-"+log.date.slice(3,5)+"-"+log.date.slice(0,2)
+                            log.loaderoff() 
+                        })
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
                 },getParams(url) {
                   var params = {};
                   var parser = document.createElement('a');
@@ -94,13 +112,47 @@
                     params[pair[0]] = decodeURIComponent(pair[1]);
                   }
                   return params;
+                },save(){
+                    log.word='Saving..'
+                    if(log.date==''){
+                        this.error=1;
+                        this.message_error="Enter correct Date !"
+                        log.word='SAVE'
+                        return;
+                    }else if(log.name==''){
+                        this.error=1;
+                        log.word='SAVE'
+                        this.message_error="Enter correct Name !"
+                        return;
+                    }else{
+                        var x=log.date.slice(8,10)+'-'+log.date.slice(5,7)+'-'+log.date.slice(0,4);
+                        $.post('./edit_holpost?id='+log.idx, {
+                            year:log.date.slice(0,4),
+                            name:log.name,
+                            date:x,
+                        }, function (data) {
+                            console.log(data.message)
+                            if (data.message != 'true') {
+                                log.error = 1
+                                log.message_error = data.message
+
+                            } else {
+                                log.error = 0
+                                log.success = 1
+                                log.message_success = "Holiday Edited SuccessFully !"
+                                setTimeout(() => {
+                                    window.location.href = "manage_holiday"
+                                }, 1000);
+                            }
+                        })
+                    }
                 }
 
             }
         })    
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

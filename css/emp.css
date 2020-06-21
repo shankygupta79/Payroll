@@ -20,6 +20,14 @@ img{
     padding: 4px;
     
 }
+.docum{
+    width: 80px;
+    border-radius: 0;
+    height: 100px;
+}
+.docum:hover{
+    transform: scale(1.02);
+}
 .btn{
     padding:1px 5px;
 }
@@ -35,6 +43,7 @@ img{
 td{
     /*border: 0.5px dashed rgb(0, 0, 0);*/
     min-width: 98%;
+    word-wrap: break-word;
 }
 .empbox{
     width: 23%;

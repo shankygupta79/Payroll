@@ -13,11 +13,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/holiday/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/holiday/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
@@ -31,8 +32,8 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            <img src="../images/loading" id="Loading">
-            <div id="content2" >
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2" >
                 <div class="bord">
                     <div class="headin center">Add Holiday</div>
                     <div class="roww"></div>
@@ -42,7 +43,7 @@
                             
                             <div class="field">Name : </div>
                             <input class="inp-block" class="inputi form-control" placeholder="Enter holiday" type="text"
-                                v-model="date"><br>
+                                v-model="name"><br>
                      
 
                     </div>
@@ -54,7 +55,7 @@
                         {{message_success}} !
                       </div> <br>
                     <div class="center">
-                    <button @click="save(date,name)" style="padding: 5px 30px;"class="btn btn-success">SAVE </button>
+                    <button @click="save(date,name)" style="padding: 5px 30px;"class="btn btn-success">{{word}} </button>
                     </div>
                     
                 </div>
@@ -64,32 +65,72 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script>
         var app = new Vue({
             el: "#Index",
             data: {
-                error:1,
-                success:1,
+                error:0,
+                success:0,
                 message_error:"Enter the full details",
                 message_success:"Holiday created successfully",
                 date: '',
                 name: '',
-
+                word:'SAVE',
             },
             created: function () {
                 this.load();
             },
             methods: {
-                load: function () {
+                load: function () { setTimeout(function () { app.loaderoff() }, 500);
 
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
+                },save(){
+                    app.word='Saving..'
+                    if(app.date==''){
+                        this.error=1;
+                        this.message_error="Enter correct Date !"
+                        app.word='SAVE'
+                        return;
+                    }else if(app.name==''){
+                        this.error=1;
+                        app.word='SAVE'
+                        this.message_error="Enter correct Name !"
+                        return;
+                    }else{
+                        var x=app.date.slice(8,10)+'-'+app.date.slice(5,7)+'-'+app.date.slice(0,4);
+                        $.post('./add_holpost', {
+                            year:app.date.slice(0,4),
+                            name:app.name,
+                            date:x,
+                        }, function (data) {
+                            console.log(data.message)
+                            if (data.message != 'true') {
+                                app.error = 1
+                                app.message_error = data.message
+
+                            } else {
+                                app.error = 0
+                                app.success = 1
+                                app.message_success = "Holiday Added SuccessFully !"
+                                setTimeout(() => {
+                                    window.location.href = "manage_holiday"
+                                }, 1000);
+                            }
+                        })
+                    }
                 }
 
             }
         })    
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

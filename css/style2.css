@@ -154,6 +154,10 @@ a.article:hover {
     #navbar-top.active {
         z-index: 100;
     }
+    #lock{
+        width: 280 !important;
+        height: 140 !important;
+    }
     
     
 }
@@ -223,7 +227,7 @@ a.article:hover {
 .dropdown2:hover .dropdown2-content {
     display: block;
 }
-#Loading{
+#Loading,#lock{
     position: absolute;
   top: 50%;
   left: 50%;

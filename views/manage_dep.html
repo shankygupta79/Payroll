@@ -13,11 +13,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/department/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/department/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
@@ -31,8 +32,8 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            <img src="../images/loading" id="Loading">
-            <div id="content2" >
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2">
                 <div class="bord">
                     <div class="headin center">Show Departments</div>
                     <div class="roww">
@@ -54,25 +55,36 @@
 
                     <table id='tblData'>
                         <tr>
-                            <th v-for="i in head"><b>{{i}}</b>
-                                <i class="fa fa-sort-amount-asc" v-show="!sorticon" @click="sort(i,'asc')"
-                                    v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
+                            <th v-for="i in head.length"><b>{{head[i-1]}}</b>
+                                <i class="fa fa-sort-amount-asc" v-show="!sorticon" @click="sort(head2[i-1],'asc')"
+                                    v-if="head2[i-1].toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
                                     aria-hidden="true"></i>
-                                <i class="fa fa-sort-amount-desc" v-show="sorticon" @click="sort(i,'desc')"
-                                    v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
+                                <i class="fa fa-sort-amount-desc" v-show="sorticon" @click="sort(head2[i-1],'desc')"
+                                    v-if="head2[i-1].toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
                                     aria-hidden="true"></i>
-                                <i class="fa fa-arrows-v" @click="sort(i,'asc')" v-if="i.toLowerCase()!=sortfield"
-                                    style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                                <i class="fa fa-arrows-v" @click="sort(head2[i-1],'asc')"
+                                    v-if="head2[i-1].toLowerCase()!=sortfield" style="color:rgb(0, 0, 0)"
+                                    aria-hidden="true"></i>
 
                             </th>
                         </tr>
                         <tr v-for="i in myArray.length"
-                            v-if="myArray[i-1].department.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
-                            <td>{{myArray[i-1].department}}</td>
-                            <td>{{myArray[i-1].employees}}</td>
+                            v-if="myArray[i-1].dep.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
+                            <td>{{myArray[i-1].dep}}</td>
+                            <td>{{myArray[i-1].depcount}}</td>
                             <td>
-                                <button @click="deletey(i.date)" class="btn btn-danger"><i class="fa fa-times"
-                                        style="color:white" aria-hidden="true"></i>&nbsp Delete</button></td>
+                                <button ref="myBtn" @click="modal(myArray[i-1].dep)" class="btn btn-danger"><i class="fa fa-times" style="color:white"
+                                        aria-hidden="true"></i>&nbsp Delete</button></td>
+                            <div id="myModal" ref="modal" class="modal">
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <div class="xi"> CONFIRM DEPARTMENT DELETE ??</div>
+                                    <div style="max-width: 100px;margin-left: auto;margin-right: auto;" >
+                                        <button class="btn btn-danger" @click="deletey()">CONFIRM
+                                            DELETE</button>
+                                    </div>
+                                </div>
+                            </div>
 
                         </tr>
                     </table>
@@ -95,6 +107,12 @@
                         </nav>
                     </div>
                     <!--Pagination END-->
+                    <div v-if="error" class="error">
+                        {{message_error}} !
+                    </div> <br>
+                    <div v-if="success" class="success">
+                        {{message_success}} !
+                    </div> <br>
                 </div>
 
             </div>
@@ -102,9 +120,9 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script>
-        var app = new Vue({
+        var log = new Vue({
             el: "#Index",
             data: {
                 entry: 10,
@@ -112,19 +130,41 @@
                 sorticon: 0,
                 pages: [], start: 1, total: 100, end: 1, current: 1,
                 head: ['Department', 'Employees', 'Actions'],
-                sortfield: 'department',
-                myArray: [{department:'Department 1',employees:2},{department:'Department 2',employees:4},
-                {department:'Department 3',employees:9}],
+                head2: ['dep', 'depcount', 'actions'],
+                sortfield: 'dep',
+                myArray: [],
+                success: 1,
+                error: 0,
+                delete:'?',
+                message_error: "Dont leave empty response",
+                message_success: "Newly Added Department will be shown if you add atleast one employee in it !",
+
             },
             created: function () {
                 this.load();
             },
             methods: {
                 load: function () {
-                    this.total = this.myArray.length;
-                    this.entryfun(this.entry);
-                    this.sort(this.sortfield);
-                }, entryfun(entry) {
+                    axios.get('http://localhost:3420/department/api/dep2')
+                        .then(function (Response) {
+                            log.myArray = Response
+                            log.loaderoff()
+                            log.total = log.myArray.length;
+                            log.entryfun(log.entry);
+                            log.sort(log.sortfield);
+                        })
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
+                },modal(abc){
+                    this.delete=abc;
+                    var app = this;
+                    var btn = app.$refs.modal
+                    btn.style.display = "block"
+                },entryfun(entry) {
                     this.paging(1, entry)
                     var total_pages = Math.ceil(this.total / entry)
                     this.pages = []
@@ -134,30 +174,27 @@
                 }, sort(name, type) {
                     this.sorticon = !this.sorticon;
                     this.sortfield = name.toLowerCase();
+                    console.log(this.sortfield)
                     if (this.sortfield == 'action') {
                         return
-                    } else if (this.sortfield == 'date') {
-                        this.myArray.sort(this.comparedate)
-                        if (type == 'desc') {
-                            this.myArray.reverse(this.comparedate)
-                        }
-                    } else {
+                    }
+                    else {
                         this.myArray.sort(this.compare)
                         if (type == 'desc') {
                             this.myArray.reverse(this.compare)
                         }
 
                     }
-                    this.paging(1,this.entry)
+                    this.paging(1, this.entry)
 
                 }, compare(a, b) {
-                    if (this.sortfield == 'holiday') {
+                    if (this.sortfield == 'dep') {
 
                         var nameA = a[this.sortfield]
                         var nameB = b[this.sortfield]
                     } else {
-                        var nameA = parseInt(a[this.field])
-                        var nameB = parseInt(b[this.field])
+                        var nameA = parseInt(a[this.sortfield])
+                        var nameB = parseInt(b[this.sortfield])
                     }
                     if (nameA < nameB) { return -1; }
                     if (nameA > nameB) { return 1; }
@@ -175,8 +212,23 @@
                         return 1;
                     }
                     return 0;
-                }, deletey(date) {
-                    console.log(date)
+                }, deletey() {
+                    $.post('./delete?id=' + log.delete, {
+                    }, function (data) {
+                        console.log(data.message)
+                        if (data.message != 'true') {
+                            log.error = 1
+                            log.message_error = data.message
+
+                        } else {
+                            log.error = 0
+                            log.success = 1
+                            log.message_success = "Department Deleted SuccessFully !"
+                            setTimeout(() => {
+                                window.location.href = "manage_dep"
+                            }, 1000);
+                        }
+                    })
                 }, edit(date) {
                     console.log(date)
                 }, paging(pageno, entry) {
@@ -185,17 +237,29 @@
                     pageno = pageno - 1
                     this.start = pageno * (entry) + 1;
                     this.end = pageno * entry + entry;
-                    if(this.total<this.end){
-                        this.end=this.total
+                    if (this.total < this.end) {
+                        this.end = this.total
                     }
 
                 }
 
             }
-        })    
+        })
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+        
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }    
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

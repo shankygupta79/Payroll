@@ -75,6 +75,9 @@
     width: 210px;
     margin-left: 0 !important;
 }
+.mbox{
+    overflow-y: scroll;
+}
 @media (min-width:260px) and (max-width:814px){
     
     .mbox{

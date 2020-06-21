@@ -13,6 +13,7 @@
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
 
 
 
@@ -229,7 +230,7 @@
                 this.load();
             },
             methods: {
-                load: function () {
+                load: function () { setTimeout(function () { log.loaderoff() }, 500);
                     var params = this.getParams(window.location.href)
                     this.id = params.id;
                     this.month = params.month

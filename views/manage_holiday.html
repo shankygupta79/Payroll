@@ -13,11 +13,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/holiday/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/holiday/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
@@ -31,8 +32,8 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            <img src="../images/loading" id="Loading">
-            <div id="content2" >
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2" >
                 <div class="bord">
                     <div class="headin center">Manage Holidays</div>
                     <div class="roww">
@@ -67,13 +68,13 @@
                             </th>
                         </tr>
                         <tr v-for="i in myArray.length"
-                            v-if="myArray[i-1].holiday.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
+                            v-if="myArray[i-1].holname.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
                             <td>{{myArray[i-1].date}}</td>
-                            <td>{{myArray[i-1].holiday}}</td>
-                            <td><button @click="edit(i.date)" class="btn btn-success"><i class="fa fa-pencil-square"
+                            <td>{{myArray[i-1].holname}}</td>
+                            <td><button @click="edit(myArray[i-1].hol_id)" class="btn btn-success"><i class="fa fa-pencil-square"
                                         style="color:white" aria-hidden="true"></i>&nbsp Edit <div class="media">Holiday
                                     </div></button>
-                                <button @click="deletey(i.date)" class="btn btn-danger"><i class="fa fa-times"
+                                <button @click="deletey(myArray[i-1].hol_id)" class="btn btn-danger"><i class="fa fa-times"
                                         style="color:white" aria-hidden="true"></i>&nbsp Delete</button></td>
 
                         </tr>
@@ -98,15 +99,21 @@
                     </div>
                     <!--Pagination END-->
                 </div>
+                <div v-if="error" class="error">
+                    {{message_error}} !
+                </div> <br>
+                <div v-if="success" class="success">
+                    {{message_success}} !
+                </div> <br>
 
             </div>
         </div>
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script>
-        var app = new Vue({
+        var log = new Vue({
             el: "#Index",
             data: {
                 entry: 10,
@@ -115,18 +122,32 @@
                 pages: [], start: 1, total: 100, end: 1, current: 1,
                 head: ['Date', 'Holiday', 'Actions'],
                 sortfield: 'date',
-                myArray: [{ date: '26/01/2020', holiday: 'Revublik Day' }, { date: '52/05/2019', holiday: 'Holiday 2' },
-                { date: '03/05/2017', holiday: 'Holiday 3' }, { date: '04/06/2019', holiday: 'Holiday 4' },
-                { date: '05/06/2019', holiday: 'Holiday 5' }],
+                myArray: [],
+                success: 0,
+                error: 0,
+                message_error: "Dont leave empty response",
+                message_success: "Message !",
             },
             created: function () {
                 this.load();
             },
             methods: {
-                load: function () {
-                    this.total = this.myArray.length;
-                    this.entryfun(this.entry);
-                    this.sort(this.sortfield);
+                load: function () { 
+                    
+                    axios.get('http://localhost:3420/holiday/api/holiday')
+                        .then(function (Response) {
+                            log.myArray = Response
+                            log.loaderoff()
+                            log.total = log.myArray.length;
+                            log.entryfun(log.entry);
+                            log.sort(log.sortfield);
+                        })
+                },loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
                 }, entryfun(entry) {
                     this.paging(1, entry)
                     var total_pages = Math.ceil(this.total / entry)
@@ -179,9 +200,24 @@
                     }
                     return 0;
                 }, deletey(date) {
-                    console.log(date)
-                }, edit(date) {
-                    console.log(date)
+                    $.post('./delete?id='+date, {
+                        }, function (data) {
+                            console.log(data.message)
+                            if (data.message != 'true') {
+                                log.error = 1
+                                log.message_error = data.message
+
+                            } else {
+                                log.error = 0
+                                log.success = 1
+                                log.message_success = "Holiday Deleted SuccessFully !"
+                                setTimeout(() => {
+                                    window.location.href = "manage_holiday"
+                                }, 1000);
+                            }
+                        })
+                }, edit(idx) {
+                    window.location.href = "edit_holiday?id=" + idx;
                 }, paging(pageno, entry) {
                     this.current = pageno
                     entry = parseInt(entry)
@@ -198,7 +234,7 @@
         })    
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

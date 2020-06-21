@@ -13,11 +13,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/employee/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/employee/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
@@ -33,34 +34,35 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            <img src="../images/loading" id="Loading">
-            <div id="content2">
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2">
                 <div class="bord">
                     <div class="headin center">Manage Employees</div>
                     <div class="roww"></div>
                     <div style="text-align: right;">
-                    <b style="display: inline-block;">Sort By : </b>
-                    <div style="display: inline-block;">
-                        <select @change="sort(sortfield)" class="form-control" v-model="sortfield">
-                            <option v-for="i in sortarr">
-                                {{i}}
-                            </option>
-                        </select>
-                    </div></div><br>
-                    <div class="empbox center" @click="edit(i.empid)" v-for="i in myArray">
+                        <b style="display: inline-block;">Sort By : </b>
+                        <div style="display: inline-block;">
+                            <select @change="sort(sortfield)" class="form-control" v-model="sortfield">
+                                <option v-for="i in sortarr">
+                                    {{i}}
+                                </option>
+                            </select>
+                        </div>
+                    </div><br>
+                    <div class="empbox center" @click="edit(i.emp_id)" v-for="i in myArray">
                         <b>{{i.name}}</b><br>
                         <img v-bind:src="i.photo" height="80px" width="80px">
                         <table class="tabman">
                             <tr>
-                                <td><b>Date of Joining : </b></td>
+                                <td><b>Date of Joining</b></td>
                                 <td>{{i.doj}}</td>
                             </tr>
                             <tr>
-                                <td><b>Department : </b></td>
+                                <td><b>Department</b></td>
                                 <td>{{i.dep}}</td>
                             </tr>
                             <tr>
-                                <td> <b>Designation : </b></td>
+                                <td> <b>Designation</b></td>
                                 <td>{{i.des}}</td>
                             </tr>
                         </table>
@@ -72,18 +74,18 @@
                                 <td>{{i.doj}}</td>
                             </tr>
                             <tr>
-                                <td><b>Department: </b></td>
+                                <td><b>Department </b></td>
                             </tr>
                             <tr>
                                 <td>{{i.dep}}</td>
                             </tr>
                             <tr>
-                                <td><b>Designation: </b></td>
+                                <td><b>Designation </b></td>
                             </tr>
                             <tr>
                                 <td>{{i.des}}</td>
                             </tr>
-                            
+
                         </table>
 
 
@@ -94,49 +96,50 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
         var log = new Vue({
             el: "#Index",
             data: {
-                myArray: [{ name: 'Worker 1', empid:1,dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
-                { name: 'Worker 2', empid:1,dep: 'Department1', des: 'Designation1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
-                { name: 'Worker 3',empid:1, dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' },
-                { name: 'Worker 4',empid:1, dep: 'Dep3', des: 'Des3', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' },
-                { name: 'Worker 8',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
-                { name: 'Worker 6',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_man' },
-                { name: 'Worker 7',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' },
-                { name: 'Worker 9',empid:1, dep: 'Dep1', des: 'Des1', doj: '23-04-2020', photo: 'https://payrollv2.herokuapp.com/images/emp_fem' }],
+                myArray: [],
                 sortfield: 'Name',
-                sortarr:['Name','Department','Designation','Date of Joining'],
-                sortarr2:['name','des','dep','doj'],
+                sortarr: ['Name', 'Department', 'Designation', 'Date of Joining'],
+                sortarr2: ['name', 'des', 'dep', 'doj'],
             },
             created: function () {
                 this.load();
             },
             methods: {
                 load: function () {
+                    var app = this;
+                    axios.get('http://localhost:3420/employee/api/quickemp')
+                        .then(function (Response) {
+                            app.myArray=Response
+                            var loading = app.$refs.Loading
+                            loading.style.display = "none"
+                            var content = app.$refs.content2
+                            content.style.display = "block"
+                        })
                     this.sort(this.sortfield);
                 }, sort(name, type) {
-                    var i=0;
-                    if(name=="Name"){
-                        i=0
-                    }else if(name=='Department'){
-                        i=1
-                    }else if(name=='Designation'){
-                        i=2
-                    }else if(name=="Date of Joining"){
-                        i=3
+                    var i = 0;
+                    if (name == "Name") {
+                        i = 0
+                    } else if (name == 'Department') {
+                        i = 1
+                    } else if (name == 'Designation') {
+                        i = 2
+                    } else if (name == "Date of Joining") {
+                        i = 3
                     }
-                    this.sortfield=this.sortarr2[i];
-                    console.log(this.sortfield)
-                    if (this.sortfield == 'name' || this.sortfield == 'dep'|| this.sortfield == 'des' ) {
+                    this.sortfield = this.sortarr2[i];
+                    if (this.sortfield == 'name' || this.sortfield == 'dep' || this.sortfield == 'des') {
                         this.myArray.sort(this.compare)
                     } else if (this.sortfield == 'doj') {
                         this.myArray.sort(this.comparedate)
-                        
+
                     }
 
                 }, compare(a, b) {
@@ -158,15 +161,20 @@
                         return 1;
                     }
                     return 0;
-                },edit(idx){
-                    window.location.href="https://payrollv2.herokuapp.com/employee/edit_emp?empid="+idx
+                }, edit(idx) {
+                    window.location.href = "http://localhost:3420/employee/edit_emp?empid=" + idx;
                 }
 
             }
-        })    
+        })
+        var content = document.getElementById("content2")
+        content.style.display = "block"
+        var loading = document.getElementById("Loading")
+        loading.style.display = "none"
+
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

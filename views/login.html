@@ -8,6 +8,7 @@
     integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
   <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
     integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
     crossorigin="anonymous"></script>
@@ -15,7 +16,7 @@
   <!-- Latest compiled and minified bootstap CSS -->
 
   <link rel="stylesheet" href="/signup/css">
-  <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+  <link rel="stylesheet" href="http://localhost:3420/settings/style2">
 
 </head>
 
@@ -114,7 +115,7 @@
         <div class="center">
           <a href="/auth/facebook">
             <button @click="facebook()" class="log facebook">
-              FB not working
+              Login via Facebook
             </button></div></a>
       </div>
     </div>
@@ -140,7 +141,7 @@
         this.load();
       },
       methods: {
-        load: function () {
+        load: function () { 
 
         }, checkemail(email) {
           if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -171,7 +172,7 @@
               console.log(data)
               this.word="Logging In ..."
               if (data === 'true') {
-                window.location.href = 'https://payrollv2.herokuapp.com/dashboard';
+                window.location.href = 'http://localhost:3420/dashboard';
               } else if (data[0] === 'wp') {
                 acc.message = " Incorrect Password";
                 acc.error = 1;

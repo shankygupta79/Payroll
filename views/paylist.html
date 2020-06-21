@@ -13,11 +13,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
     <link rel="stylesheet" href="../payslips/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
@@ -33,8 +34,8 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            <img src="../images/loading" id="Loading">
-            <div id="content2">
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2">
                 <div class="bord">
                     
 
@@ -139,7 +140,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -170,7 +171,7 @@
                 this.load();
             },
             methods: {
-                load: function () {
+                load: function () { setTimeout(function () { log.loaderoff() }, 500);
                     this.total = this.myArray.length;
                     this.entryfun(this.entry);
                     this.sort(this.sortfield);
@@ -232,14 +233,14 @@
                     }
 
                 }, download(idx) {
-                    var x="https://payrollv2.herokuapp.com/payslips/printsingle?id="+idx+"&month="+this.select_month+"&year="+this.select_year+"&action=download";
+                    var x="http://localhost:3420/payslips/printsingle?id="+idx+"&month="+this.select_month+"&year="+this.select_year+"&action=download";
                     window.open(x, "_blank")
 
                 }, print(idx) {
-                    var x="https://payrollv2.herokuapp.com/payslips/printsingle?id="+idx+"&month="+this.select_month+"&year="+this.select_year+"&action=print";
+                    var x="http://localhost:3420/payslips/printsingle?id="+idx+"&month="+this.select_month+"&year="+this.select_year+"&action=print";
                     window.open(x, "_blank")
                 }, printall() {
-                    var x="https://payrollv2.herokuapp.com/payslips/printmultiple?&month="+this.select_month+"&year="+this.select_year;
+                    var x="http://localhost:3420/payslips/printmultiple?&month="+this.select_month+"&year="+this.select_year;
                     window.open(x, "_blank")
                 }, year() {
                     var d = new Date();
@@ -261,7 +262,7 @@
         })    
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

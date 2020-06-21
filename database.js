@@ -72,14 +72,11 @@ const Employeedb = db.define('employee', {
     add1: Sequelize.STRING,
     add2: Sequelize.STRING,
     land:Sequelize.STRING,
-    salary: Sequelize.STRING,
     bname: Sequelize.STRING,
     ifsc: Sequelize.STRING,
     accnum: Sequelize.STRING,  
     accname: Sequelize.STRING,
     branch: Sequelize.STRING,
-    status: Sequelize.STRING,
-    photo:Sequelize.STRING,
     doc1:Sequelize.STRING,
     doc2:Sequelize.STRING,
     doc3:Sequelize.STRING,
@@ -100,6 +97,9 @@ const Employeeqdb = db.define('employee_quick', {
     dep:Sequelize.STRING,
     email:Sequelize.STRING,
     pnum:Sequelize.STRING,
+    photo:Sequelize.STRING,
+    salary: Sequelize.STRING,
+    status: Sequelize.STRING,
     
 })
 const Department = db.define('department', {
@@ -124,6 +124,7 @@ const Holiday = db.define('holiday', {
     userId:Sequelize.INTEGER,
     holname:Sequelize.STRING,
     year:Sequelize.INTEGER,
+    date:Sequelize.STRING,
     
 })
 
