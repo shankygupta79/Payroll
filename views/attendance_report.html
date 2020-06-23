@@ -66,6 +66,39 @@
                     </div>
                     <div class="center headin"></div>
                     <div class="row"></div>
+                    <div v-for="j in 2">
+                    <table v-show="getpi">
+                        <tr>
+                            <th v-for="i in 14">
+                                {{i+(j-1)*14}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td v-for="i in 14">
+                                <b v-if="present[i-1+(j-1)*14]=='A'" style="color:red">
+                                {{present[i-1+(j-1)*14]}}</b>
+                                <b v-else>{{present[i-1+(j-1)*14]}}</b>
+                            </td>
+                        </tr>
+                        
+                    </table>
+                </div>
+                <table v-show="getpi">
+                    <tr>
+                        <th v-for="i in days2">
+                            {{i+4*7}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td v-for="i in days2">
+                            <b v-if="present[28+i-1]=='A'" style="color:red">
+                            {{present[28+i-1]}}</b>
+                            <b v-else>{{present[28+i-1]}}</b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                    
                     <div id="piechart_3d"></div>
 
                 </div>
@@ -88,12 +121,16 @@
                 success: 0,
                 error: 0,
                 idx: [],
+                getpi:0,
                 employee: [],
                 yearlist: [],
                 monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
                 monthday:[31,28,31,30,31,30,31,31,30,31,30,31],
                 select_year: '',
                 select_emp: '',
+                present:'',
+                days:0,
+                days2:0,
                 select_month: '',
                 message_error: "Enter the full details",
                 message_success: "Attendace report loaded successfully",
@@ -127,15 +164,23 @@
                     axios.get('https://payrollv2.herokuapp.com/attendance/api/report?n=' + log.idx[log.employee.indexOf(log.select_emp)] + "&m=" + z + "&y=" + log.select_year)
                         .then(function (Response1) {
                             console.log(Response1)
+                            if(Response1==''){
+                                log.error=1
+                                log.message_error="No Record Found !"
+                                return
+                            }
                             if(log.select_year%4==0){
                                 log.monthday[1]++;
                             }
-                            console.log(log.monthday[z])
                             var a=log.monthday[z];
                             var p=0;
                             log.error=0
+                            log.present=Response1.present
                             var itr=Response1.present
-                            for(var i=0;i<log.monthday[z];i++){
+                            log.days=log.monthday[z]
+                            log.days2=log.days-28
+                            log.getpi=1
+                            for(var i=0;i<log.days;i++){
                                 if(itr[i]=='P'){
                                     a--;
                                     p++

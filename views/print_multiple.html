@@ -53,7 +53,7 @@
                     <input type="checkbox" class="form-check-input" id="phonecheck" checked> 
                 </td>
                 <td>
-                    <label class="form-check-label" for="exampleCheck1">Email </label>
+                    <label class="form-check-label" for="exampleCheck1">Account No.</label>
                     <input type="checkbox" class="form-check-input" id="acccheck" checked>
                 </td>
             </tr>
@@ -76,8 +76,8 @@
 
         <button @click="print()" class="noprint" style="padding:3px 15px"><i class="fa fa-print" style="color:red"
                 aria-hidden="true"></i>&nbsp Print All</button>
-        <div id="print" v-for="i in myArray.length">
-            <div class="center info headin headerr" style="height: 110px;"><img class="logo" v-bind:src="logoimg" width="100px"
+        <div id="print" v-for="i in 8">
+            <div class="center info headin headerr" style="height: 110px;"><img class="logo" src="../images/logo" width="100px"
                     style="float: left;" height="100px">
                 <div class="cname" style="vertical-align: middle;"><br>{{company}}</div>
             </div>
@@ -90,13 +90,13 @@
                         Employee ID :
                     </td>
                     <td class="id">
-                        {{myArray[i-1]['employee_quick'].emp_id}}
+                        {{myArray['employee_quick'][0].empid}}
                     </td>
                     <td class="name">
                         Name :
                     </td>
                     <td class="name">
-                        {{myArray[i-1]['employee_quick'].name}}
+                        {{myArray['employee_quick'][0].name}}
                     </td>
                 </tr>
                 <tr>
@@ -104,13 +104,13 @@
                         Department :
                     </td>
                     <td class="dep">
-                        {{myArray[i-1]['employee_quick'].dep}}
+                        {{myArray['employee_quick'][0].department}}
                     </td>
                     <td class="des">
                         Designation :
                     </td>
                     <td class="des">
-                        {{myArray[i-1]['employee_quick'].des}}
+                        {{myArray['employee_quick'][0].designation}}
                     </td>
                 </tr>
                 <tr>
@@ -118,13 +118,13 @@
                         Phone Number :
                     </td>
                     <td class="phone">
-                        {{myArray[i-1]['employee_quick'].pnum}}
+                        {{myArray['employee_quick'][0].number}}
                     </td>
                     <td class="acc">
-                        Email :
+                        Account Number :
                     </td>
                     <td class="acc">
-                        {{myArray[i-1]['employee_quick'].email}}
+                        {{myArray['employee_quick'][0].accnum}}
                     </td>
                 </tr>
 
@@ -144,13 +144,13 @@
                         Basic
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1]['employee_quick'].salary}}
+                        {{symbol}}{{myArray[0].salary}}
                     </td>
                     <td>
                         Holidays
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].holidays}}
+                        {{symbol}}{{myArray[0].holiday}}
                     </td>
                 </tr>
                 <tr>
@@ -158,13 +158,13 @@
                         Extra Time
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].extratimetotoal}}
+                        {{symbol}}{{myArray[0].extratime}}
                     </td>
                     <td>
                         Advance
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].advance}}
+                        {{symbol}}{{myArray[0].advance}}
                     </td>
                 </tr>
                 <tr>
@@ -172,13 +172,13 @@
                         Bonus
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].bonus}}
+                        {{symbol}}{{myArray[0].bonus}}
                     </td>
                     <td>
                         Deductions
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].deduction}}
+                        {{symbol}}{{myArray[0].deductions}}
                     </td>
                 </tr>
                 <tr>
@@ -192,7 +192,7 @@
                         Transfer
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].transfer}}
+                        {{symbol}}{{myArray[0].transfer}}
                     </td>
                 </tr>
                 <tr>
@@ -200,13 +200,13 @@
                         Total Earnings
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray[i-1].bonus)+parseInt(myArray[i-1]['employee_quick'].salary)+parseInt(myArray[i-1].extratimetotoal)}}
+                        {{symbol}}{{myArray[0].bonus+myArray[0].salary+myArray.extratimetotoal}}
                     </th>
                     <th>
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].transfer)+parseInt(myArray[i-1].deduction)}}
+                        {{symbol}}{{myArray[0].advance+myArray[0].holidays+myArray[0].transfer}}
                     </th>
                 </tr>
                 <tr>
@@ -217,7 +217,7 @@
                         Net Pay
                     </th>
                     <th>
-                        {{symbol}}{{myArray[i-1].netpay}}
+                        {{symbol}}{{myArray[0].netpay}}
                     </th>
                 </tr>
 
@@ -245,11 +245,10 @@
                 this.load();
             },
             methods: {
-                load: function () {
+                load: function () { setTimeout(function () { log.loaderoff() }, 500);
                     var params = this.getParams(window.location.href)
                     axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + params.month)
                         .then(function (Response1) {
-                            console.log(Response1)
                             log.myArray = Response1
                             log.date=params.month
                             axios.get('https://payrollv2.herokuapp.com/settings/api/setting')
@@ -257,7 +256,11 @@
                                     log.company=Response2[0].name
                                     log.logoimg=Response2[2]
                                     log.symbol=Response2[1]
+                                    setTimeout(()=>{
+                                        
+                                        //this.print()
                                     
+                                    },100)
                                     
                                     
                                     
@@ -275,7 +278,7 @@
 
                 }, print() {
                     window.print()
-                    //.setTimeout(function () { window.close(); }, 2000);
+                    setTimeout(function () { window.close(); }, 2000);
 
                 }, getParams(url) {
                     var params = {};
