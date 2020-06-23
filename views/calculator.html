@@ -282,6 +282,12 @@
                     axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
                         .then(function (Response1) {
                             log.list = Response1
+                            if(Response1.length==0){
+                                this.error=1
+                                this.message_error="NO RECORD FOUND"
+                                return
+
+                            }
                             var days = log.monthday[log.monthlist.indexOf(log.select_month)]
                             for (var i = 0; i < log.list.length; i++) {
                                 if(log.list[i].netpay>0){
