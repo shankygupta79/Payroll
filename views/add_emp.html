@@ -120,10 +120,10 @@
                         <tr>
                             <td><b>Photo</b></td>
                             <td @click="photo()">
-                                <form method="post" action="http://localhost:3420/employee/add_emp/uploadpr"
+                                <form id="upload-widget" method="post" action="http://localhost:3420/employee/add_emp/uploadpr"
                                     class="dropzone">
                                     <div class="fallback">
-                                        <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
+                                        <input name="file" type="file" single/>
                                     </div>
 
                                 </form>
@@ -314,6 +314,12 @@
                             }
                             log.loaderoff()
                         })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error=1
+                            log.message_error="Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
 
 
                 }, loaderoff() {
@@ -323,9 +329,9 @@
                     var content = app.$refs.content2
                     content.style.display = "block"
                 }, photo() {
-                    this.time = 5
+                    this.time = 0.5
                 }, docum() {
-                    this.time = 10
+                    this.time = 0.5
                 }, save() {
                     if (this.dep == "") {
                         this.error = 1;

@@ -145,6 +145,12 @@
                             log.entryfun(log.entry);
                             log.sort(log.sortfield);
                         })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error=1
+                            log.message_error="Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
 
 
                 }, loaderoff() {

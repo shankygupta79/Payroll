@@ -6,6 +6,7 @@ var crypto = require('crypto');
 const dotenv = require("dotenv")
 dotenv.config()
 const User = require('../database').User
+const Setting = require('../database').Setting
 function isEmpty(obj) {
     for (var key in obj) {
         if (obj.hasOwnProperty(key))
@@ -54,10 +55,19 @@ passport.use(
                         office_close: '0000000',
 
                     }).then((newUser) => {
-                        console.log('new User Created', newUser)
-                        var user = [newUser.dataValues];
-                        console.log(user)
-                        done(null, user)
+                        Setting.create({
+                            userId:newUser.id,
+                        })
+                        .then((setting)=>{
+                            console.log('new User Created', newUser)
+                            var user = [newUser.dataValues];
+                            console.log(user)
+                            done(null, user)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                        
                     }).catch((err) => {
                         console.log(err)
                     })
@@ -98,10 +108,19 @@ passport.use(new FacebookStrategy({
                         logo: "https://res.cloudinary.com/shankygupta79/image/upload/v1592489600/love_bird_transparent_bg_dlwkpq.png",
                         office_close: '0000000',
                     }).then((newUser) => {
-                        console.log('new User Created', newUser)
-                        var user = [newUser.dataValues];
-                        console.log(user)
-                        done(null, user)
+                        
+                        Setting.create({
+                            userId:newUser.id,
+                        })
+                        .then((setting)=>{
+                            console.log('new User Created', newUser)
+                            var user = [newUser.dataValues];
+                            console.log(user)
+                            done(null, user)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                     }).catch((err) => {
                         console.log(err)
                     })

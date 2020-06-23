@@ -34,10 +34,10 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            <img src="../images/loading" id="Loading" ref="Loading">
-            <div id="content2" ref="content2">
+            
+            <div >
                 <div class="bord">
-                    
+
 
                     <div class="headin center">Pay Slips </div>
                     <div class="roww">
@@ -48,7 +48,7 @@
                                 <td></td>
                             </tr>
                             <tr>
-    
+
                                 <td><select class="form-control options" v-model="select_year">
                                         <option v-for="i in yearlist">{{i}}</option>
                                     </select></td>
@@ -57,7 +57,8 @@
                                     </select></td>
                                 <td>
                                     <div class="center">
-                                        <button @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show
+                                        <button @click="submit()" style="padding: 5px 30px;"
+                                            class="btn btn-success">Show
                                             Paylists
                                         </button>
                                     </div>
@@ -70,7 +71,8 @@
                         <div v-if="success" class="success">
                             {{message_success}} !
                         </div> <br>
-                        <div v-if="paylist">
+                        <img src="../images/loading" v-show="paylist" id="Loading" ref="Loading">
+                        <div v-show="paylist" id="content2" ref="content2">
                             <div style="display: inline;">
                                 Show <select @change="entryfun(entry)" v-model="entry">
                                     <option value="10">10</option>
@@ -86,57 +88,62 @@
 
                             </div>
 
-                        <table id='tblData'>
-                            <tr>
-                                <th v-for="i in head"><b>{{i}}</b>
-                                    <i class="fa fa-sort-amount-asc" v-show="!sorticon" @click="sort(i,'asc')"
-                                        v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
-                                        aria-hidden="true"></i>
-                                    <i class="fa fa-sort-amount-desc" v-show="sorticon" @click="sort(i,'desc')"
-                                        v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
-                                        aria-hidden="true"></i>
-                                    <i class="fa fa-arrows-v" @click="sort(i,'asc')" v-if="i.toLowerCase()!=sortfield"
-                                        style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                            <table id='tblData'>
+                                <tr>
+                                    <th v-for="i in head"><b>{{i}}</b>
+                                        <i class="fa fa-sort-amount-asc" v-show="!sorticon" @click="sort(i,'asc')"
+                                            v-if="i.toLowerCase()==sortfield.toLowerCase()" style="color:rgb(0, 0, 0)"
+                                            aria-hidden="true"></i>
+                                        <i class="fa fa-sort-amount-desc" v-show="sorticon" @click="sort(i,'desc')"
+                                            v-if="i.toLowerCase()==sortfield.toLowerCase()" style="color:rgb(0, 0, 0)"
+                                            aria-hidden="true"></i>
+                                        <i class="fa fa-arrows-v" @click="sort(i,'asc')"
+                                            v-if="i.toLowerCase()!=sortfield.toLowerCase()" style="color:rgb(0, 0, 0)"
+                                            aria-hidden="true"></i>
 
-                                </th>
-                            </tr>
-                            <tr v-for="i in myArray.length"
-                                v-if="myArray[i-1].name.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
-                                <td>{{myArray[i-1].name}}</td>
-                                <td>{{symbol}} {{myArray[i-1].salary}}</td>
-                                <td><button @click="download(myArray[i-1].empid)" class="btn btn-success"><i class="fa fa-download"
-                                            style="color:white" aria-hidden="true"></i> Download</button>
-                                    <button @click="print(myArray[i-1].empid)" class="btn btn-danger"><i class="fa fa-print"
-                                            style="color:white" aria-hidden="true"></i>&nbsp Print</button></td>
+                                    </th>
+                                </tr>
+                                <tr v-for="i in myArray.length"
+                                    v-if="myArray[i-1]['employee_quick'].name.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
+                                    <td><b>{{myArray[i-1]['employee_quick'].name}}</b></td>
+                                    <td>{{symbol}} {{myArray[i-1].netpay}}</td>
+                                    <td><button @click="download(myArray[i-1].emp_id)" class="btn btn-success"><i
+                                                class="fa fa-download" style="color:white" aria-hidden="true"></i>
+                                            Download</button>
+                                        <button @click="print(myArray[i-1].emp_id)" class="btn btn-danger"><i
+                                                class="fa fa-print" style="color:white" aria-hidden="true"></i>&nbsp
+                                            Print</button></td>
 
-                            </tr>
-                        </table>
-                        <br>
-                        <button @click="printall()" style="padding:3px 15px" class="btn btn-danger"><i
-                                class="fa fa-print" style="color:white" aria-hidden="true"></i>&nbsp Print All</button>
-                        </td>
-                        <br><br>
-                        <div class='pagination-container'>
-                            Showing {{start}} to {{end}} of {{total}} entries
-                            <nav style="display: inline;">
-                                <ul class="pagination">
+                                </tr>
+                            </table>
+                            <br>
+                            <button @click="printall()" style="padding:3px 15px" class="btn btn-danger"><i
+                                    class="fa fa-print" style="color:white" aria-hidden="true"></i>&nbsp Print
+                                All</button>
+                            </td>
+                            <br><br>
+                            <div class='pagination-container'>
+                                Showing {{start}} to {{end}} of {{total}} entries
+                                <nav style="display: inline;">
+                                    <ul class="pagination">
 
-                                    <li data-page="prev" id="previ">
-                                        Previous </li>
-                                    <li v-for="i in pages" @click="paging(i,entry)">
-                                        <strong v-if="i==current" id="currentpage">{{i}}</strong>
-                                        <strong v-else>{{i}}</strong>
-                                    </li>
-                                    <li data-page="next" id="next">
-                                        Next
-                                    </li>
-                                </ul>
-                            </nav>
+                                        <li data-page="prev" id="previ">
+                                            Previous </li>
+                                        <li v-for="i in pages" @click="paging(i,entry)">
+                                            <strong v-if="i==current" id="currentpage">{{i}}</strong>
+                                            <strong v-else>{{i}}</strong>
+                                        </li>
+                                        <li data-page="next" id="next">
+                                            Next
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div></div>
+        </div>
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
@@ -154,12 +161,13 @@
                 pages: [], start: 1, total: 100, end: 1, current: 1,
                 head: ['Name', 'Final Amount', 'Actions'],
                 sortfield: 'name',
-                myArray: [{ empid:1,name: 'Jimmy2', salary: 50 },
-                { empid:2,name: 'Jimmy3', salary: 60 },
-                { empid:3,name: 'Jimmy1', salary: 80 }],
-                success: 1,
-                error: 1,
+                myArray: [],
+                success: 0,
+                error: 0,
+                sortfield2:'',
                 yearlist: [],
+                arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
+                monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
                 monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
                 select_year: '',
                 select_month: '',
@@ -171,10 +179,9 @@
                 this.load();
             },
             methods: {
-                load: function () { setTimeout(function () { log.loaderoff() }, 500);
-                    this.total = this.myArray.length;
-                    this.entryfun(this.entry);
-                    this.sort(this.sortfield);
+                load: function () {
+                    
+
                     this.year();
                 }, entryfun(entry) {
                     this.paging(1, entry)
@@ -184,35 +191,42 @@
                         this.pages.push(i)
                     }
                 }, sort(name, type) {
-                    this.sorticon = !this.sorticon;
-                    this.sortfield = name.toLowerCase();
-                    if (this.sortfield == 'action') {
-                        return
-                    } else {
-                        this.myArray.sort(this.compare)
-                        if (type == 'desc') {
-                            this.myArray.reverse(this.compare)
-                        }
-
+                    console.log(name)
+                    if(name=='Final Amount'){
+                        this.sortfield=name
+                        this.sortfield2='netpay'
+                    }else{
+                        
+                        this.sortfield='name'
+                        this.sortfield2=this.sortfield
                     }
-                    this.paging(1, this.entry)
+                    this.sorticon=!this.sorticon
+                    if (this.sortfield == 'name' || this.sortfield=='Final Amount') {
+
+                        this.myArray.sort(this.compare)
+                    }
+                    if (type == 'desc') {
+                        this.myArray.reverse(this.comparedate)
+                    }
 
                 }, compare(a, b) {
-                    if (this.sortfield == 'name' || this.sortfield == 'email') {
-
-                        var nameA = a[this.sortfield]
-                        var nameB = b[this.sortfield]
-                    } else {
-                        var nameA = parseInt(a[this.field])
-                        var nameB = parseInt(b[this.field])
+                    var nameA=''
+                    var nameB=''
+                    if(this.sortfield2=='netpay'){
+                        nameA = a[this.sortfield2]
+                        nameB = b[this.sortfield2]
+                    }else{
+                        nameA = a['employee_quick'][this.sortfield2]
+                        nameB = b['employee_quick'][this.sortfield2]
                     }
+                    
                     if (nameA < nameB) { return -1; }
                     if (nameA > nameB) { return 1; }
                     return 0;
                 },
                 comparedate(a, b) {
-                    var nameA = a[this.sortfield]
-                    var nameB = b[this.sortfield]
+                    var nameA = a['employee_quick'][this.sortfield]
+                    var nameB = b['employee_quick'][this.sortfield]
                     nameA = nameA.slice(6, 10) + nameA.slice(3, 5) + nameA.slice(0, 2)
                     nameB = nameB.slice(6, 10) + nameB.slice(3, 5) + nameB.slice(0, 2)
                     if (nameA < nameB) {
@@ -232,15 +246,21 @@
                         this.end = this.total
                     }
 
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
                 }, download(idx) {
-                    var x="http://localhost:3420/payslips/printsingle?id="+idx+"&month="+this.select_month+"&year="+this.select_year+"&action=download";
+                    var x = "http://localhost:3420/payslips/printsingle?id=" + idx + "&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&action=download";
                     window.open(x, "_blank")
 
                 }, print(idx) {
-                    var x="http://localhost:3420/payslips/printsingle?id="+idx+"&month="+this.select_month+"&year="+this.select_year+"&action=print";
+                    var x = "http://localhost:3420/payslips/printsingle?id=" + idx +"&month=" +  this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year+  "&action=print";
                     window.open(x, "_blank")
                 }, printall() {
-                    var x="http://localhost:3420/payslips/printmultiple?&month="+this.select_month+"&year="+this.select_year;
+                    var x = "http://localhost:3420/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year ;
                     window.open(x, "_blank")
                 }, year() {
                     var d = new Date();
@@ -253,7 +273,42 @@
                     this.select_month = this.monthlist[d.getMonth()];
                     this.select_year = n - 1;
                 }, submit() {
-                    this.paylist = 1
+                    if (log.select_month == "" || log.select_year == "") {
+                        log.error = 1
+                        return
+                    }
+                    log.paylist = 1
+                    axios.get('http://localhost:3420/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
+                        .then(function (Response1) {
+                            console.log(Response1)
+                            log.myArray = Response1
+                            axios.get('http://localhost:3420/settings/api/symbol')
+                                .then(function (Response2) {
+                                    log.symbol = Response2
+                                })
+                                .catch((err) => {
+                                    console.log(err)
+                                    log.error = 1
+                                    log.message_error = "Error connecting the database try again later !"
+                                    log.loaderoff()
+                                })
+                            
+                            log.total = log.myArray.length;
+                            log.entryfun(log.entry);
+                            log.loaderoff()
+
+                            log.sort(this.sortfield);
+
+
+
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+
                 }
 
             }

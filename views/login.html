@@ -153,7 +153,7 @@
           }
         },
         checkpassword(pass) {
-          if (pass.length > 8) {
+          if (pass.length >= 8) {
             this.validpassword = 1
             return true;
           } else {

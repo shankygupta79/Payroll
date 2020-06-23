@@ -34,8 +34,8 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            <img src="../images/loading" id="Loading" ref="Loading">
-            <div id="content2" ref="content2">
+
+            <div>
                 <div class="bord">
                     <div class="headin center">Calculator</div>
                     <div class="roww"></div>
@@ -55,100 +55,131 @@
                                 </select></td>
                             <td>
                                 <div class="center">
-                                    <button @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show Analysis
+                                    <button @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show
+                                        Analysis
                                     </button>
                                 </div>
                             </td>
                         </tr>
                     </table><br>
-                    
-                    <div v-show="paylist">
-                    <div>
-                        
-                        <div style="display: inline-block;">
-                            <label>Add Bonus</label>
-                            <input type="checkbox" id="bonuscheck">    
+                    <img src="../images/loading" v-show="paylist" id="Loading" ref="Loading">
+                    <div v-show="paylist" id="content2" ref="content2">
+                        <div v-if="error" class="error">
+                            {{message_error}} !
+                        </div> <br>
+                        <div v-if="success" class="success">
+                            {{message_success}} !
+                        </div> <br>
+                        <div>
+
+                            <div style="display: inline-block;">
+                                <label>Add Bonus</label>
+                                <input type="checkbox" id="bonuscheck">
+                            </div>
+
+                            <div style="display: inline-block;">
+                                <label>Add Deductions</label>
+                                <input type="checkbox" id="deductioncheck">
+                            </div>
+                            <div style="display: inline-block;">
+                                <label>Add Text</label>
+                                <input type="checkbox" id="textcheck">
+                            </div>
+                            <div style="display: inline-block;">
+                                <label>Add Transfer</label>
+                                <input type="checkbox" id="transfercheck">
+                            </div>
                         </div>
-                        
-                        <div style="display: inline-block;">
-                            <label>Add Deductions</label>
-                            <input type="checkbox" id="deductioncheck">
+                        <div style="text-align: right;">
+                            <b style="display: inline-block;">Sort By : </b>
+                            <div style="display: inline-block;">
+                                <select @change="sort(sortfield)" class="form-control" v-model="sortfield">
+                                    <option v-for="i in sortarr">
+                                        {{i}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div><br>
+                        <div class="empbox center" v-for="i in list.length">
+                            <b>{{list[i-1]['employee_quick']['name']}}</b><br>
+                            <table class="tabman">
+                                <tr>
+                                    <td colspan="2">
+                                        <img v-bind:src="list[i-1]['employee_quick']['photo']" height="80px"
+                                            width="80px">
+                                    </td>
+                                    <td> <b>Net Pay: </b></td>
+                                    <td><b>{{symbol}}
+                                            {{parseInt(list[i-1]['employee_quick'].salary)+parseInt(list[i-1].bonus)+parseInt(list[i-1].extratimetotoal)-parseInt(list[i-1].deduction)-parseInt(list[i-1].advance)-parseInt(list[i-1].holidays)-parseInt(list[i-1].transfer)}}</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> <b>Salary : </b></td>
+                                    <td class="green">{{symbol}}{{list[i-1]['employee_quick'].salary}}
+                                    </td>
+
+                                    <td> <b>Holidays : </b></td>
+                                    <td class="red" v-show="!edit">{{symbol}}{{list[i-1].holidays}}</td>
+                                    <td v-show="edit"><input v-model="list[i-1].holidays" type="number"> </td>
+
+                                </tr>
+                                <tr>
+                                    <td> <b>Extra Time : </b></td>
+                                    <td class="red" v-show="!edit">{{symbol}}{{list[i-1].extratimetotoal}}</td>
+                                    <td v-show="edit"><input v-model="list[i-1].extratimetotoal" type="number"> </td>
+
+                                    <td> <b>Advance : </b></td>
+                                    <td class="red" v-show="!edit">{{symbol}}{{list[i-1].advance}}</td>
+                                    <td v-show="edit"><input v-model="list[i-1].advance" type="number"> </td>
+                                </tr>
+                                <tr>
+                                    <td class="bonus wow"> <b>Bonus : </b></td>
+                                    <td class="green bonus wow" v-show="!edit">{{symbol}}{{list[i-1].bonus}}</td>
+                                    <td class="bonus wow" v-show="edit"><input v-model="list[i-1].bonus" type="number">
+                                    </td>
+
+                                    <td class="deduction wow"> <b>Deduction: </b></td>
+                                    <td class="red deduction wow" v-show="!edit">{{symbol}}{{list[i-1].deduction}}</td>
+                                    <td class="deduction wow" v-show="edit"><input v-model="list[i-1].deduction"
+                                            type="number"> </td>
+                                </tr>
+                                <tr>
+                                    <td class="transfer wow"> <b>Balance : </b></td>
+                                    <td class="transfer wow">
+                                        <b>{{symbol}}{{parseInt(list[i-1]['employee_quick'].salary)+parseInt(list[i-1].bonus)+parseInt(list[i-1].extratimetotoal)-parseInt(list[i-1].deduction)-parseInt(list[i-1].advance)-parseInt(list[i-1].holidays)}}</b>
+                                    </td>
+
+
+                                    <td class="transfer wow"> <b>Transfer : </b></td>
+                                    <td class="yellow transfer wow" v-show="!edit">{{symbol}}{{list[i-1].transfer}}
+                                    </td>
+                                    <td class="transfer wow" v-show="edit"><input v-model="list[i-1].transfer"
+                                            type="number"> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text wow"> <b>Narration : </b></td>
+                                    <td class="text wow" v-show="!edit" colspan="3">{{list[i-1].text}}</td>
+                                    <td class="text wow" colspan="3" v-show="edit"><input class="hey180"
+                                            v-model="list[i-1].text" type="text"> </td>
+
+                                </tr>
+
+                            </table>
+
+
+
                         </div>
-                        <div style="display: inline-block;">
-                            <label>Add Text</label>
-                            <input type="checkbox" id="textcheck">    
+
+                        <div class="center" v-if="!edit">
+                            <button @click="editfun()" style="padding: 5px 30px;" class="btn btn-success">Edit</button>
+                        </div>
+                        <div class="center" v-if="edit">
+                            <button @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}}</button>
                         </div>
                     </div>
-                    <div style="text-align: right;">
-                        <b style="display: inline-block;">Sort By : </b>
-                        <div style="display: inline-block;">
-                            <select @change="sort(sortfield)" class="form-control" v-model="sortfield">
-                                <option v-for="i in sortarr">
-                                    {{i}}
-                                </option>
-                            </select>
-                        </div>
-                    </div><br>
-                    <div class="empbox center"  v-for="i in myArray.length">
-                        <b>{{myArray[i-1].name}}</b><br>
-                        <table class="tabman">
-                            <tr>
-                                <td colspan="2">
-                                    <img v-bind:src="myArray[i-1].photo" height="80px" width="80px">
-                                </td>
-                                <td> <b>Net Pay: </b></td>
-                                <td><b>{{symbol}} 60</b></td>
-                            </tr>
-                            <tr>
-                                <td> <b>Salary : </b></td>
-                                <td class="green" v-show="!edit">{{symbol}}{{list[i-1].salary}}</td>
-                                <td v-show="edit"><input v-model="list[i-1].salary" type="number"> </td>
 
-                                <td> <b>Holidays : </b></td>
-                                <td class="red" v-show="!edit">{{symbol}}{{list[i-1].holidays}}</td>
-                                <td v-show="edit"><input v-model="list[i-1].holidays" type="number"> </td>
-
-                            </tr>
-                            <tr>
-                                <td> <b>Extra Time : </b></td>
-                                <td class="red" v-show="!edit">{{symbol}}{{list[i-1].extra}}</td>
-                                <td v-show="edit"><input v-model="list[i-1].advance" type="number"> </td>
-
-                                <td> <b>Advance : </b></td>
-                                <td class="red" v-show="!edit">{{symbol}}{{list[i-1].advance}}</td>
-                                <td v-show="edit"><input v-model="list[i-1].advance" type="number"> </td>
-                            </tr>
-                            <tr>
-                                <td class="bonus wow" > <b>Bonus : </b></td>
-                                <td class="green bonus wow" v-show="!edit">{{symbol}}{{list[i-1].bonus}}</td>
-                                <td class="bonus wow" v-show="edit"><input v-model="list[i-1].bonus" type="number"> </td>
-
-                                <td class="deduction wow"> <b>Deduction: </b></td>
-                                <td class="red deduction wow" v-show="!edit">{{symbol}}{{list[i-1].deduction}}</td>
-                                <td class="deduction wow" v-show="edit"><input v-model="list[i-1].deduction" type="number"> </td>
-                            </tr>
-                            <tr>
-                                <td class="text wow"> <b>Narration : </b></td>
-                                <td class="text wow" v-show="!edit" colspan="3">{{list[i-1].text}}</td>
-                                <td class="text wow" colspan="3" v-show="edit"><input class="hey180" v-model="list[i-1].text" type="text"> </td>
-
-                            </tr>
-
-                        </table>
-                        
-
-
-                    </div>
-                    <div class="center" v-if="!edit">
-                        <button @click="editfun()"style="padding: 5px 30px;" class="btn btn-success">Edit</button>
-                    </div>
-                    <div class="center" v-if="edit">
-                        <button @click="save()"style="padding: 5px 30px;" class="btn btn-success">Save</button>
-                    </div>
                 </div>
-                
-                </div>
-                
+
             </div>
         </div>
 
@@ -161,40 +192,39 @@
         var log = new Vue({
             el: "#Index",
             data: {
-                myArray: [{ name: 'Worker 1', empid: 1, dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'http://localhost:3420/images/emp_man' },
-                { name: 'Worker 2', empid: 1, dep: 'Department1', des: 'Designation1', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_man' },
-                { name: 'Worker 3', empid: 1, dep: 'Department1', des: 'Designation1', doj: '23-04-2020', photo: 'http://localhost:3420/images/emp_fem' },
-                { name: 'Worker 4', empid: 1, dep: 'Dep3', des: 'Des3', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_fem' },
-                { name: 'Worker 8', empid: 1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_man' },
-                { name: 'Worker 6', empid: 1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_man' },
-                { name: 'Worker 7', empid: 1, dep: 'Dep1', des: 'Des1', doj: '23-04-2010', photo: 'http://localhost:3420/images/emp_fem' },
-                { name: 'Worker 9', empid: 1, dep: 'Dep1', des: 'Des1', doj: '23-04-2020', photo: 'http://localhost:3420/images/emp_fem' }],
+                myArray: [],
                 sortfield: 'Name',
-                symbol: '$',
-                list: [{ salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
-                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
-                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
-                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
-                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
-                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
-                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'},
-                { salary: 100, holidays: 20, bonus: 0, deduction: 0, extra: 10, advance: 10 ,text:'No Comments'}],
+                symbol: 'rs',
+                list: [],
                 sortarr: ['Name', 'Department', 'Designation', 'Date of Joining'],
                 sortarr2: ['name', 'des', 'dep', 'doj'],
                 yearlist: [],
-                monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
+                arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
                 select_year: '',
                 select_month: '',
                 paylist: 0,
-                edit:0,
+                word: 'Save',
+                monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
+                monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+                edit: 0,
+                success: 0,
+                error: 0,
+                message_error: "Enter the full details",
+                message_success: "Attendace edited loaded successfully",
             },
             created: function () {
                 this.load();
             },
             methods: {
-                load: function () { setTimeout(function () { log.loaderoff() }, 500);
-                    this.sort(this.sortfield);
+                load: function () {
+
                     this.year();
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
                 }, sort(name, type) {
                     var i = 0;
                     if (name == "Name") {
@@ -207,24 +237,23 @@
                         i = 3
                     }
                     this.sortfield = this.sortarr2[i];
-                    console.log(this.sortfield)
                     if (this.sortfield == 'name' || this.sortfield == 'dep' || this.sortfield == 'des') {
-                        this.myArray.sort(this.compare)
+                        this.list.sort(this.compare)
                     } else if (this.sortfield == 'doj') {
-                        this.myArray.sort(this.comparedate)
+                        this.list.sort(this.comparedate)
 
                     }
 
                 }, compare(a, b) {
-                    var nameA = a[this.sortfield]
-                    var nameB = b[this.sortfield]
+                    var nameA = a['employee_quick'][this.sortfield]
+                    var nameB = b['employee_quick'][this.sortfield]
                     if (nameA < nameB) { return -1; }
                     if (nameA > nameB) { return 1; }
                     return 0;
                 },
                 comparedate(a, b) {
-                    var nameA = a[this.sortfield]
-                    var nameB = b[this.sortfield]
+                    var nameA = a['employee_quick'][this.sortfield]
+                    var nameB = b['employee_quick'][this.sortfield]
                     nameA = nameA.slice(6, 10) + nameA.slice(3, 5) + nameA.slice(0, 2)
                     nameB = nameB.slice(6, 10) + nameB.slice(3, 5) + nameB.slice(0, 2)
                     if (nameA < nameB) {
@@ -234,7 +263,7 @@
                         return 1;
                     }
                     return 0;
-                },year() {
+                }, year() {
                     var d = new Date();
                     var n = d.getFullYear() + 1;
                     var y = 2020;
@@ -245,26 +274,111 @@
                     this.select_month = this.monthlist[d.getMonth()];
                     this.select_year = n - 1;
                 }, submit() {
-                    this.paylist = 1
-                },editfun(){
-                    this.edit=1
-                },save(){
-                    this.edit=0
+                    if (log.select_month == "" || log.select_year == "") {
+                        log.error = 1
+                        return
+                    }
+                    log.paylist = 1
+                    axios.get('http://localhost:3420/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
+                        .then(function (Response1) {
+                            log.list = Response1
+                            var days = log.monthday[log.monthlist.indexOf(log.select_month)]
+                            for (var i = 0; i < log.list.length; i++) {
+                                if(log.list[i].netpay>0){
+                                    continue
+                                }
+                                var extrarr = log.list[i].extratime.split(';')
+                                var prearr = log.list[i].present
+                                var extra = 0
+                                var ab = 0
+                                for (var j = 0; j < days; j++) {
+                                    extra = extra + parseInt(extrarr[j])
+                                    if (prearr[j] == 'A') {
+                                        ab++
+                                    }
+                                }
+                                log.list[i].extratimetotoal = extra
+                                log.list[i].holidays = Math.ceil(log.list[i]['employee_quick'].salary / days) * ab
+                            }
+                            axios.get('http://localhost:3420/settings/api/symbol')
+                                .then(function (Response2) {
+                                    log.symbol = Response2
+                                })
+                                .catch((err) => {
+                                    console.log(err)
+                                    log.error = 1
+                                    log.message_error = "Error connecting the database try again later !"
+                                    log.loaderoff()
+                                })
+                            log.loaderoff()
+
+                            log.sort(this.sortfield);
+
+
+
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+
+                }, editfun() {
+                    this.edit = 1
+                }, save() {
+                    this.edit = 0
+                    this.word = 'Saving..'
+                    
+                    for(var i=1;i<log.list.length;i++) {
+                        $.post('./api/calc', {
+                            advance: log.list[i - 1].advance,
+                            extra: log.list[i - 1].extratimetotoal,
+                            holidays: log.list[i - 1].holidays,
+                            comment: log.list[i - 1].text,
+                            id: log.list[i - 1]['employee_quick'].emp_id,
+                            bonus: log.list[i - 1].bonus,
+                            deduction: log.list[i - 1].deduction,
+                            balance: parseInt(log.list[i - 1]['employee_quick'].salary) + parseInt(log.list[i - 1].bonus) + parseInt(log.list[i - 1].extratimetotoal) - parseInt(log.list[i - 1].deduction) - parseInt(log.list[i - 1].advance) - parseInt(log.list[i - 1].holidays),
+                            transfer: log.list[i - 1].transfer,
+                            netpay: parseInt(log.list[i - 1]['employee_quick'].salary) + parseInt(log.list[i - 1].bonus) + parseInt(log.list[i - 1].extratimetotoal) - parseInt(log.list[i - 1].deduction) - parseInt(log.list[i - 1].advance) - parseInt(log.list[i - 1].holidays) - parseInt(log.list[i - 1].transfer),
+
+                        }, function (data) {
+                            console.log(data.message)
+                            if (data.message != 'true') {
+                                log.error = 1
+                                log.message_error = data.message
+                                log.word = "Save Again"
+                            } else {
+                                log.error = 0
+
+                            }
+                        })
+                    }
+                    log.success = 1
+                    log.message_success = "Calculations saved SuccessFully !"
+                    setTimeout(() => {
+                        window.location.href = "list"
+                    }, 1000);
                 }
 
             }
-        })    
+        })
         $('#bonuscheck').on('click', function () {
-            console.log("AYA")
+          
             $('.bonus').toggleClass('wow');
         });
         $('#textcheck').on('click', function () {
-            console.log("AYA")
+          
             $('.text').toggleClass('wow');
         });
         $('#deductioncheck').on('click', function () {
-            console.log("AYA")
+         
             $('.deduction').toggleClass('wow');
+        });
+        $('#transfercheck').on('click', function () {
+            
+            $('.transfer').toggleClass('wow');
         });
     </script>
 

@@ -7,7 +7,7 @@ const db = new Sequelize(process.env.DATABASE, process.env.USER, process.env.PAS
     port: 3306,
     operatorsAliases: false,
     pool: {
-        max: 5,
+        max: 8,
         min: 0,
         acquire: 30000,
         idle: 10000
@@ -83,6 +83,26 @@ const Employeedb = db.define('employee', {
     doc4:Sequelize.STRING,
     doc5:Sequelize.STRING,
 })
+const Attendance = db.define('Attendance',{
+    userId:Sequelize.INTEGER,
+    emp_id:Sequelize.INTEGER,
+    monthyear:Sequelize.STRING,
+    present:Sequelize.STRING,
+    marked:Sequelize.STRING,
+    quick:Sequelize.STRING,
+    holidays:Sequelize.INTEGER,
+    extratimetotoal:Sequelize.INTEGER,
+    extratime:Sequelize.STRING,
+    advance:Sequelize.INTEGER,
+    bonus:Sequelize.INTEGER,
+    deduction:Sequelize.INTEGER,
+    balance:Sequelize.INTEGER,
+    transfer:Sequelize.INTEGER,
+    attby:Sequelize.STRING,
+    text: Sequelize.STRING,
+    netpay: Sequelize.INTEGER,
+
+})
 const Employeeqdb = db.define('employee_quick', {
     emp_id:{
         type: Sequelize.INTEGER,
@@ -127,10 +147,21 @@ const Holiday = db.define('holiday', {
     date:Sequelize.STRING,
     
 })
+const Setting = db.define('setting', {
+    userId:Sequelize.INTEGER,
+    name:Sequelize.STRING,
+    phone:Sequelize.INTEGER,
+    email:Sequelize.STRING,
+    website:Sequelize.STRING,
+    add:Sequelize.STRING,
+    state:Sequelize.STRING,
+    country:Sequelize.STRING,
+    
+})
 
 db.sync()
     .then(() => console.log("Database has been synced"))
     .catch((err) => console.error("Error creating database " + err))
 exports = module.exports = {
-    User,Employeeqdb,Employeedb,Holiday,Department
+    User,Employeeqdb,Employeedb,Holiday,Department,Setting,Attendance
 }

@@ -88,7 +88,7 @@ route.get('/api/dep', authCheckview, (req, res) => {
     })
     .catch((err) => {
       console.log(err)
-      res.send({
+      return res.send({
         message: "Could not retrive users"
       })
     })
@@ -97,6 +97,7 @@ route.get('/api/dep', authCheckview, (req, res) => {
 route.get('/api/dep2', authCheckview, (req, res) => {
 
   Employee.findAll({
+    where: {userId: xid},
     group: ['dep'],
     attributes: ['dep', [Sequelize.fn('COUNT', 'dep'), 'depcount']],
   })
@@ -105,7 +106,7 @@ route.get('/api/dep2', authCheckview, (req, res) => {
     })
     .catch((err) => {
       console.log(err)
-      res.send({
+      return res.send({
         message: "Could not retrive employees"
       })
     })

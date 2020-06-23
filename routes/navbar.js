@@ -33,7 +33,7 @@ Vue.component('navbar-component',{
                 //Orange
                 $(':root').css('--navbar-color', 'orange');
                 $(':root').css('--body', 'white');
-                $(':root').css('--text-hover', 'rgb(214, 163, 68))');
+                $(':root').css('--text-hover', 'rgb(214, 163, 68)');
             }else if(val=="Theme 7"){
                 //White
                 $(':root').css('--navbar-color', 'rgb(165, 179, 182)');
@@ -70,7 +70,7 @@ Vue.component('navbar-component',{
     
     template:`<nav id="sidebar">
     <div class="sidebar-header">
-        <h3><img src="http://localhost:3420/images/logo" class="logo" ></h3>
+        <h3><img src="" class="logoi" ></h3>
     </div>
 
     <ul class="list-unstyled components" style="padding:0">

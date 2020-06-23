@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="http://localhost:3420/settings/style2">
     <link rel="stylesheet" href="http://localhost:3420/users/css">
 
-
+    <meta name="csrf-token" content="XYZ123">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
@@ -82,9 +82,9 @@
                         <div class="inl">Edit</div>
                         <br><br><label class="label2">Attendance : &nbsp;</label>
                         <div class="inl"><input type="checkbox" v-model="view_att"></div>
-                        <div class="inl">View </div>
+                        <div class="inl">Mark </div>
                         <div class="inl"><input type="checkbox" v-model="edit_att"></div>
-                        <div class="inl">Edit</div>
+                        <div class="inl">View</div>
                         <br><br><label class="label2">Holidays :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;</label>
                         <div class="inl"><input type="checkbox" v-model="view_hol"></div>

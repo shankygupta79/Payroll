@@ -156,6 +156,7 @@ route.post('/user/uploadpr', upload.single('file'), (req, res) => {
     function (error, result) {
       photu = result.url;
       console.log(photu)
+      return res.send({ message: "Done" })
     })
     .catch((err) => {
       console.log(err)
@@ -163,7 +164,7 @@ route.post('/user/uploadpr', upload.single('file'), (req, res) => {
         error: "Could not upload image"
       })
     });
-  return res.send({ message: "Done" })
+  
 
 
 });
@@ -176,7 +177,7 @@ route.get('/api/user', authCheck, (req, res) => {
       })
       .catch((err) => {
         console.log(err)
-        res.send({
+        return res.send({
           message: "Could not retrive users"
         })
       })
@@ -187,7 +188,7 @@ route.get('/api/user', authCheck, (req, res) => {
       })
       .catch((err) => {
         console.log(err)
-        res.send({
+        return res.send({
           message: "Could not retrive users"
         })
       })

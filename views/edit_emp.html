@@ -104,6 +104,7 @@
                             </td>
                             <td class="edittb" v-if="!edit">{{myArrayq.email}}</td>
                         </tr>
+
                         <tr>
                             <td><b>Landline</b></td>
                             <td><input class="form-control" v-if="edit" v-model="myArray.land" type="number"
@@ -111,7 +112,14 @@
                             </td>
                             <td class="edittb" v-if="!edit">{{myArray.land}}</td>
                         </tr>
-
+                        <tr>
+                            <td><b>Mobile Number</b></td>
+                            <td><input class="form-control" v-if="edit" v-model="myArrayq.pnum" type="number"
+                                    placeholder="Enter Mobile Number">
+                            </td>
+                            <td class="edittb" v-if="!edit">{{myArrayq.pnum}}</td>
+                        </tr>
+                        
 
 
 
@@ -383,8 +391,26 @@
                                             log.departments = Response
                                             log.loaderoff()
                                         })
+                                        .catch((err) => {
+                                            console.log(err)
+                                            log.error = 1
+                                            log.message_error = "Error connecting the database try again later !"
+                                            log.loaderoff()
+                                        })
 
                                 })
+                                .catch((err) => {
+                                    console.log(err)
+                                    log.error = 1
+                                    log.message_error = "Error connecting the database try again later !"
+                                    log.loaderoff()
+                                })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error=1
+                            log.message_error="Error connecting the database try again later !"
+                            log.loaderoff()
                         })
 
 
@@ -408,9 +434,9 @@
                 }, editfun() {
                     this.edit = !this.edit
                 }, photo() {
-                    this.time = 5
+                    this.time = 0.5
                 }, docum() {
-                    this.time = 10
+                    this.time = 0.5
                 }, save() {
                     if (this.dep == '') {
                         this.error = 1;
@@ -434,6 +460,7 @@
                                 aadhaar: log.myArray.aadhaar,
                                 pan: log.myArray.pan,
                                 fnum: log.myArray.fnum,
+                                pnum: log.myArrayq.pnum,
                                 mnum: log.myArray.mnum,
                                 anum: log.myArray.anum,
                                 add1: log.myArray.add1,
@@ -451,7 +478,6 @@
                                 des: log.myArrayq.des,
                                 dep: log.myArrayq.dep,
                                 email: log.myArrayq.mail,
-                                pnum: log.myArrayq.num,
                                 photo: log.myArrayq.photo,
                                 doc1: log.myArray.doc1,
                                 doc2: log.myArray.doc2,

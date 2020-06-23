@@ -28,7 +28,7 @@
 
     <div id="Index">
         <div id="print" ref="hi">
-            <div class="center info headin" style="height: 110px;"><img src="../images/logo" width="100px"
+            <div class="center info headin" style="height: 110px;"><img v-bind:src="logoimg" width="100px"
                     style="float: left;" height="100px">
                 <div style="vertical-align: middle;"><br>{{company}}</div>
             </div>
@@ -41,13 +41,13 @@
                         Employee ID :
                     </td>
                     <td>
-                        {{myArray2[0].empid}}
+                        {{myArray.emp_id}}
                     </td>
                     <td>
                         Name :
                     </td>
                     <td>
-                        {{myArray2[0].name}}
+                        {{myArray['employee_quick'].name}}
                     </td>
                 </tr>
                 <tr>
@@ -55,13 +55,13 @@
                         Department :
                     </td>
                     <td>
-                        {{myArray2[0].department}}
+                        {{myArray['employee_quick'].dep}}
                     </td>
                     <td>
                         Designation :
                     </td>
                     <td>
-                        {{myArray2[0].designation}}
+                        {{myArray['employee_quick'].des}}
                     </td>
                 </tr>
                 <tr>
@@ -69,13 +69,13 @@
                         Phone Number :
                     </td>
                     <td>
-                        {{myArray2[0].number}}
+                        {{myArray['employee_quick'].pnum}}
                     </td>
                     <td>
-                        Account Number :
+                        Email :
                     </td>
                     <td>
-                        {{myArray2[0].accnum}}
+                        {{myArray['employee_quick'].email}}
                     </td>
                 </tr>
 
@@ -95,13 +95,13 @@
                         Basic
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].salary}}
+                        {{symbol}}{{myArray['employee_quick'].salary}}
                     </td>
                     <td>
                         Holidays
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].holiday}}
+                        {{symbol}}{{myArray.holidays}}
                     </td>
                 </tr>
                 <tr>
@@ -109,13 +109,13 @@
                         Extra Time
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].extratime}}
+                        {{symbol}}{{myArray.extratimetotoal}}
                     </td>
                     <td>
                         Advance
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].advance}}
+                        {{symbol}}{{myArray.advance}}
                     </td>
                 </tr>
                 <tr>
@@ -123,13 +123,27 @@
                         Bonus
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].bonus}}
+                        {{symbol}}{{myArray.bonus}}
                     </td>
                     <td>
                         Deductions
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].deductions}}
+                        {{symbol}}{{myArray.deduction}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        Transfer
+                    </td>
+                    <td>
+                        {{symbol}}{{myArray.transfer}}
                     </td>
                 </tr>
                 <tr>
@@ -137,13 +151,13 @@
                         Total Earnings
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray[0].bonus)+parseInt(myArray[0].salary)}}
+                        {{symbol}}{{myArray.bonus+myArray['employee_quick'].salary+myArray.extratimetotoal}}
                     </th>
                     <th>
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray[0].advance)+parseInt(myArray[0].holiday)}}
+                        {{symbol}}{{myArray.advance+myArray.holidays+myArray.transfer+myArray.deduction}}
                     </th>
                 </tr>
                 <tr>
@@ -154,7 +168,7 @@
                         Net Pay
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray[0].advance)+parseInt(myArray[0].holiday)}}
+                        {{symbol}}{{myArray.netpay}}
                     </th>
                 </tr>
 
@@ -169,38 +183,62 @@
         var log = new Vue({
             el: "#Index",
             data: {
-                myArray: [{ empid: '1', salary: '60', advance: '10', holiday: '10', bonus: '5', total: '20', bonus: '0', deductions: '0' }],
-                myArray2: [{ empid: '1', name: 'Jimmy Anderson', department: 'Cricket', designation: 'Bowler', phone: '9899989922', accnum: 'xxxx-xxxx-xxxx' }],
+                myArray: [],
                 month: '',
+                arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
+                monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+                monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
+                select_year: '',
                 symbol: 'Rs ',
                 id: '',
                 year: '2020',
+                logoimg:'',
                 company: 'Company Name',
             },
             created: function () {
                 this.load();
             },
             methods: {
-                load: function () { setTimeout(function () { log.loaderoff() }, 500);
+                load: function () {
+
                     var params = this.getParams(window.location.href)
-                    this.id = params.id;
-                    this.month = params.month
-                    this.year = params.year
-                    
-                    if(params.action=='download'){
-                        setTimeout(function () { log.down(); }, 500);
-                    }else{
-                        this.print()
-                    }
-                    
 
+                    axios.get('http://localhost:3420/payslips/api/dataprint?date=' + params.month + "&id=" + params.id)
+                        .then(function (Response1) {
+                            log.myArray = Response1
+                            axios.get('http://localhost:3420/settings/api/setting')
+                                .then(function (Response2) {
+                                    log.logoimg=Response2[2]
+                                    log.company=Response2[0].name
+                                    log.symbol=Response2[1]
+                                    setTimeout(()=>{
+                                        if (params.action == 'download') {
+                                        log.down()
+                                    } else {
+                                        this.print()
+                                        window.close()
+                                    }
+                                    },100)
+                                    
+                                    
+                                    
+                        })
+                            
 
+                        })
+
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+
+                        })
 
 
                 }, print() {
                     var divcontent = document.getElementById('print').innerHTML;
                     window.print()
-                    setTimeout(function () { window.close(); }, 3000);
+                    setTimeout(function () {  }, 1000);
 
                 }, getParams(url) {
                     var params = {};
@@ -225,7 +263,7 @@
                     }).catch((error) => {
                         console.log("Erorr Occured", error)
                     });
-                    
+
                 }
 
             }

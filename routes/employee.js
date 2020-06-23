@@ -133,7 +133,7 @@ route.post('/edit_empdata', authCheckedit, (req, res) => {
       des: req.body.des,
       dep: req.body.dep,
       email: req.body.email,
-      pnum: req.body.phone,
+      pnum: req.body.pnum,
       photo: photu,
       status: req.body.status,
       salary: req.body.salary,
@@ -145,13 +145,13 @@ route.post('/edit_empdata', authCheckedit, (req, res) => {
       return res.send({ message: 'true' })
     }).catch((err) => {
       console.log(err)
-      res.send({
+      return res.send({
         message: 'Some error occured in database ! '
       })
     })
   }).catch((err) => {
     console.log(err)
-    res.send({
+    return res.send({
       message: "Some Error Occured in our Database ! "
     })
   })
@@ -208,13 +208,13 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
       return res.send({ message: 'true' })
     }).catch((err) => {
       console.log(err)
-      res.send({
+      return res.send({
         message: 'Some error occured in database ! '
       })
     })
   }).catch((err) => {
     console.log(err)
-    res.send({
+    return res.send({
       message: "Some Error Occured in our Database ! "
     })
   })
@@ -227,7 +227,7 @@ route.get('/api/quickemp', authCheckview, (req, res) => {
       })
       .catch((err) => {
         console.log(err)
-        res.send({
+        return res.send({
           message: "Could not retrive employees"
         })
       })
@@ -238,13 +238,23 @@ route.get('/api/quickemp', authCheckview, (req, res) => {
       })
       .catch((err) => {
         console.log(err)
-        res.send({
+        return res.send({
           message: "Could not retrive employees"
         })
       })
   }
-
-
+})
+route.get('/api/quickempactive', authCheckview, (req, res) => {
+  Empq.findAll({ where: { userId: xid ,status:'Active'} })
+    .then((emps) => {
+      res.status(200).send(emps)
+    })
+    .catch((err) => {
+      console.log(err)
+      return res.send({
+        message: "Could not retrive employees"
+      })
+    })
 })
 route.get('/api/emp', authCheckview, (req, res) => {
   console.log(req.query)
@@ -254,7 +264,7 @@ route.get('/api/emp', authCheckview, (req, res) => {
     })
     .catch((err) => {
       console.log(err)
-      res.send({
+      return res.send({
         message: "Could not retrive employees"
       })
     })
@@ -272,14 +282,15 @@ route.post('/add_emp/upload', upload.array('file', 5), (req, res) => {
       link = result.url;
       arr2.push(result.url)
       console.log(arr2)
+      return res.send({ message: "Done" })
     })
     .catch((err) => {
       console.log(err)
-      res.send({
-        error: "Could not upload image"
+      return res.send({
+        message: "Could not upload image"
       })
     });
-  return res.send({ message: "Done" })
+
 
 
 });
@@ -294,14 +305,15 @@ route.post('/add_emp/uploadpr', upload.single('file'), (req, res) => {
     function (error, result) {
       photu = result.url;
       console.log(photu)
+      return res.send({ message: "Done" })
     })
     .catch((err) => {
       console.log(err)
-      res.send({
-        error: "Could not upload image"
+      return res.send({
+        message: "Could not upload image"
       })
     });
-  return res.send({ message: "Done" })
+
 
 
 });

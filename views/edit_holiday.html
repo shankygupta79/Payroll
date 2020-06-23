@@ -95,6 +95,12 @@
                             log.date=log.date.slice(6,10)+"-"+log.date.slice(3,5)+"-"+log.date.slice(0,2)
                             log.loaderoff() 
                         })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error=1
+                            log.message_error="Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
                 }, loaderoff() {
                     var app = this;
                     var loading = app.$refs.Loading

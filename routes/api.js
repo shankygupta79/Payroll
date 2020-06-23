@@ -3,6 +3,7 @@ var crypto = require('crypto');
 const Sequelize = require('sequelize')
 var path = require('path')
 const User = require('../database').User
+const Setting = require('../database').Setting
 const nodemailer = require('nodemailer');
 const dotenv = require("dotenv")
 dotenv.config()
@@ -133,9 +134,17 @@ route.post('/signup', (req, res) => {
                     logo: "https://res.cloudinary.com/shankygupta79/image/upload/v1592489600/love_bird_transparent_bg_dlwkpq.png",
                     office_close: '0000000',
                 }).then((user) => {
-                    sendmail(mailing_id, hash, 0);
-
-                    return res.send({ data: 'ms', email: req.body.email })
+                    
+                    Setting.create({
+                        userId:user.id,
+                    })
+                    .then((setting)=>{
+                        sendmail(mailing_id, hash, 0);
+                        return res.send({ data: 'ms', email: req.body.email })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
                 }).catch((err) => {
                     console.log(err)
                     return res.send({ data: 'error' })

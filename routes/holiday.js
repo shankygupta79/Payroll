@@ -88,7 +88,7 @@ route.get('/api/holiday', authCheckview, (req, res) => {
       })
       .catch((err) => {
         console.log(err)
-        res.send({
+        return res.send({
           message: "Could not retrive users"
         })
       })
@@ -99,7 +99,7 @@ route.get('/api/holiday', authCheckview, (req, res) => {
       })
       .catch((err) => {
         console.log(err)
-        res.send({
+        return res.send({
           message: "Could not retrive users"
         })
       })
@@ -135,7 +135,7 @@ route.post('/delete', authCheckedit, (req, res) => {
 
   }).catch((err) => {
     console.log(err)
-    res.send({
+    return res.send({
       message: "Could not retrive holidays"
     })
   })

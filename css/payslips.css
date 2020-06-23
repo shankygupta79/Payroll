@@ -175,6 +175,9 @@ img{
 .red{
     color:red;
 }
+.yellow{
+    color:purple;
+}
 .empbox:hover{
     background-color: whitesmoke;
     transform: scale(1.05);

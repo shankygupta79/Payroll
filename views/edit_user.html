@@ -76,9 +76,9 @@
                         <div class="inl">Edit</div>
                         <br><br><label class="label2">Attendance : &nbsp;</label>
                         <div class="inl"><input type="checkbox" v-model="view_att"></div>
-                        <div class="inl">View </div>
+                        <div class="inl">Mark </div>
                         <div class="inl"><input type="checkbox" v-model="edit_att"></div>
-                        <div class="inl">Edit</div>
+                        <div class="inl">View</div>
                         <br><br><label class="label2">Holidays :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;</label>
                         <div class="inl"><input type="checkbox" v-model="view_hol"></div>
@@ -116,8 +116,8 @@
             el: "#Index",
             data: {
                 myArray: [],
-                success: 1,
-                error: 1,
+                success: 0,
+                error: 0,
                 newpass: '',
                 name: '',
                 mail: '',
@@ -156,6 +156,11 @@
                             log.view_hol = eval(y[6]); log.edit_hol = eval(y[7]);
                             log.loaderoff()
 
+                        }).catch((err) => {
+                            console.log(err)
+                            log.error=1
+                            log.message_error="Error connecting the database try again later !"
+                            log.loaderoff()
                         })
 
                 }, loaderoff() {

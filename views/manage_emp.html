@@ -90,6 +90,9 @@
 
 
                     </div>
+                    <div v-if="error" class="error">
+                        {{message_error}} !
+                    </div> <br>
                 </div>
             </div>
         </div>
@@ -105,6 +108,8 @@
             data: {
                 myArray: [],
                 sortfield: 'Name',
+                error: 0,
+                message_error: "Dont leave empty response",
                 sortarr: ['Name', 'Department', 'Designation', 'Date of Joining'],
                 sortarr2: ['name', 'des', 'dep', 'doj'],
             },
@@ -121,6 +126,12 @@
                             loading.style.display = "none"
                             var content = app.$refs.content2
                             content.style.display = "block"
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error=1
+                            log.message_error="Error connecting the database try again later !"
+                            log.loaderoff()
                         })
                     this.sort(this.sortfield);
                 }, sort(name, type) {
