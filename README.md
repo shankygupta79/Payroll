@@ -33,5 +33,24 @@ Sample Password : sample0000
 21.	Collapsible left side navbar
 22.	Mobile Optimized view
 
+## Coding Used
+1. MySQL
+2. Multer and Cloudinary!
+3. Vue Framework
+4. Express JS 
+5. Crypto
+6. Javascript
+7. HTML and CSS
+8. Browser Local Storage
+9. SVG images
+10. Bootstrao
+11. JQuery
+12. Axios
+13. DropZone JS
+14. Font Awesome Icons
+15. Google and Facebook Auth
+16. Nodemailer
+17. Sequelize
+
 ## Payroll Version 1.0
 https://employee-db-management.herokuapp.com/
