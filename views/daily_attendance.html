@@ -160,6 +160,7 @@
                 sorticon: 0,
                 pages: [], start: 1, total: 100, end: 1, current: 1,
                 head: ['S.No', 'Employee Name', 'Attendance By', 'Extra Time Bonus', 'Status'],
+                arr:['01-','02-','03-','04-','05-','06-','07-','08-','09-','10-','11-','12-'],
                 sortfield: 'name',
                 myArray: [],
                 myArray2: [],
@@ -184,6 +185,7 @@
                     this.dxt = today.getDate()
                     this.mxt = today.getMonth()
                     this.yxt = today.getFullYear()
+                    this.select_date=this.yxt+"-"+this.arr[this.mxt]+this.dxt
 
 
                 }, loaderoff() {
