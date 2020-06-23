@@ -283,8 +283,9 @@
                         .then(function (Response1) {
                             log.list = Response1
                             if(Response1.length==0){
-                                this.error=1
-                                this.message_error="NO RECORD FOUND"
+                                log.error=1
+                                log.message_error="NO RECORD FOUND"
+                                log.paylist=0
                                 return
 
                             }
