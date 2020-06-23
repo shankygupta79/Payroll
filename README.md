@@ -1,15 +1,15 @@
-# Payroll Version 2.0
+## Payroll Version 2.0
 https://payrollv2.herokuapp.com/
 
-#Currently Used by
+## Currently Used by
 1.Sanjeev Store
 
-#For Trial with Sample Data Use
+## For Trial with Sample Data Use
 Sample Login ID : sample@gmail.com 
-
 Sample Password : sample0000
 
-#FEATURES
+
+## FEATURES
 1.	Authorized Login via Google and Facebook
 2.	Authorized Login via Local Strategy with email confirmation
 3.	Change Password via link sent of mail
@@ -33,5 +33,5 @@ Sample Password : sample0000
 21.	Collapsible left side navbar
 22.	Mobile Optimized view
 
-#Payroll Version 1.0
+## Payroll Version 1.0
 https://employee-db-management.herokuapp.com/
