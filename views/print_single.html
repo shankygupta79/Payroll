@@ -157,7 +157,7 @@
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{myArray.advance+myArray.holidays+myArray.transfer+myArray.deduction}}
+                        {{symbol}}{{myArray.advance+myArray.holidays+myArray.transfer}}
                     </th>
                 </tr>
                 <tr>
@@ -253,10 +253,11 @@
                     return params;
                 }, down() {
                     console.log(this.$refs.hi);
+                    var a = new Date();
                     window.html2canvas(this.$refs.hi).then(canvas => {
                         image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
                         var link = document.createElement('a');
-                        link.download = "my-image.png";
+                        link.download = a.getMilliseconds()+"my-image.png";
                         link.href = image;
                         link.click();
                         window.close()
