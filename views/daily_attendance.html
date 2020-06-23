@@ -54,10 +54,10 @@
                         <b>Date : {{select_date}}</b><br>
                         <div style="display: inline;">
                             Show <select @change="entryfun(entry)" v-model="entry">
-                                <option value="5">5</option>
-                                <option value="2">2</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
                             </select> entries
 
                         </div>
@@ -153,7 +153,7 @@
             el: "#Index",
             data: {
                 A: 'ab', P: 'pr',
-                entry: 5,
+                entry: 10,
                 query: '',
                 word: 'SAVE',
                 select_date: '', getlist: 0,
