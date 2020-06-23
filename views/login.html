@@ -164,13 +164,13 @@
         },
         submit() {
           if (this.checkemail(this.email) && this.checkpassword(this.password)) {
-
+            this.word="Logging In ..."
             $.post('/auth/local', {
               username: this.email.toLowerCase(),
               password: this.password,
             }, function (data) {
               console.log(data)
-              this.word="Logging In ..."
+              
               if (data === 'true') {
                 window.location.href = 'https://payrollv2.herokuapp.com/dashboard';
               } else if (data[0] === 'wp') {
