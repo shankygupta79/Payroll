@@ -12,7 +12,6 @@ function isEmpty(obj) {
   return true;
 }
 var xid = 0
-var a = new Date();
 var alreadylogo='';
 var arr=['01-','02-','03-','04-','05-','06-','07-','08-','09-','10-','11-','12-']
 const authCheck = (req, res, next) => {
@@ -53,6 +52,7 @@ route.get('/style2', (req, res) => {
 route.get('/api/dash', authCheck, (req, res) => {
   var total = 0;
   var dep = 0;
+  var a = new Date();
   Emp.count({
     where: { userId: xid ,status:'Active'}
   }).then((emps) => {
