@@ -53,7 +53,7 @@
                     <input type="checkbox" class="form-check-input" id="phonecheck" checked> 
                 </td>
                 <td>
-                    <label class="form-check-label" for="exampleCheck1">Account No.</label>
+                    <label class="form-check-label" for="exampleCheck1">Email ID.</label>
                     <input type="checkbox" class="form-check-input" id="acccheck" checked>
                 </td>
             </tr>
@@ -76,7 +76,7 @@
 
         <button @click="print()" class="noprint" style="padding:3px 15px"><i class="fa fa-print" style="color:red"
                 aria-hidden="true"></i>&nbsp Print All</button>
-        <div id="print" v-for="i in 8">
+        <div id="print" v-for="i in len">
             <div class="center info headin headerr" style="height: 110px;"><img class="logo" src="../images/logo" width="100px"
                     style="float: left;" height="100px">
                 <div class="cname" style="vertical-align: middle;"><br>{{company}}</div>
@@ -90,13 +90,13 @@
                         Employee ID :
                     </td>
                     <td class="id">
-                        {{myArray['employee_quick'][0].empid}}
+                        {{myArray[i-1]['employee_quick'].emp_id}}
                     </td>
                     <td class="name">
                         Name :
                     </td>
                     <td class="name">
-                        {{myArray['employee_quick'][0].name}}
+                        {{myArray[i-1]['employee_quick'].name}}
                     </td>
                 </tr>
                 <tr>
@@ -104,13 +104,13 @@
                         Department :
                     </td>
                     <td class="dep">
-                        {{myArray['employee_quick'][0].department}}
+                        {{myArray[i-1]['employee_quick'].dep}}
                     </td>
                     <td class="des">
                         Designation :
                     </td>
                     <td class="des">
-                        {{myArray['employee_quick'][0].designation}}
+                        {{myArray[i-1]['employee_quick'].des}}
                     </td>
                 </tr>
                 <tr>
@@ -118,13 +118,13 @@
                         Phone Number :
                     </td>
                     <td class="phone">
-                        {{myArray['employee_quick'][0].number}}
+                        {{myArray[i-1]['employee_quick'].pnum}}
                     </td>
                     <td class="acc">
-                        Account Number :
+                        Email ID :
                     </td>
                     <td class="acc">
-                        {{myArray['employee_quick'][0].accnum}}
+                        {{myArray[i-1]['employee_quick'].email}}
                     </td>
                 </tr>
 
@@ -144,13 +144,13 @@
                         Basic
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].salary}}
+                        {{symbol}}{{myArray[i-1]['employee_quick'].salary}}
                     </td>
                     <td>
                         Holidays
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].holiday}}
+                        {{symbol}}{{myArray[i-1].holidays}}
                     </td>
                 </tr>
                 <tr>
@@ -158,13 +158,13 @@
                         Extra Time
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].extratime}}
+                        {{symbol}}{{myArray[i-1].extratimetotal}}
                     </td>
                     <td>
                         Advance
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].advance}}
+                        {{symbol}}{{myArray[i-1].advance}}
                     </td>
                 </tr>
                 <tr>
@@ -172,13 +172,13 @@
                         Bonus
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].bonus}}
+                        {{symbol}}{{myArray[i-1].bonus}}
                     </td>
                     <td>
                         Deductions
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].deductions}}
+                        {{symbol}}{{myArray[i-1].deduction}}
                     </td>
                 </tr>
                 <tr>
@@ -192,7 +192,7 @@
                         Transfer
                     </td>
                     <td>
-                        {{symbol}}{{myArray[0].transfer}}
+                        {{symbol}}{{myArray[i-1].transfer}}
                     </td>
                 </tr>
                 <tr>
@@ -200,13 +200,13 @@
                         Total Earnings
                     </th>
                     <th>
-                        {{symbol}}{{myArray[0].bonus+myArray[0].salary+myArray.extratimetotoal}}
+                        {{symbol}}{{parseInt(myArray[i-1].bonus)+parseInt(myArray[i-1]['employee_quick'].salary)+parseInt(myArray[i-1].extratimetotoal)}}
                     </th>
                     <th>
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{myArray[0].advance+myArray[0].holidays+myArray[0].transfer}}
+                        {{symbol}}{{parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].transfer)}}
                     </th>
                 </tr>
                 <tr>
@@ -217,7 +217,7 @@
                         Net Pay
                     </th>
                     <th>
-                        {{symbol}}{{myArray[0].netpay}}
+                        {{symbol}}{{myArray[i-1].netpay}}
                     </th>
                 </tr>
 
@@ -234,6 +234,7 @@
             data: {
                 myArray: [],
                 month: '',
+                len:0,
                 symbol: 'Rs ',
                 id: '',
                 logoimg:'',
@@ -245,11 +246,12 @@
                 this.load();
             },
             methods: {
-                load: function () { setTimeout(function () { log.loaderoff() }, 500);
+                load: function () { 
                     var params = this.getParams(window.location.href)
                     axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + params.month)
                         .then(function (Response1) {
                             log.myArray = Response1
+                            log.len=Response1.length
                             log.date=params.month
                             axios.get('https://payrollv2.herokuapp.com/settings/api/setting')
                                 .then(function (Response2) {

@@ -119,7 +119,7 @@
                             </td>
                             <td class="edittb" v-if="!edit">{{myArrayq.pnum}}</td>
                         </tr>
-                        
+
 
 
 
@@ -369,35 +369,44 @@
                 this.load();
             },
             methods: {
-                load: function () {
+                load: async function () {
 
                     var app = this;
                     var params = this.getParams(window.location.href)
                     console.log(params)
-                    axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp?empid=' + params.empid)
+                    await axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp?empid=' + params.empid)
                         .then(function (Response1) {
-                            axios.get('https://payrollv2.herokuapp.com/employee/api/emp?empid=' + params.empid)
-                                .then(function (Response2) {
-                                    console.log("Here Comes")
-                                    app.myArrayq = Response1
-                                    app.myArray = Response2[0]
-                                    app.symbol = Response2[1]
-                                    var loading = app.$refs.Loading
-                                    loading.style.display = "none"
-                                    var content = app.$refs.content2
-                                    content.style.display = "block"
-                                    axios.get('https://payrollv2.herokuapp.com/department/api/dep')
-                                        .then(function (Response) {
-                                            log.departments = Response
-                                            log.loaderoff()
-                                        })
-                                        .catch((err) => {
-                                            console.log(err)
-                                            log.error = 1
-                                            log.message_error = "Error connecting the database try again later !"
-                                            log.loaderoff()
-                                        })
+                            app.myArrayq = Response1
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+                    await axios.get('https://payrollv2.herokuapp.com/employee/api/emp?empid=' + params.empid)
+                        .then(function (Response2) {
+                            console.log("Here Comes")
 
+                            app.myArray = Response2[0]
+                            app.symbol = Response2[1]
+                            var loading = app.$refs.Loading
+                            loading.style.display = "none"
+                            var content = app.$refs.content2
+                            content.style.display = "block"
+                            
+
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+                        await axios.get('https://payrollv2.herokuapp.com/department/api/dep')
+                                .then(function (Response) {
+                                    log.departments = Response
+                                    log.loaderoff()
                                 })
                                 .catch((err) => {
                                     console.log(err)
@@ -405,13 +414,6 @@
                                     log.message_error = "Error connecting the database try again later !"
                                     log.loaderoff()
                                 })
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                            log.error=1
-                            log.message_error="Error connecting the database try again later !"
-                            log.loaderoff()
-                        })
 
 
                 }, loaderoff() {

@@ -316,7 +316,6 @@
                     log.getlist = 1;
                     axios.get('https://payrollv2.herokuapp.com/attendance/api/holiday?date=' + log.select_date.slice(8, 10) + "-" + x + "&day=" + log.pp)
                         .then(function (Response1) {
-                            console.log(Response1)
                             if (Response1 == 'true') {
                                 log.error2 = 1,
                                     log.message_error2 = ' HOLIDAY ❤'
@@ -326,7 +325,6 @@
                             log.error2 = 0;
                             axios.get('https://payrollv2.herokuapp.com/attendance/api/attendance?date=' + x + '&dx=' + log.dx)
                                 .then(function (Response1) {
-                                    console.log(Response1)
                                     if (Response1 == '5') {
                                         console.log("HI1")
                                         log.error2 = 1

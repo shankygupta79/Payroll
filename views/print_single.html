@@ -151,13 +151,13 @@
                         Total Earnings
                     </th>
                     <th>
-                        {{symbol}}{{myArray.bonus+myArray['employee_quick'].salary+myArray.extratimetotoal}}
+                        {{symbol}}{{parseInt(myArray.bonus)+parseInt(myArray['employee_quick'].salary)+parseInt(myArray.extratimetotoal)}}
                     </th>
                     <th>
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{myArray.advance+myArray.holidays+myArray.transfer}}
+                        {{symbol}}{{parseInt(myArray.advance)+parseInt(myArray.holidays)+parseInt(myArray.transfer)}}
                     </th>
                 </tr>
                 <tr>
@@ -206,7 +206,15 @@
                     axios.get('https://payrollv2.herokuapp.com/payslips/api/dataprint?date=' + params.month + "&id=" + params.id)
                         .then(function (Response1) {
                             log.myArray = Response1
-                            axios.get('https://payrollv2.herokuapp.com/settings/api/setting')
+                        })
+
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+
+                        })
+                        axios.get('https://payrollv2.herokuapp.com/settings/api/setting')
                                 .then(function (Response2) {
                                     log.logoimg=Response2[2]
                                     log.company=Response2[0].name
@@ -222,16 +230,6 @@
                                     
                                     
                                     
-                        })
-                            
-
-                        })
-
-                        .catch((err) => {
-                            console.log(err)
-                            log.error = 1
-                            log.message_error = "Error connecting the database try again later !"
-
                         })
 
 
