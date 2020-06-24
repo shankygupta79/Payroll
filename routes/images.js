@@ -13,7 +13,7 @@ route.get('/profile', (req, res) => {
   res.sendFile(path.join(__dirname, '../Images/profile.jpg'))
 })
 route.get('/logo', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Images/logo2.png'))
+  res.sendFile(path.join(__dirname, '../Images/loader.gif'))
 })
 route.get('/lock', (req, res) => {
   res.sendFile(path.join(__dirname, '../Images/lock.png'))

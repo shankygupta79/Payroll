@@ -70,7 +70,7 @@ Vue.component('navbar-component',{
     
     template:`<nav id="sidebar">
     <div class="sidebar-header">
-        <h3><img src="" class="logoi" ></h3>
+        <h3><img src="../Images/logo" class="logoi" ></h3>
     </div>
 
     <ul class="list-unstyled components" style="padding:0">
