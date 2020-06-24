@@ -53,6 +53,7 @@ route.get('/api/dash', authCheck, (req, res) => {
   var total = 0;
   var dep = 0;
   var a = new Date();
+  var z=a.getDate()+"P"
   Emp.count({
     where: { userId: xid ,status:'Active'}
   }).then((emps) => {
@@ -60,7 +61,7 @@ route.get('/api/dash', authCheck, (req, res) => {
       where: { userId: xid }
     }).then((deps) => {
       Att.count({
-        where: { userId: xid ,monthyear:arr[a.getMonth()]+a.getFullYear() , quick:a.getDate()+"P"}
+        where: { userId: xid ,monthyear:arr[a.getMonth()]+a.getFullYear() , quick:z}
       }).then((att) => {
         
         res.status(200).send([emps,deps,att,emps-att])
