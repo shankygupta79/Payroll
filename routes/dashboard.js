@@ -60,10 +60,10 @@ route.get('/api/dash', authCheck, (req, res) => {
       where: { userId: xid }
     }).then((deps) => {
       Att.count({
-        where: { userId: xid ,monthyear:arr[a.getMonth()]+a.getFullYear() , quick:a.getDate()+"A"}
+        where: { userId: xid ,monthyear:arr[a.getMonth()]+a.getFullYear() , quick:a.getDate()+"P"}
       }).then((att) => {
         
-        res.status(200).send([emps,deps,emps-att,att])
+        res.status(200).send([emps,deps,att,emps-att])
       }).catch((err) => {
         console.log(err)
         res.send({

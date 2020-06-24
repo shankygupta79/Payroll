@@ -160,7 +160,7 @@
                 sorticon: 0,
                 pages: [], start: 1, total: 100, end: 1, current: 1,
                 head: ['S.No', 'Employee Name', 'Attendance By', 'Extra Time Bonus', 'Status'],
-                arr:['01-','02-','03-','04-','05-','06-','07-','08-','09-','10-','11-','12-'],
+                arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
                 sortfield: 'name',
                 myArray: [],
                 myArray2: [],
@@ -185,7 +185,7 @@
                     this.dxt = today.getDate()
                     this.mxt = today.getMonth()
                     this.yxt = today.getFullYear()
-                    this.select_date=this.yxt+"-"+this.arr[this.mxt]+this.dxt
+                    this.select_date = this.yxt + "-" + this.arr[this.mxt] + this.dxt
 
 
                 }, loaderoff() {
@@ -313,16 +313,16 @@
                             log.message_error2 = 'Future Attendance is not available !'
                         return
                     }
-                    log.getlist=1;
+                    log.getlist = 1;
                     axios.get('https://payrollv2.herokuapp.com/attendance/api/holiday?date=' + log.select_date.slice(8, 10) + "-" + x + "&day=" + log.pp)
                         .then(function (Response1) {
                             console.log(Response1)
                             if (Response1 == 'true') {
                                 log.error2 = 1,
-                                log.message_error2 = ' HOLIDAY ❤'
+                                    log.message_error2 = ' HOLIDAY ❤'
                                 return
                             }
-                            
+
                             log.error2 = 0;
                             axios.get('https://payrollv2.herokuapp.com/attendance/api/attendance?date=' + x + '&dx=' + log.dx)
                                 .then(function (Response1) {
@@ -331,24 +331,27 @@
                                         console.log("HI1")
                                         log.error2 = 1
                                         log.message_error2 = "Chart for this new month is created ! Try agin to mark the attendance "
-                                        
-                                    }else if(Response1=='0'){
+
+                                    } else if (Response1 == '0') {
                                         console.log("HI2")
                                         log.error2 = 1
                                         log.message_error2 = "You dont have acess to view previous records ! "
                                         log.getlist = 0;
-                                        
+
                                     } else {
-                                        
+
                                         for (var i = 0; i < Response1.length; i++) {
                                             var temp = '';
                                             var tpr = '';
                                             var temparray = Response1[i].extratime.slice(';')
                                             temp = temparray[(log.dx - 1) * 2]
-                                            if (Response1[i].present[log.dx - 1] == 'P') {
-                                                tpr = 'Present'
-                                            } else {
+                                            var st = Response1[i].present[log.dx - 1]
+                                            if (st == '-') {
+                                                tpr = ''
+                                            } else if (st == 'A') {
                                                 tpr = 'Absent'
+                                            } else {
+                                                tpr = 'Present'
                                             }
                                             var entry = {
                                                 empid: Response1[i].emp_id,

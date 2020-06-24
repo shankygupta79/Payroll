@@ -105,7 +105,7 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
                 userId: xid,
                 emp_id: emps[i].emp_id,
                 monthyear: req.query.date,
-                present: "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+                present: "-------------------------------",
                 marked: "0000000000000000000000000000000",
                 quick: "",
                 holidays: 0,
