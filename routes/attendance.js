@@ -10,9 +10,9 @@ function isEmpty(obj) {
   }
   return true;
 }
-var a=new Date()
+var a0=new Date()-60*60*1000*9.5;
+var a=new Date(a0);
 var xid = 0;
-var a = new Date();
 var arr=['01-','02-','03-','04-','05-','06-','07-','08-','09-','10-','11-','12-']
 var admin = 1;
 var office='';
