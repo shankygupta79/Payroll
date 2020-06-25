@@ -77,7 +77,7 @@
         <button @click="print()" class="noprint" style="padding:3px 15px"><i class="fa fa-print" style="color:red"
                 aria-hidden="true"></i>&nbsp Print All</button>
         <div id="print" v-for="i in len">
-            <div class="center info headin headerr" style="height: 110px;"><img class="logo" src="../images/logo" width="100px"
+            <div class="center info headin headerr" style="height: 110px;"><img class="logo" v-bind:src="logoimg" width="100px"
                     style="float: left;" height="100px">
                 <div class="cname" style="vertical-align: middle;"><br>{{company}}</div>
             </div>
