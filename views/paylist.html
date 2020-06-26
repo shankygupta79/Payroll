@@ -251,6 +251,12 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
+                },loaderon() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "block"
+                    var content = app.$refs.content2
+                    content.style.display = "none"
                 }, download(idx) {
                     var x = "https://payrollv2.herokuapp.com/payslips/printsingle?id=" + idx + "&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&action=download";
                     window.open(x, "_blank")
@@ -272,10 +278,12 @@
                     this.select_month = this.monthlist[d.getMonth()];
                     this.select_year = n - 1;
                 }, submit() {
+                    
                     if (log.select_month == "" || log.select_year == "") {
                         log.error = 1
                         return
                     }
+                    log.loaderon()
                     log.paylist = 1
                     axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
                         .then(function (Response1) {
@@ -283,6 +291,8 @@
                                 console.log(Response1)
                                 log.error=1
                                 log.loaderoff()
+                                log.paylist = 0
+                    
                                 log.message_error="NO RECORD FOUND"
                                 return
 

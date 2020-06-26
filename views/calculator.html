@@ -62,6 +62,9 @@
                             </td>
                         </tr>
                     </table><br>
+                    <div v-if="error2" class="error">
+                        {{message_error2}} !
+                    </div> <br>
                     <img src="../images/loading" v-show="paylist" id="Loading" ref="Loading">
                     <div v-show="paylist" id="content2" ref="content2">
                         <div v-if="error" class="error">
@@ -210,6 +213,8 @@
                 success: 0,
                 error: 0,
                 message_error: "Enter the full details",
+                error2: 0,
+                message_error2: "Enter the full details",
                 message_success: "Attendace edited loaded successfully",
             },
             created: function () {
@@ -225,7 +230,13 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                }, sort(name, type) {
+                },loaderon() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "block"
+                    var content = app.$refs.content2
+                    content.style.display = "none"
+                },  sort(name, type) {
                     var i = 0;
                     if (name == "Name") {
                         i = 0
@@ -274,6 +285,7 @@
                     this.select_month = this.monthlist[d.getMonth()];
                     this.select_year = n - 1;
                 }, submit() {
+                    log.loaderon()
                     if (log.select_month == "" || log.select_year == "") {
                         log.error = 1
                         return
@@ -284,11 +296,14 @@
                             log.list = Response1
                             if (Response1.length == 0) {
                                 console.log(Response1)
-                                log.error = 1
-                                log.message_error = "NO RECORD FOUND"
+                                log.error2 = 1
+                                log.paylist=0
+                                log.message_error2 = "NO RECORD FOUND"
+                                log.loaderoff()
                                 return
 
                             }
+                            
                             var days = log.monthday[log.monthlist.indexOf(log.select_month)]
                             for (var i = 0; i < log.list.length; i++) {
                                 if (log.list[i].netpay > 0) {

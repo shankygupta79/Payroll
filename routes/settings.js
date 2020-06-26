@@ -228,7 +228,7 @@ route.post('/uploadpr', upload.single('file'), (req, res) => {
   }
   cloudinary.v2.uploader.upload(req.file.path,
     function (error, result) {
-      photu2 = result.url;
+      photu2 = result.secure_url
       console.log(photu2)
       return res.send({ message: "Done" })
     })
@@ -251,7 +251,7 @@ route.post('/uploadlg', upload.single('file'), (req, res) => {
   }
   cloudinary.v2.uploader.upload(req.file.path,
     function (error, result) {
-      logo2 = result.url;
+      logo2 = result.secure_url;
       console.log(logo2)
       return res.send({ message: "Done" })
     })

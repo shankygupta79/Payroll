@@ -46,8 +46,8 @@ router.post("/fileupload",my,upload.single('image'),function(req,res,next){
   const filename=req.file.filename;
 
 cloudinary.v2.uploader.upload(req.file.path, 
-        function(error, result) {console.log(result.url, error)
-        link=result.url;
+        function(error, result) {console.log(result.secure_url, error)
+        link=result.secure_url;
         link=link.replace("http", "https");
         User.update({   
           thumbnail:link,

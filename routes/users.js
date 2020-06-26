@@ -154,7 +154,7 @@ route.post('/user/uploadpr', upload.single('file'), (req, res) => {
   }
   cloudinary.v2.uploader.upload(req.file.path,
     function (error, result) {
-      photu = result.url;
+      photu = result.secure_url;
       console.log(photu)
       return res.send({ message: "Done" })
     })
