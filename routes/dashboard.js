@@ -55,6 +55,9 @@ route.get('/api/dash', authCheck, (req, res) => {
   var today0 = new Date()-60*60*1000*9.5;
   var a = new Date(today0);
   var z=a.getDate()+"P"
+  console.log(today0)
+  console.log(a)
+  console.log(z)
   Emp.count({
     where: { userId: xid ,status:'Active'}
   }).then((emps) => {
