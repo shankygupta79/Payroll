@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/users/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/users/css">
 
     <meta name="csrf-token" content="XYZ123">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -49,7 +49,7 @@
                         <br><br><label class="label2">Photo :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;</label>
                         <div class="inl" @click="photo()">
-                            <form method="post" action="https://payrollv2.herokuapp.com/users/user/uploadpr" class="dropzone">
+                            <form method="post" action="http://localhost:3420/users/user/uploadpr" class="dropzone">
                                 <div class="fallback">
                                     <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
                                 </div>
@@ -114,7 +114,7 @@
         </div>
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -235,7 +235,7 @@
 
         };
     </script>
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

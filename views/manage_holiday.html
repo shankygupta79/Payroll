@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/holiday/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/holiday/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -111,7 +111,7 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script>
         var log = new Vue({
             el: "#Index",
@@ -134,7 +134,7 @@
             methods: {
                 load: function () {
 
-                    axios.get('https://payrollv2.herokuapp.com/holiday/api/holiday')
+                    axios.get('http://localhost:3420/holiday/api/holiday')
                         .then(function (Response) {
                             log.myArray = Response
                             log.loaderoff()
@@ -162,11 +162,12 @@
                         this.pages.push(i)
                     }
                 }, sort(name, type) {
+                    
+                    this.sorticon = !this.sorticon;
+                    this.sortfield = name.toLowerCase();
                     if (name == "Holiday") {
                         this.sortfield = "holname"
                     }
-                    this.sorticon = !this.sorticon;
-                    this.sortfield = name.toLowerCase();
                     if (this.sortfield == 'action') {
                         return
                     } else if (this.sortfield == 'date') {
@@ -182,7 +183,8 @@
                         
 
                     }
-                    if (name == "holname") {
+                    console.log("AYA")
+                    if (this.sortfield == "holname") {
                             this.sortfield = "holiday"
                         }
                     this.paging(1, this.entry)
@@ -247,7 +249,7 @@
         })    
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>
