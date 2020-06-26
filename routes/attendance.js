@@ -10,7 +10,7 @@ function isEmpty(obj) {
   }
   return true;
 }
-var a0=new Date()-60*60*1000*9.5;
+var a0=new Date()+60*60*1000*9.5;
 var a=new Date(a0);
 var xid = 0;
 var arr=['01-','02-','03-','04-','05-','06-','07-','08-','09-','10-','11-','12-']
