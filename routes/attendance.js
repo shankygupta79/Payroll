@@ -10,13 +10,13 @@ function isEmpty(obj) {
   }
   return true;
 }
-var a0=new Date().getTime()+60*60*1000*5.5;
-var a=new Date(a0);
+var a0 = new Date().getTime() + 60 * 60 * 1000 * 5.5;
+var a = new Date(a0);
 var xid = 0;
-var arr=['01-','02-','03-','04-','05-','06-','07-','08-','09-','10-','11-','12-']
+var arr = ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-']
 var admin = 1;
-var office='';
-var y5='true';
+var office = '';
+var y5 = 'true';
 const authCheckmark = (req, res, next) => {
   if (isEmpty(req.user)) {
     //user is not logged in
@@ -26,15 +26,16 @@ const authCheckmark = (req, res, next) => {
       admin = 0
       xid = req.user[0].userId
       var y = req.user[0].access.split(';')
-      y5=y[5];
+      y5 = y[5];
       if (y[4] == 'false') {
 
         res.redirect('../users/lock')
       }
     } else {
+      admin = 1
       xid = req.user[0].id
     }
-    office=req.user[0].office_close
+    office = req.user[0].office_close
     console.log(xid)
     next()
   }
@@ -48,11 +49,12 @@ const authCheckedit = (req, res, next) => {
       admin = 0;
       xid = req.user[0].userId
       var y = req.user[0].access.split(';')
-      y5=y[5];
+      y5 = y[5];
       if (y[5] == 'false') {
         return res.send({ message: "You dont have access to edit " })
       }
     } else {
+      admin = 1
       xid = req.user[0].id
     }
     next()
@@ -70,22 +72,22 @@ route.get('/css', (req, res) => {
 route.get('/api/holiday', authCheckmark, (req, res) => {
   console.log(req.query.date)
   Hol.findOne({ where: { date: req.query.date, userId: xid } })
-  .then((emps) => {
-    if(emps!=null || office[req.query.day]=='1'){
-      res.status(200).send(true)
-    }else{
-      res.status(200).send(false)
-    }
-  })
-  .catch((err) => {
-    console.log(err)
-    res.send({
-      message: "Could not retrive info "
+    .then((emps) => {
+      if (emps != null || office[req.query.day] == '1') {
+        res.status(200).send(true)
+      } else {
+        res.status(200).send(false)
+      }
     })
-  })
+    .catch((err) => {
+      console.log(err)
+      res.send({
+        message: "Could not retrive info "
+      })
+    })
 })
 route.get('/api/attendance', authCheckmark, (req, res) => {
-  if(y5=='false' && req.query.dx!=a.getDate()){
+  if (y5 == 'false' && req.query.dx != a.getDate()) {
     return res.status(201).send('0')
   }
   Emp.hasMany(Att, { foreignKey: 'emp_id' })
@@ -153,18 +155,18 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
 route.post('/edit', authCheckmark, (req, res) => {
   console.log(" IN EDIT")
   var tp = req.body.attby
-  tp = tp.substring(0, req.body.dx - 1) + admin+ tp.substring(req.body.dx);
-  if(req.body.quick==''){
+  tp = tp.substring(0, req.body.dx - 1) + admin + tp.substring(req.body.dx);
+  if (req.body.quick == '') {
     Att.update({
-      marked:req.body.marked,
-      present:req.body.present,
-      extratime:req.body.etb,
-      attby:tp,
+      marked: req.body.marked,
+      present: req.body.present,
+      extratime: req.body.etb,
+      attby: tp,
     }, { where: { emp_id: req.body.empid } }).then((att) => {
       return res.send({
         message: "true"
       })
-  
+
     }).catch((err) => {
       console.log(err)
       return res.send({
@@ -172,18 +174,18 @@ route.post('/edit', authCheckmark, (req, res) => {
       })
     })
 
-  }else{
+  } else {
     Att.update({
-      marked:req.body.marked,
-      present:req.body.present,
-      extratime:req.body.etb,
-      quick:req.body.dx+req.body.quick,
-      attby:tp,
+      marked: req.body.marked,
+      present: req.body.present,
+      extratime: req.body.etb,
+      quick: req.body.dx + req.body.quick,
+      attby: tp,
     }, { where: { emp_id: req.body.empid } }).then((att) => {
       return res.send({
         message: "true"
       })
-  
+
     }).catch((err) => {
       console.log(err)
       return res.send({
@@ -192,21 +194,21 @@ route.post('/edit', authCheckmark, (req, res) => {
     })
 
   }
-  
+
 })
 route.get('/api/report', authCheckedit, (req, res) => {
   console.log(req.query.m)
-    Att.findOne({ where: { emp_id: req.query.n,monthyear:arr[req.query.m]+req.query.y } })
-      .then((emps) => {
-        res.status(200).send(emps)
+  Att.findOne({ where: { emp_id: req.query.n, monthyear: arr[req.query.m] + req.query.y } })
+    .then((emps) => {
+      res.status(200).send(emps)
+    })
+    .catch((err) => {
+      console.log(err)
+      return res.send({
+        message: "Could not retrive users"
       })
-      .catch((err) => {
-        console.log(err)
-        return res.send({
-          message: "Could not retrive users"
-        })
-      })
-  
+    })
+
 
 
 })

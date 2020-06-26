@@ -66,29 +66,33 @@ route.get('/css', (req, res) => {
     res.sendFile(path.join(__dirname, '../css/payslips.css'))
 
 })
-route.post('/api/calc', authCheckedit, (req, res) => {
-    console.log(req.body.id)
+function update(data){
     Att.update({
-        advance: req.body.advance,
-        extratimetotoal: req.body.extra,
-        holidays: req.body.holidays,
-        text: req.body.comment,
-        bonus: req.body.bonus,
-        deduction: req.body.deduction,
-        balance: req.body.balance,
-        transfer: req.body.transfer,
-        netpay: req.body.netpay,
-    }, { where: { emp_id: req.body.id } }).then((att) => {
-        return res.send({
-            message: "true"
-        })
+        advance: data.advance,
+        extratimetotoal: data.extratimetotoal,
+        holidays: data.holidays,
+        text: data.text,
+        bonus: data.bonus,
+        deduction: data.deduction,
+        balance: parseInt(data['employee_quick'].salary) + parseInt(data.bonus) + parseInt(data.extratimetotoal) - parseInt(data.deduction) - parseInt(data.advance) - parseInt(data.holidays),
+        transfer: data.transfer,
+        netpay: parseInt(data['employee_quick'].salary) + parseInt(data.bonus) + parseInt(data.extratimetotoal) - parseInt(data.deduction) - parseInt(data.advance) - parseInt(data.holidays) - parseInt(data.transfer),
+    }, { where: { emp_id: data['employee_quick'].emp_id } }).then((att) => {
+        return true
 
     }).catch((err) => {
         console.log(err)
-        return res.send({
-            message: "Could not update configurations"
-        })
+        return false
     })
+}
+route.post('/api/calc', authCheckedit,async (req, res) => {
+    for(var i=0;i<req.body.list.length;i++){
+        var a=await update(req.body.list[i])
+    }
+    return res.send({
+        message: "true"
+    })
+
 
 })
 route.get('/api/data', authCheckview, (req, res) => {
@@ -102,9 +106,7 @@ route.get('/api/data', authCheckview, (req, res) => {
         })
         .catch((err) => {
             console.log(err)
-            res.send({
-                message: "Could not retrive info "
-            })
+            
         })
 })
 route.get('/api/dataprint', authCheckedit, (req, res) => {
