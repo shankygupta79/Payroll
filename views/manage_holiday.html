@@ -33,7 +33,7 @@
         <div id="navbar-top">
             <navbar-top></navbar-top>
             <img src="../images/loading" id="Loading" ref="Loading">
-            <div id="content2" ref="content2" >
+            <div id="content2" ref="content2">
                 <div class="bord">
                     <div class="headin center">Manage Holidays</div>
                     <div class="roww">
@@ -57,11 +57,9 @@
                         <tr>
                             <th v-for="i in head"><b>{{i}}</b>
                                 <i class="fa fa-sort-amount-asc" v-show="!sorticon" @click="sort(i,'asc')"
-                                    v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
-                                    aria-hidden="true"></i>
+                                    v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
                                 <i class="fa fa-sort-amount-desc" v-show="sorticon" @click="sort(i,'desc')"
-                                    v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
-                                    aria-hidden="true"></i>
+                                    v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
                                 <i class="fa fa-arrows-v" @click="sort(i,'asc')" v-if="i.toLowerCase()!=sortfield"
                                     style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
 
@@ -71,11 +69,13 @@
                             v-if="myArray[i-1].holname.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
                             <td>{{myArray[i-1].date}}</td>
                             <td>{{myArray[i-1].holname}}</td>
-                            <td><button @click="edit(myArray[i-1].hol_id)" class="btn btn-success"><i class="fa fa-pencil-square"
-                                        style="color:white" aria-hidden="true"></i>&nbsp Edit <div class="media">Holiday
+                            <td><button @click="edit(myArray[i-1].hol_id)" class="btn btn-success"><i
+                                        class="fa fa-pencil-square" style="color:white" aria-hidden="true"></i>&nbsp
+                                    Edit <div class="media">Holiday
                                     </div></button>
-                                <button @click="deletey(myArray[i-1].hol_id)" class="btn btn-danger"><i class="fa fa-times"
-                                        style="color:white" aria-hidden="true"></i>&nbsp Delete</button></td>
+                                <button @click="deletey(myArray[i-1].hol_id)" class="btn btn-danger"><i
+                                        class="fa fa-times" style="color:white" aria-hidden="true"></i>&nbsp
+                                    Delete</button></td>
 
                         </tr>
                     </table>
@@ -132,8 +132,8 @@
                 this.load();
             },
             methods: {
-                load: function () { 
-                    
+                load: function () {
+
                     axios.get('https://payrollv2.herokuapp.com/holiday/api/holiday')
                         .then(function (Response) {
                             log.myArray = Response
@@ -144,11 +144,11 @@
                         })
                         .catch((err) => {
                             console.log(err)
-                            log.error=1
-                            log.message_error="Error connecting the database try again later !"
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
-                },loaderoff() {
+                }, loaderoff() {
                     var app = this;
                     var loading = app.$refs.Loading
                     loading.style.display = "none"
@@ -162,6 +162,9 @@
                         this.pages.push(i)
                     }
                 }, sort(name, type) {
+                    if (name == "Holiday") {
+                        this.sortfield = "holname"
+                    }
                     this.sorticon = !this.sorticon;
                     this.sortfield = name.toLowerCase();
                     if (this.sortfield == 'action') {
@@ -176,9 +179,13 @@
                         if (type == 'desc') {
                             this.myArray.reverse(this.compare)
                         }
+                        
 
                     }
-                    this.paging(1,this.entry)
+                    if (name == "holname") {
+                            this.sortfield = "holiday"
+                        }
+                    this.paging(1, this.entry)
 
                 }, compare(a, b) {
                     if (this.sortfield == 'holiday') {
@@ -206,22 +213,22 @@
                     }
                     return 0;
                 }, deletey(date) {
-                    $.post('./delete?id='+date, {
-                        }, function (data) {
-                            console.log(data.message)
-                            if (data.message != 'true') {
-                                log.error = 1
-                                log.message_error = data.message
+                    $.post('./delete?id=' + date, {
+                    }, function (data) {
+                        console.log(data.message)
+                        if (data.message != 'true') {
+                            log.error = 1
+                            log.message_error = data.message
 
-                            } else {
-                                log.error = 0
-                                log.success = 1
-                                log.message_success = "Holiday Deleted SuccessFully !"
-                                setTimeout(() => {
-                                    window.location.href = "manage_holiday"
-                                }, 1000);
-                            }
-                        })
+                        } else {
+                            log.error = 0
+                            log.success = 1
+                            log.message_success = "Holiday Deleted SuccessFully !"
+                            setTimeout(() => {
+                                window.location.href = "manage_holiday"
+                            }, 1000);
+                        }
+                    })
                 }, edit(idx) {
                     window.location.href = "edit_holiday?id=" + idx;
                 }, paging(pageno, entry) {
@@ -230,8 +237,8 @@
                     pageno = pageno - 1
                     this.start = pageno * (entry) + 1;
                     this.end = pageno * entry + entry;
-                    if(this.total<this.end){
-                        this.end=this.total
+                    if (this.total < this.end) {
+                        this.end = this.total
                     }
 
                 }
