@@ -52,7 +52,7 @@ route.get('/style2', (req, res) => {
 route.get('/api/dash', authCheck, (req, res) => {
   var total = 0;
   var dep = 0;
-  var today0 = new Date()+60*60*1000*14;
+  var today0 = new Date().getTime()+60*60*1000*5.5;
   var a = new Date(today0);
   var z=a.getDate()+"P"
   console.log(today0)
