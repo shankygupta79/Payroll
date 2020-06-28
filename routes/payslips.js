@@ -67,7 +67,7 @@ route.get('/css', (req, res) => {
 
 })
 function update(data){
-    Att.update({
+    return Att.update({
         advance: data.advance,
         extratimetotoal: data.extratimetotoal,
         holidays: data.holidays,
@@ -85,9 +85,14 @@ function update(data){
         return false
     })
 }
+
+
 route.post('/api/calc', authCheckedit,async (req, res) => {
     for(var i=0;i<req.body.list.length;i++){
         var a=await update(req.body.list[i])
+        if(a==true){
+
+        }
     }
     return res.send({
         message: "true"

@@ -201,6 +201,7 @@
                     for (i = 1; i <= total_pages; i++) {
                         this.pages.push(i)
                     }
+
                 }, sort(name, type) {
                     this.sorticon = !this.sorticon;
                     this.sortfield = name.toLowerCase();
@@ -250,6 +251,9 @@
                     pageno = pageno - 1
                     this.start = pageno * (entry) + 1;
                     this.end = pageno * entry + entry;
+                    if (this.total < this.end) {
+                        this.end = this.total
+                    }
 
                 }, attendance(j) {
                     console.log(j)

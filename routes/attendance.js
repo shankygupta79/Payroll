@@ -86,8 +86,8 @@ route.get('/api/holiday', authCheckmark, (req, res) => {
       })
     })
 })
-function create(data,x2){
-  Att.create({
+function create(data, x2) {
+  return Att.create({
     userId: xid,
     emp_id: data.emp_id,
     monthyear: x2,
@@ -131,9 +131,10 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
         Emp.findAll({ where: { userId: xid, status: 'Active' } })
           .then(async (emps) => {
             for (var i = 0; i < emps.length; i++) {
-              var x=await create(emps[i],req.query.date)
+              var x = await create(emps[i], req.query.date)
+              
             }
-            return res.status(200).send('5');
+            
           })
           .catch((err) => {
             console.log(err)
@@ -141,7 +142,7 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
               message: "Could not retrive info "
             })
           })
-
+          return res.status(200).send('5');
 
       }
     })
