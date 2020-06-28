@@ -115,7 +115,7 @@ function create(data, x2) {
     })
 }
 route.get('/api/attendance', authCheckmark, (req, res) => {
-  if (y5 == 'false' && req.query.dx != a.getDate()) {
+  if (y5 == 'false' && req.query.dx != a.getDate() && admin==0) {
     return res.status(201).send('0')
   }
   Emp.hasMany(Att, { foreignKey: 'emp_id' })
