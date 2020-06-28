@@ -86,6 +86,34 @@ route.get('/api/holiday', authCheckmark, (req, res) => {
       })
     })
 })
+function create(data){
+  Att.create({
+    userId: xid,
+    emp_id: data.emp_id,
+    monthyear: req.query.date,
+    present: "-------------------------------",
+    marked: "0000000000000000000000000000000",
+    quick: "",
+    holidays: 0,
+    extratimetotoal: 0,
+    extratime: "0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0",
+    advance: 0,
+    bonus: 0,
+    deduction: 0,
+    balance: 0,
+    transfer: 0,
+    attby: "0000000000000000000000000000000",
+    text: "No Comments",
+    netpay: 0,
+  }).then((att) => {
+    console.log("Chart created new")
+    return true
+  })
+    .catch((err) => {
+      console.log(err)
+      return false
+    })
+}
 route.get('/api/attendance', authCheckmark, (req, res) => {
   if (y5 == 'false' && req.query.dx != a.getDate()) {
     return res.status(201).send('0')
@@ -101,35 +129,9 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
 
       } else {
         Emp.findAll({ where: { userId: xid, status: 'Active' } })
-          .then((emps) => {
+          .then(async (emps) => {
             for (var i = 0; i < emps.length; i++) {
-              Att.create({
-                userId: xid,
-                emp_id: emps[i].emp_id,
-                monthyear: req.query.date,
-                present: "-------------------------------",
-                marked: "0000000000000000000000000000000",
-                quick: "",
-                holidays: 0,
-                extratimetotoal: 0,
-                extratime: "0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0",
-                advance: 0,
-                bonus: 0,
-                deduction: 0,
-                balance: 0,
-                transfer: 0,
-                attby: "0000000000000000000000000000000",
-                text: "No Comments",
-                netpay: 0,
-              }).then((att) => {
-                console.log("Chart created new")
-              })
-                .catch((err) => {
-                  console.log(err)
-                  res.send({
-                    message: "Could not retrive info "
-                  })
-                })
+              var x=await create(emps[i])
             }
             return res.status(200).send('5');
           })
