@@ -93,6 +93,7 @@ th, td {
 }
 .tabman2{
     display: none;
+    width: 100;
 }
 .tabman2 td {
     min-width: 100px !important;
