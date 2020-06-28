@@ -148,7 +148,7 @@ const Holiday = db.define('holiday', {
     
 })
 const Setting = db.define('setting', {
-    userId:Sequelize.INTEGER,
+    userId:Sequelize.STRING,
     name:Sequelize.STRING,
     phone:Sequelize.INTEGER,
     email:Sequelize.STRING,
