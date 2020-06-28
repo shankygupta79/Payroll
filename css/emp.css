@@ -66,7 +66,7 @@ td{
 }
 th, td { 
     text-align:right; 
-    padding:5px;
+    padding:2px;
 } 
 
 .rightside{
@@ -81,6 +81,8 @@ th, td {
 }
 .tabman,.tabman2{
     font-size: 0.75em;
+    margin-left: auto;
+    margin-right: auto;
 }
 .image{
     border: 1px grey solid;

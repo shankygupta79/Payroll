@@ -50,7 +50,8 @@
                         </div>
                     </div><br>
                     <div class="empbox center" @click="edit(i.emp_id)" v-for="i in myArray">
-                        <b>{{i.name}}</b><br>
+                        <b>{{i.name}}</b>
+                        <br>
                         <img v-bind:src="i.photo" height="80px" width="80px">
                         <table class="tabman">
                             <tr>
