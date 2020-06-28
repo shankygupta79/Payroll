@@ -306,9 +306,7 @@
 
                             var days = log.monthday[log.monthlist.indexOf(log.select_month)]
                             for (var i = 0; i < log.list.length; i++) {
-                                if (log.list[i].netpay > 0) {
-                                    continue
-                                }
+                                
                                 var extrarr = log.list[i].extratime.split(';')
                                 var prearr = log.list[i].present
                                 var extra = 0
