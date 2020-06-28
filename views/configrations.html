@@ -482,7 +482,7 @@
                         .then(function (Response1) {
                             log.name = Response1[0].name
                             log.phone = Response1[0].phone
-                            log.add = Response1[0].add
+                            log.address = Response1[0].add
                             log.website = Response1[0].website
                             log.email = Response1[0].email
                             log.state = Response1[0].state
@@ -530,6 +530,7 @@
                     this.word = "Saving.. "
                     $.post('./edit', {
                         website: log.website,
+                        phone:log.phone,
                         name: log.name,
                         email: log.email,
                         address: log.address,
