@@ -122,14 +122,12 @@
                                     </td>
 
                                     <td> <b>Holidays : </b></td>
-                                    <td class="red" v-show="!edit">{{symbol}}{{list[i-1].holidays}}</td>
-                                    <td v-show="edit"><input v-model="list[i-1].holidays" type="number"> </td>
+                                    <td class="red" >{{symbol}}{{list[i-1].holidays}}</td>
 
                                 </tr>
                                 <tr>
                                     <td> <b>Extra Time : </b></td>
-                                    <td class="red" v-show="!edit">{{symbol}}{{list[i-1].extratimetotoal}}</td>
-                                    <td v-show="edit"><input v-model="list[i-1].extratimetotoal" type="number"> </td>
+                                    <td class="red" >{{symbol}}{{list[i-1].extratimetotoal}}</td>
 
                                     <td> <b>Advance : </b></td>
                                     <td class="red" v-show="!edit">{{symbol}}{{list[i-1].advance}}</td>
