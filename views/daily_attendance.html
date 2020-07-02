@@ -185,6 +185,9 @@
                     this.dxt = today.getDate()
                     this.mxt = today.getMonth()
                     this.yxt = today.getFullYear()
+                    if(this.dxt<10){
+                        this.dxt="0"+this.dxt
+                    }
                     this.select_date = this.yxt + "-" + this.arr[this.mxt] + this.dxt
 
 
