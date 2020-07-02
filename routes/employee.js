@@ -1,6 +1,7 @@
 const route = require('express').Router()
 const path = require('path')
 const Emp = require('../database').Employeedb
+const Att = require('../database').Attendance
 const Empq = require('../database').Employeeqdb
 const User = require('../database').User
 const multer = require('multer');
@@ -201,7 +202,7 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
       pnum: req.body.phone,
       photo: photu,
       status: req.body.status,
-      totalloan:0,
+      totalloan: 0,
     }).then((user) => {
       arr2 = [];
       photu = '';
@@ -245,8 +246,109 @@ route.get('/api/quickemp', authCheckview, (req, res) => {
       })
   }
 })
+route.post('/api/active', authCheckedit, (req, res) => {
+  var a0 = new Date().getTime() + 60 * 60 * 1000;
+  var dt = new Date(a0);
+  var dt1 = dt.getDate()
+  if (dt1 < 10) {
+    dt1 = 0 + "" + dt1
+  }
+  var mt = dt.getMonth()
+  mt=mt+1
+  if (mt < 10) {
+    mt = 0 + "" + mt
+  }
+  var present = ""
+  var marked=""
+  var attby=""
+  console.log(parseInt(dt1))
+  console.log(req.body.status)
+  if (req.body.status == "Active") {
+    
+    for (var i = 1; i <= 31; i++) {
+      if (i <= parseInt(dt1)) {
+        present=present+"A"
+        marked=marked+"1"
+        attby=attby+"1"
+      }else{
+        present=present+"-"
+        marked=marked+"0"
+        attby=attby+"0"
+      }
+    }
+    Att.create({
+      userId: xid,
+      emp_id: req.body.emp_id,
+      monthyear: mt+"-"+dt.getFullYear(),
+      present: present,
+      marked: marked,
+      quick: parseInt(dt1)+'A',
+      holidays: 0,
+      extratimetotoal: 0,
+      extratime: "0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0",
+      advance: 0,
+      bonus: 0,
+      deduction: 0,
+      balance: 0,
+      transfer: 0,
+      attby: attby,
+      text: "No Comments",
+      netpay: 0,
+      emi: 0,
+    }).then((att) => {
+      return res.send({
+        message: "true"
+      })
+  
+    })
+      .catch((err) => {
+        console.log(err)
+        return res.send({
+          message: "Could not retrive employees"
+        })
+      })
+  
+
+  } else {
+    //MAKING INACTIVE
+    Att.findOne({ where: { emp_id: req.body.emp_id, monthyear:mt+"-"+dt.getFullYear() } })
+    .then((att) => {
+      for (var i = 1; i <= 31; i++) {
+        if (i >= parseInt(dt1)) {
+          present=present+"A"
+          marked=marked+"1"
+          attby=attby+"1"
+        }
+      }
+      present=att.present.slice(0,dt1-1)+present
+      marked=att.marked.slice(0,dt1-1)+marked
+      attby=att.attby.slice(0,dt1-1)+attby
+      Att.update({
+        present:present,
+        marked:marked,
+        attby:attby,
+        quick:parseInt(dt1)+"A",
+
+      },{where:{ emp_id: req.body.emp_id, monthyear:mt+"-"+dt.getFullYear() }})
+      return res.send({
+        message: "true"
+      })
+  
+    })
+      .catch((err) => {
+        console.log(err)
+        return res.send({
+          message: "Could not retrive employees"
+        })
+      })
+  
+  }
+
+
+  
+})
 route.get('/api/quickempactive', authCheckview, (req, res) => {
-  Empq.findAll({ where: { userId: xid ,status:'Active'} })
+  Empq.findAll({ where: { userId: xid, status: 'Active' } })
     .then((emps) => {
       res.status(200).send(emps)
     })

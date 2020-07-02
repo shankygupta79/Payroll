@@ -235,7 +235,7 @@
                         </tr>
                         <tr>
                             <td><b>Status</b></td>
-                            <td><select class="form-control" v-if="edit" v-model="myArrayq.status">
+                            <td><select @change="status()" class="form-control" v-if="edit" v-model="myArrayq.status">
                                     <option>Active</option>
                                     <option>In-Active</option>
                                 </select>
@@ -394,7 +394,7 @@
                             loading.style.display = "none"
                             var content = app.$refs.content2
                             content.style.display = "block"
-                            
+
 
                         })
                         .catch((err) => {
@@ -403,17 +403,17 @@
                             log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
-                        await axios.get('https://payrollv2.herokuapp.com/department/api/dep')
-                                .then(function (Response) {
-                                    log.departments = Response
-                                    log.loaderoff()
-                                })
-                                .catch((err) => {
-                                    console.log(err)
-                                    log.error = 1
-                                    log.message_error = "Error connecting the database try again later !"
-                                    log.loaderoff()
-                                })
+                    await axios.get('https://payrollv2.herokuapp.com/department/api/dep')
+                        .then(function (Response) {
+                            log.departments = Response
+                            log.loaderoff()
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
 
 
                 }, loaderoff() {
@@ -422,6 +422,26 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
+                }, status() {
+                    $.post('./api/active', {
+                        status:log.myArrayq.status,
+                        emp_id:log.myArrayq.emp_id
+                    }, function (data) {
+                        console.log(data.message)
+                        if (data.message != 'true') {
+                            log.error = 1
+                            log.message_error = data.message
+
+                        } else {
+                            log.error = 0
+                            log.success = 1
+                            log.message_success = "Employee Status changed to " + log.myArrayq.status
+
+
+                        }
+                    })
+
+
                 }, getParams(url) {
                     var params = {};
                     var parser = document.createElement('a');
