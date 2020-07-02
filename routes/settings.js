@@ -146,7 +146,7 @@ route.get('/api/symbol', authCheck, (req, res) => {
     .catch((err) => {
       console.log(err)
       return res.send({
-        message: "Could not retrive settings info "
+        message: " Currecy symbol error"
       })
     })
 

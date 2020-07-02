@@ -267,6 +267,16 @@
 
                             }
                             log.loaderoff()
+                            axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
+                                .then(function (Response2) {
+                                    log.symbol = Response2
+                                })
+                                .catch((err) => {
+                                    console.log(err)
+                                    log.error = 1
+                                    log.message_error = "Error connecting the database try again later !"
+                                    log.loaderoff()
+                                })
 
                         })
                         .catch((err) => {
@@ -275,16 +285,7 @@
                             log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
-                    axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
-                        .then(function (Response2) {
-                            log.symbol = Response2
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                            log.error = 1
-                            log.message_error = "Error connecting the database try again later !"
-                            log.loaderoff()
-                        })
+
                 }, entryfun(entry) {
                     this.paging(1, entry)
                     var total_pages = Math.ceil(this.total / entry)
@@ -385,7 +386,7 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                },  loaderon() {
+                }, loaderon() {
                     var app = this;
                     var loading = app.$refs.Loading
                     loading.style.display = "block"
@@ -401,13 +402,13 @@
                     }
                 }, submit() {
                     log.loaderon()
-                    
+
                     log.getp = 0
-                    log.listing=0
+                    log.listing = 0
                     log.myArray = []
                     if (log.select_emp == 'All Employee') {
                         log.listing = 1
-                        log.sort2('name','asc')
+                        log.sort2('name', 'asc')
                         log.total2 = log.loanarr.length;
                         log.entryfun2(log.entry2);
                         log.loaderoff()
@@ -434,7 +435,7 @@
                             log.total = log.myArray.length;
                             log.entryfun(log.entry);
                             log.getp = 1,
-                            log.calc();
+                                log.calc();
                             log.sort(log.sortfield, "desc");
                             log.loaderoff()
                         }).catch((err) => {
