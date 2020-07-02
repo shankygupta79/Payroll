@@ -158,7 +158,7 @@
                         Extra Time
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].extratimetotal}}
+                        {{symbol}}{{myArray[i-1].extratimetotoal}}
                     </td>
                     <td>
                         Advance
@@ -196,6 +196,20 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        Monthly EMI
+                    </td>
+                    <td>
+                        {{symbol}}{{myArray[i-1].emi}}
+                    </td>
+                </tr>
+                <tr>
                     <th>
                         Total Earnings
                     </th>
@@ -206,12 +220,15 @@
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].transfer)}}
+                        {{symbol}}{{parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].transfer)+parseInt(myArray[i-1].emi)+parseInt(myArray[i-1].deduction)}}
                     </th>
                 </tr>
                 <tr>
-                    <th colspan="2" style="border: none;">
-
+                    <th style="border: none; background-color: whitesmoke;">
+                        Loan Left
+                    </th>
+                    <th style="border: none;background-color: whitesmoke;">
+                        {{symbol}}{{myArray[i-1]['employee_quick'].totalloan}}
                     </th>
                     <th>
                         Net Pay

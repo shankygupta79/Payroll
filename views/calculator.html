@@ -92,6 +92,10 @@
                                 <label>Add Transfer</label>
                                 <input type="checkbox" id="transfercheck">
                             </div>
+                            <div style="display: inline-block;">
+                                <label>Loan Payments</label>
+                                <input type="checkbox" id="loani">
+                            </div>
                         </div>
                         <div style="text-align: right;">
                             <b style="display: inline-block;">Sort By : </b>
@@ -113,7 +117,7 @@
                                     </td>
                                     <td> <b>Net Pay: </b></td>
                                     <td><b>{{symbol}}
-                                            {{parseInt(list[i-1]['employee_quick'].salary)+parseInt(list[i-1].bonus)+parseInt(list[i-1].extratimetotoal)-parseInt(list[i-1].deduction)-parseInt(list[i-1].advance)-parseInt(list[i-1].holidays)-parseInt(list[i-1].transfer)}}</b>
+                                            {{parseInt(list[i-1]['employee_quick'].salary)+parseInt(list[i-1].bonus)+parseInt(list[i-1].extratimetotoal)-parseInt(list[i-1].deduction)-parseInt(list[i-1].advance)-parseInt(list[i-1].emi)-parseInt(list[i-1].holidays)-parseInt(list[i-1].transfer)}}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -122,16 +126,26 @@
                                     </td>
 
                                     <td> <b>Holidays : </b></td>
-                                    <td class="red" >{{symbol}}{{list[i-1].holidays}}</td>
+                                    <td class="red">{{symbol}}{{list[i-1].holidays}}</td>
 
                                 </tr>
                                 <tr>
                                     <td> <b>Extra Time : </b></td>
-                                    <td class="red" >{{symbol}}{{list[i-1].extratimetotoal}}</td>
+                                    <td class="red">{{symbol}}{{list[i-1].extratimetotoal}}</td>
 
                                     <td> <b>Advance : </b></td>
                                     <td class="red" v-show="!edit">{{symbol}}{{list[i-1].advance}}</td>
                                     <td v-show="edit"><input v-model="list[i-1].advance" type="number"> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 1.2em;"> <b>Total Loan : </b></td>
+                                    <td  style="font-size: 1.2em;">{{symbol}} {{ parseInt(list[i-1]['employee_quick'].totalloan)-parseInt(list[i-1].emi)+parseInt(list[i-1].emiold)}}
+                                    </td>
+
+                                    <td class="loani wow"> <b>EMI : </b></td>
+                                    <td class="red loani wow" v-show="!edit">{{symbol}}{{list[i-1].emi}}</td>
+                                    <td class="loani wow" v-show="edit"><input v-model="list[i-1].emi"
+                                            type="number"> </td>
                                 </tr>
                                 <tr>
                                     <td class="bonus wow"> <b>Bonus : </b></td>
@@ -144,10 +158,11 @@
                                     <td class="deduction wow" v-show="edit"><input v-model="list[i-1].deduction"
                                             type="number"> </td>
                                 </tr>
+                                
                                 <tr>
                                     <td class="transfer wow"> <b>Balance : </b></td>
                                     <td class="transfer wow">
-                                        <b>{{symbol}}{{parseInt(list[i-1]['employee_quick'].salary)+parseInt(list[i-1].bonus)+parseInt(list[i-1].extratimetotoal)-parseInt(list[i-1].deduction)-parseInt(list[i-1].advance)-parseInt(list[i-1].holidays)}}</b>
+                                        <b>{{symbol}}{{parseInt(list[i-1]['employee_quick'].salary)+parseInt(list[i-1].bonus)+parseInt(list[i-1].extratimetotoal)-parseInt(list[i-1].deduction)-parseInt(list[i-1].advance)-parseInt(list[i-1].holidays)-parseInt(list[i-1].emi)}}</b>
                                     </td>
 
 
@@ -304,7 +319,7 @@
 
                             var days = log.monthday[log.monthlist.indexOf(log.select_month)]
                             for (var i = 0; i < log.list.length; i++) {
-                                
+                                log.list[i].emiold=log.list[i].emi;
                                 var extrarr = log.list[i].extratime.split(';')
                                 var prearr = log.list[i].present
                                 var extra = 0
@@ -346,8 +361,9 @@
                     this.edit = 1
                 }, post() {
                     $.post('./api/calc', {
-                        list: log.list
-                        
+                        list: log.list,
+                        x:log.list[0].monthyear,
+
                     }, function (data) {
                         console.log(data.message)
                         if (data.message != 'true') {
@@ -376,6 +392,9 @@
         $('#bonuscheck').on('click', function () {
 
             $('.bonus').toggleClass('wow');
+        });
+        $('#loani').on('click', function () {
+            $('.loani').toggleClass('wow');
         });
         $('#textcheck').on('click', function () {
 

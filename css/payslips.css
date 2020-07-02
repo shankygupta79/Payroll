@@ -187,6 +187,15 @@ img{
     border: none;
     padding: 0;
 }
+.report2{
+    width: 70%;
+}
+.report2 tr{
+    background-color: white;
+    border: none;
+    padding: 4px;
+}
+
 .options{
     display: inline-block;
     max-width: 95%;
@@ -194,7 +203,12 @@ img{
 .report td{
     background-color: white;
     border: none;
-    padding: 0;
+    padding: 0px;
+}
+.report2 td{
+    background-color: white;
+    border: none;
+    padding: 4px;
 }
 
 
@@ -275,6 +289,8 @@ tr th i{
     }
     .empbox{
         width: 97%;
+    }.report2{
+        width: 90%;
     }
     
     

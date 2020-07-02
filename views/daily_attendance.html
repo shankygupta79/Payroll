@@ -282,6 +282,7 @@
                         quick: abc,
                         marked: tp2,
                         dx: log.dx,
+                        monthyear:log.myArray[j].monthyear,
                         attby: log.myArray[j].attbyarr,
                     }, function (data) {
                         console.log(data.message)
@@ -359,7 +360,6 @@
                                         log.getlist = 0;
 
                                     } else {
-
                                         for (var i = 0; i < Response1.length; i++) {
                                             var temp = '';
                                             var tpr = '';
@@ -383,6 +383,7 @@
                                                 attbyarr: Response1[i].attby,
                                                 presentarr: Response1[i].present,
                                                 marked: Response1[i].marked,
+                                                monthyear:Response1[i].monthyear,
 
                                             }
                                             log.myArray.push(entry)

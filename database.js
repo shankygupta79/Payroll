@@ -101,6 +101,7 @@ const Attendance = db.define('Attendance',{
     attby:Sequelize.STRING,
     text: Sequelize.STRING,
     netpay: Sequelize.INTEGER,
+    emi:Sequelize.INTEGER,
 
 })
 const Employeeqdb = db.define('employee_quick', {
@@ -120,6 +121,7 @@ const Employeeqdb = db.define('employee_quick', {
     photo:Sequelize.STRING,
     salary: Sequelize.STRING,
     status: Sequelize.STRING,
+    totalloan:Sequelize.INTEGER,
     
 })
 const Department = db.define('department', {
@@ -158,10 +160,17 @@ const Setting = db.define('setting', {
     country:Sequelize.STRING,
     
 })
-
+const Loan = db.define('Loan',{
+    userId:Sequelize.INTEGER,
+    type:Sequelize.INTEGER,
+    amount : Sequelize.INTEGER,
+    text:Sequelize.STRING,
+    emp_id:Sequelize.INTEGER,
+    date:Sequelize.STRING,
+})
 db.sync()
     .then(() => console.log("Database has been synced"))
     .catch((err) => console.error("Error creating database " + err))
 exports = module.exports = {
-    User,Employeeqdb,Employeedb,Holiday,Department,Setting,Attendance
+    User,Employeeqdb,Employeedb,Holiday,Department,Setting,Attendance,Loan
 }

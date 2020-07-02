@@ -140,6 +140,20 @@
                         
                     </td>
                     <td>
+                        Montly EMI
+                    </td>
+                    <td>
+                        {{symbol}}{{myArray.emi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
                         Transfer
                     </td>
                     <td>
@@ -157,7 +171,7 @@
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray.advance)+parseInt(myArray.holidays)+parseInt(myArray.transfer)}}
+                        {{symbol}}{{parseInt(myArray.advance)+parseInt(myArray.holidays)+parseInt(myArray.transfer)+parseInt(myArray.emi)+parseInt(myArray.deduction)}}
                     </th>
                 </tr>
                 <tr>

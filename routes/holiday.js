@@ -64,7 +64,7 @@ route.post('/add_holpost', authCheckedit, (req, res) => {
   console.log("Hey")
   Holiday.create({
     userId: xid,
-    holname: req.body.name,
+    name: req.body.name,
     year: req.body.year,
     date: req.body.date,
 

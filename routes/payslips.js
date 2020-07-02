@@ -1,7 +1,9 @@
 const route = require('express').Router()
 const Emp = require('../database').Employeeqdb
 const Att = require('../database').Attendance
+const Loan = require('../database').Loan
 const path = require('path')
+const month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 function isEmpty(obj) {
     for (var key in obj) {
         if (obj.hasOwnProperty(key))
@@ -28,6 +30,18 @@ const authCheckview = (req, res, next) => {
         next()
     }
 }
+const authCheck = (req, res, next) => {
+    if (isEmpty(req.user)) {
+        //user is not logged in
+        res.redirect('/login')
+    } else {
+        if (req.user[0].admin == '0') {
+            res.redirect('../users/lock')
+        }
+        xid = req.user[0].id
+        next()
+    }
+}
 const authCheckedit = (req, res, next) => {
     if (isEmpty(req.user)) {
         //user is not logged in
@@ -51,6 +65,12 @@ route.get('/calc', authCheckedit, (req, res) => {
 route.get('/list', authCheckview, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/paylist.html'))
 })
+route.get('/loan', authCheck, (req, res) => {
+    res.sendFile(path.join(__dirname, '../views/loan.html'))
+})
+route.get('/entry', authCheck, (req, res) => {
+    res.sendFile(path.join(__dirname, '../views/add_entry.html'))
+})
 route.get('/printsingle', authCheckview, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/print_single.html'))
 })
@@ -66,7 +86,8 @@ route.get('/css', (req, res) => {
     res.sendFile(path.join(__dirname, '../css/payslips.css'))
 
 })
-function update(data){
+var abc = '';
+function update(data, x,data2) {
     return Att.update({
         advance: data.advance,
         extratimetotoal: data.extratimetotoal,
@@ -74,29 +95,106 @@ function update(data){
         text: data.text,
         bonus: data.bonus,
         deduction: data.deduction,
-        balance: parseInt(data['employee_quick'].salary) + parseInt(data.bonus) + parseInt(data.extratimetotoal) - parseInt(data.deduction) - parseInt(data.advance) - parseInt(data.holidays),
+        balance: parseInt(data['employee_quick'].salary) + parseInt(data.bonus) + parseInt(data.extratimetotoal) - parseInt(data.deduction) - parseInt(data.advance) - parseInt(data.holidays) - parseInt(data.emi),
         transfer: data.transfer,
-        netpay: parseInt(data['employee_quick'].salary) + parseInt(data.bonus) + parseInt(data.extratimetotoal) - parseInt(data.deduction) - parseInt(data.advance) - parseInt(data.holidays) - parseInt(data.transfer),
-    }, { where: { emp_id: data['employee_quick'].emp_id } }).then((att) => {
-        return true
+        emi: data.emi,
+        netpay: parseInt(data['employee_quick'].salary) + parseInt(data.bonus) + parseInt(data.extratimetotoal) - parseInt(data.deduction) - parseInt(data.advance) - parseInt(data.holidays) - parseInt(data.transfer)-parseInt(data.emi),
+    }, { where: { emp_id: data['employee_quick'].emp_id, monthyear: x } })
+        .then(async (att) => {
+            var amount0 = data.emi - data.emiold
+            if (amount0 != 0) {
+                return await loanadd(amount0, 1, "Monthly EMI Deduction of "+month[parseInt(x.slice(0,2))-1], abc, data['employee_quick'].emp_id)
+            } else {
+                return true
+            }
 
-    }).catch((err) => {
-        console.log(err)
-        return false
-    })
+        }).catch((err) => {
+            console.log(err)
+            return false
+        })
 }
 
 
-route.post('/api/calc', authCheckedit,async (req, res) => {
-    for(var i=0;i<req.body.list.length;i++){
-        var a=await update(req.body.list[i])
-        if(a==true){
+route.post('/api/calc', authCheckedit, async (req, res) => {
+    var d = new Date()
+    var dt = d.getDate()
+    var mt = d.getMonth()
+    if (dt < 10) {
+        dt = 0 + "" + dt;
+    }
+    mt = mt + 1;
+    if (mt < 10) {
+        mt = 0 + "" + mt;
+    }
+    abc = dt + "-" + mt +"-"+ d.getFullYear();
+    for (var i = 0; i < req.body.list.length; i++) {
+        var a = await update(req.body.list[i], req.body.x)
+        if (a == true) {
 
         }
     }
     return res.send({
         message: "true"
     })
+
+
+})
+function loanadd(amount, type, text, date, emp_id) {
+    return Loan.create({
+        userId: xid,
+        amount: amount,
+        text: text,
+        emp_id: emp_id,
+        date: date,
+        type: type,
+
+    }).then(() => {
+        if (type == 0) {
+            return Emp.increment({
+                totalloan: amount
+            }, { where: { emp_id: emp_id } })
+                .then(() => {
+                    return true;
+                })
+                .catch((err) => {
+                    console.log(err)
+                    return false;
+                })
+        } else {
+            Emp.increment({
+                totalloan: (amount * -1)
+            }, { where: { emp_id: emp_id } })
+                .then(() => {
+                    return true;
+                })
+                .catch((err) => {
+                    console.log(err)
+                    return false;
+                })
+        }
+
+
+    }).catch((err) => {
+        console.log(err)
+        return false
+    })
+    return true
+}
+route.post('/loanadd', authCheck, async (req, res) => {
+    console.log("Hey")
+    if (req.body.text == '') {
+        req.body.text = "No Comments"
+    }
+    var y=loanadd(req.body.amount, req.body.type, req.body.text, req.body.date, req.body.emp_id)
+    setTimeout(()=>{
+        return res.send({
+            message: "true"
+        })
+    },200)
+    
+
+
+
 
 
 })
@@ -111,7 +209,21 @@ route.get('/api/data', authCheckview, (req, res) => {
         })
         .catch((err) => {
             console.log(err)
-            
+
+        })
+})
+route.get('/getloan', authCheck, (req, res) => {
+
+    Loan.findAll({ where: { emp_id: req.query.id, userId: xid } })
+        .then((emps) => {
+            return res.status(200).send(emps)
+        })
+        .catch((err) => {
+            console.log(err)
+            res.send({
+                message: "Could not retrive info "
+            })
+
         })
 })
 route.get('/api/dataprint', authCheckedit, (req, res) => {

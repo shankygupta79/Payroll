@@ -1,0 +1,458 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Loan Database</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2">
+                <div class="bord">
+                    <div class="headin center">Manage Loans</div>
+                    <div class="roww"></div>
+                    <table class="report2">
+                        <tr>
+                            <td><strong>Select Employee :</strong></td>
+
+                            <td><select class="form-control options" v-model="select_emp">
+                                    <option style="color: black;" v-for="i in employee">{{i}}</option>
+                                </select></td>
+
+                        </tr>
+                    </table>
+                    <div v-if="error" class="error">
+                        {{message_error}} !
+                    </div> <br>
+                    <div v-if="success" class="success">
+                        {{message_success}} !
+                    </div>
+                    <div class="center">
+                        <button @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show Report
+                        </button>
+                    </div>
+                    <div v-show="getp">
+                        <div>
+                            <div style="display: inline;">
+                                Show <select @change="entryfun(entry)" v-model="entry">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                </select> entries
+
+                            </div>
+
+                            <div class="input-icons">
+                                <input placeholder="Search" type="text" class="form-control" v-model="query">
+
+                            </div>
+                        </div>
+                        <div class="center" style="font-size: 1.5em;">
+                            <b>TOTAL LOAN is </b>{{symbol}} {{given-reci}}
+                        </div><br>
+                        <table id='tblData'>
+                            <tr>
+                                <th v-for="i in head"><b>{{i}}</b>
+                                    <i class="fa fa-sort-amount-asc" v-show="!sorticon" @click="sort(i,'asc')"
+                                        v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
+                                        aria-hidden="true"></i>
+                                    <i class="fa fa-sort-amount-desc" v-show="sorticon" @click="sort(i,'desc')"
+                                        v-if="i.toLowerCase()==sortfield" style="color:rgb(0, 0, 0)"
+                                        aria-hidden="true"></i>
+                                    <i class="fa fa-arrows-v" @click="sort(i,'asc')" v-if="i.toLowerCase()!=sortfield"
+                                        style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+
+                                </th>
+                            </tr>
+                            <tr v-for="i in myArray.length"
+                                v-if="myArray[i-1].text.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
+                                <td>{{myArray[i-1].date}}</td>
+                                <td>{{myArray[i-1].text}}</td>
+                                <td>
+                                    <div v-show="myArray[i-1].type==0">{{symbol}} {{myArray[i-1].amount}}</div>
+                                </td>
+                                <td>
+                                    <div v-show="myArray[i-1].type==1">{{symbol}} {{myArray[i-1].amount}}</div>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td style="text-align: right;">
+                                    <b>Total<b>
+                                </td>
+                                <td>
+                                    {{symbol}} {{given}}
+                                </td>
+                                <td>
+                                    {{symbol}} {{reci}}
+                                </td>
+                            </tr>
+                        </table><br>
+
+                        <br>
+                        <div class='pagination-container'>
+                            Showing {{start}} to {{end}} of {{total}} entries
+                            <nav style="display: inline;">
+                                <ul class="pagination">
+
+                                    <li data-page="prev" id="previ">
+                                        Previous </li>
+                                    <li v-for="i in pages" @click="paging(i,entry)">
+                                        <strong v-if="i==current" id="currentpage">{{i}}</strong>
+                                        <strong v-else>{{i}}</strong>
+                                    </li>
+                                    <li data-page="next" id="next">
+                                        Next
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div v-if="listing==1"><br>
+                        <div class="center" style="font-size: 1.5em;">
+                            <b>TOTAL LOAN is </b>{{symbol}} {{totalloan}}
+                        </div><br>
+                        <div>
+                            <div style="display: inline;">
+                                Show <select @change="entryfun2(entry)" v-model="entry2">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                </select> entries
+
+                            </div>
+
+                            <div class="input-icons">
+                                <input placeholder="Search" type="text" class="form-control" v-model="query2">
+
+                            </div>
+                        </div>
+
+                        <table>
+                            <tr>
+
+                                <th>
+                                    Name
+                                    <i class="fa fa-sort-amount-asc" v-show="!sorticon2" @click="sort2('name','asc')"
+                                        v-if="sortfield2=='name'" style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                                    <i class="fa fa-sort-amount-desc" v-show="sorticon2" @click="sort2('name','desc')"
+                                        v-if="sortfield2=='name'" style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                                    <i class="fa fa-arrows-v" @click="sort2('name','asc')" v-if="sortfield2!='name'"
+                                        style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                                </th>
+                                <th>
+                                    Total Amount
+                                    <i class="fa fa-sort-amount-asc" v-show="!sorticon2" @click="sort2('loan','asc')"
+                                        v-if="sortfield2=='loan'" style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                                    <i class="fa fa-sort-amount-desc" v-show="sorticon2" @click="sort2('loan','desc')"
+                                        v-if="sortfield2=='loan'" style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                                    <i class="fa fa-arrows-v" @click="sort2('loan','asc')" v-if="sortfield2!='loan'"
+                                        style="color:rgb(0, 0, 0)" aria-hidden="true"></i>
+                                </th>
+                            </tr>
+                            <tr v-for="i in loanarr.length"
+                                v-if="loanarr[i-1].name.toLowerCase().includes(query2.toLowerCase()) && i>=start2 && i<=end2">
+                                <td>
+                                    {{loanarr[i-1].name}}
+                                </td>
+                                <td>
+                                    {{symbol}} {{loanarr[i-1].loan}}
+                                </td>
+                            </tr>
+                        </table>
+                        <div class='pagination-container'>
+                            Showing {{start2}} to {{end2}} of {{total2}} entries
+                            <nav style="display: inline;">
+                                <ul class="pagination">
+
+                                    <li data-page="prev" id="previ">
+                                        Previous </li>
+                                    <li v-for="i in pages2" @click="paging(i,entry)">
+                                        <strong v-if="i==current" id="currentpage">{{i}}</strong>
+                                        <strong v-else>{{i}}</strong>
+                                    </li>
+                                    <li data-page="next" id="next">
+                                        Next
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                myArray: [],
+                success: 0,
+                loanarr: '',
+                error: 0,
+                idx: [-1,],
+                given: 0,
+                reci: 0,
+                sortfield: 'date',
+                entry: 10, entry2: 10,
+                query: '', query2: '',
+                head: ['Date', 'Narration', 'Given', 'Recieved'],
+                sorticon: 0,
+                employee: ['All Employee'],
+                getp: 0,
+                listing: 0, sortfield2: 'name', sorticon2: 0,
+                symbol: '',
+                loanarr: [],
+                select_emp: 'All Employee', totalloan: 0,
+                pages: [], start: 1, total: 100, end: 1, current: 1,
+                pages2: [], start2: 1, total2: 100, end2: 1, current2: 1,
+                message_error: "Enter the full details",
+                message_success: "Loan report loaded successfully",
+
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp')
+                        .then(function (Response1) {
+                            for (var i = 0; i < Response1.length; i++) {
+                                log.employee.push(Response1[i].name)
+                                log.idx.push(Response1[i].emp_id)
+                                log.loanarr.push({ name: Response1[i].name, loan: Response1[i].totalloan })
+                                log.totalloan = log.totalloan + Response1[i].totalloan
+
+                            }
+                            log.loaderoff()
+
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+                    axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
+                        .then(function (Response2) {
+                            log.symbol = Response2
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+                }, entryfun(entry) {
+                    this.paging(1, entry)
+                    var total_pages = Math.ceil(this.total / entry)
+                    this.pages = []
+                    for (i = 1; i <= total_pages; i++) {
+                        this.pages.push(i)
+                    }
+                }, entryfun2(entry) {
+                    this.paging2(1, entry)
+                    var total_pages = Math.ceil(this.total2 / entry)
+                    this.pages2 = []
+                    for (i = 1; i <= total_pages; i++) {
+                        this.pages2.push(i)
+                    }
+                }, paging(pageno, entry) {
+                    this.current = pageno
+                    entry = parseInt(entry)
+                    pageno = pageno - 1
+                    this.start = pageno * (entry) + 1;
+                    this.end = pageno * entry + entry;
+                    if (this.total < this.end) {
+                        this.end = this.total
+                    }
+
+                }, paging2(pageno, entry) {
+                    this.current2 = pageno
+                    entry = parseInt(entry)
+                    pageno = pageno - 1
+                    this.start2 = pageno * (entry) + 1;
+                    this.end2 = pageno * entry + entry;
+                    if (this.total2 < this.end2) {
+                        this.end2 = this.total2
+                    }
+
+                }, sort(name, type) {
+                    this.sortfield = name.toLowerCase()
+                    if (this.sortfield == 'date') {
+                        this.sorticon = !this.sorticon
+                        this.myArray.sort(this.comparedate)
+                        if (type == 'desc') {
+                            this.myArray.reverse(this.comparedate)
+                        }
+                    }
+                    console.log("AYA")
+
+                    this.paging(1, this.entry)
+
+                }, sort2(name, type) {
+                    this.sortfield2 = name
+                    this.sorticon2 = !this.sorticon2
+                    this.loanarr.sort(this.compare2)
+                    if (type == 'desc') {
+                        this.loanarr.reverse(this.compare2)
+                    }
+
+                    this.paging2(1, this.entry)
+
+                }, compare2(a, b) {
+                    if (this.sortfield2 == 'name') {
+
+                        var nameA = a[this.sortfield2]
+                        var nameB = b[this.sortfield2]
+                    } else {
+                        var nameA = parseInt(a[this.sortfield2])
+                        var nameB = parseInt(b[this.sortfield2])
+                    }
+                    if (nameA < nameB) { return -1; }
+                    if (nameA > nameB) { return 1; }
+                    return 0;
+                }, compare(a, b) {
+                    if (this.sortfield == 'holname') {
+
+                        var nameA = a[this.sortfield]
+                        var nameB = b[this.sortfield]
+                    } else {
+                        var nameA = parseInt(a[this.field])
+                        var nameB = parseInt(b[this.field])
+                    }
+                    if (nameA < nameB) { return -1; }
+                    if (nameA > nameB) { return 1; }
+                    return 0;
+                },
+                comparedate(a, b) {
+                    var nameA = a[this.sortfield]
+                    var nameB = b[this.sortfield]
+                    nameA = nameA.slice(6, 10) + nameA.slice(3, 5) + nameA.slice(0, 2)
+                    nameB = nameB.slice(6, 10) + nameB.slice(3, 5) + nameB.slice(0, 2)
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
+                },  loaderon() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "block"
+                }, calc() {
+                    this.given = 0
+                    this.reci = 0
+                    for (var i = 0; i < log.myArray.length; i++) {
+                        if (log.myArray[i].type == 0) {
+                            this.given = this.given + log.myArray[i].amount;
+                        } else {
+                            this.reci = this.reci + log.myArray[i].amount;
+                        }
+                    }
+                }, submit() {
+                    log.loaderon()
+                    
+                    log.getp = 0
+                    log.listing=0
+                    log.myArray = []
+                    if (log.select_emp == 'All Employee') {
+                        log.listing = 1
+                        log.sort2('name','asc')
+                        log.total2 = log.loanarr.length;
+                        log.entryfun2(log.entry2);
+                        log.loaderoff()
+                        return;
+                    }
+                    if (log.select_emp == '') {
+                        log.error = 1;
+                        log.message_error = "Select Some Employee !"
+                        log.loaderoff()
+                        return;
+                    }
+                    log.error = 0
+                    log.idx[log.employee.indexOf(log.select_emp)]
+                    axios.get('https://payrollv2.herokuapp.com/payslips/getloan?id=' + log.idx[log.employee.indexOf(log.select_emp)])
+                        .then(function (Response1) {
+                            console.log(Response1)
+                            if (Response1 == '') {
+                                log.error = 1
+                                log.message_error = "No Record Found !"
+                                log.loaderoff()
+                                return
+                            }
+                            log.myArray = Response1
+                            log.total = log.myArray.length;
+                            log.entryfun(log.entry);
+                            log.getp = 1,
+                            log.calc();
+                            log.sort(log.sortfield, "desc");
+                            log.loaderoff()
+                        }).catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+                }
+            }
+
+
+        })
+
+
+    </script>
+
+    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+</body>
+
+</html>

@@ -105,6 +105,7 @@ function create(data, x2) {
     attby: "0000000000000000000000000000000",
     text: "No Comments",
     netpay: 0,
+    emi:0,
   }).then((att) => {
     console.log("Chart created new")
     return true
@@ -157,6 +158,7 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
 })
 route.post('/edit', authCheckmark, (req, res) => {
   console.log(" IN EDIT")
+  console.log(req.body.monthyear)
   var tp = req.body.attby
   tp = tp.substring(0, req.body.dx - 1) + admin + tp.substring(req.body.dx);
   if (req.body.quick == '') {
@@ -165,7 +167,7 @@ route.post('/edit', authCheckmark, (req, res) => {
       present: req.body.present,
       extratime: req.body.etb,
       attby: tp,
-    }, { where: { emp_id: req.body.empid } }).then((att) => {
+    }, { where: { emp_id: req.body.empid , monthyear:req.body.monthyear} }).then((att) => {
       return res.send({
         message: "true"
       })
@@ -184,7 +186,7 @@ route.post('/edit', authCheckmark, (req, res) => {
       extratime: req.body.etb,
       quick: req.body.dx + req.body.quick,
       attby: tp,
-    }, { where: { emp_id: req.body.empid } }).then((att) => {
+    }, { where: { emp_id: req.body.empid  , monthyear:req.body.monthyear} }).then((att) => {
       return res.send({
         message: "true"
       })

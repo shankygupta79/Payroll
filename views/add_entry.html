@@ -1,0 +1,193 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Loan Entry</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2">
+
+                <div class="bord">
+                    <div class="headin center">Add Loan Entry</div>
+                    <div class="roww"></div>
+                    <table class="report2">
+                        <tr>
+                            <td><label class="radio-inline">
+                                    <input type="radio" v-model="optradio" value=0 name="optradio" checked>&nbsp;Give
+                                    Loan
+                                </label>
+                                &nbsp;&nbsp;<label class="radio-inline">
+                                    <input type="radio" v-model="optradio" value=1 name="optradio">&nbsp;Recieve
+                                </label></td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: right;"><strong>Select Employee :</strong>
+
+
+                            </td>
+                            <td><select class="form-control" v-model="select_emp">
+                                    <option style="color: black;" v-for="i in employee">{{i}}</option>
+                                </select></td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: right;"><strong>Amount:</strong></td>
+                            <td><input type="number" class="form-control" v-model="amount" placeholder="Amount"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;"><strong>Narration :</strong></td>
+                            <td><textarea class="form-control" v-model="message"
+                                    placeholder="Add some narration"></textarea></td>
+                        </tr>
+
+
+
+                        </tr>
+                    </table>
+                    <div v-if="error" class="error">
+                        {{message_error}} !
+                    </div> <br>
+                    <div v-if="success" class="success">
+                        {{message_success}} !
+                    </div>
+                    <div class="center">
+                        <button @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Add Entry
+                        </button>
+                    </div>
+                    <div class="center headin"></div>
+                    <div class="row"></div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                myArray: [],
+                amount: 0,
+                success: 0,
+                error: 0,
+                idx: [],
+                message: "",
+                optradio: 0,
+                mon:['01','02','03','04','05','06','07','08','09','10','11','12'],
+                employee: [],
+
+                select_emp: '',
+                message_error: "Enter the full details",
+                message_success: "Attendace report loaded successfully",
+
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp')
+                        .then(function (Response1) {
+                            for (var i = 0; i < Response1.length; i++) {
+                                log.employee.push(Response1[i].name)
+                                log.idx.push(Response1[i].emp_id)
+                            }
+                            log.loaderoff()
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
+                }, submit() {
+                    if (log.select_emp == '') {
+                        log.error = 1;
+                        log.message_error = "Select a Employee !"
+                        return
+                    }
+                    log.error=0
+
+                    var d=new Date();
+                    var dt=d.getDate();
+                    if(dt<10){
+                        dt=0+""+dt;
+                    }
+                    $.post('./loanadd', {
+                        amount: log.amount,
+                        text: log.message,
+                        type:log.optradio,
+                        emp_id: log.idx[log.employee.indexOf(log.select_emp)],
+                        date: dt+"-"+log.mon[d.getMonth()]+"-"+d.getFullYear() ,
+                    }, function (data) {
+                        console.log(data.message)
+                        if (data.message != 'true') {
+                            log.error = 1
+                            log.message_error = data.message
+
+                        } else {
+                            log.error = 0
+                            log.success = 1
+                            log.message_success = "Entry Added SuccessFully !"
+                            setTimeout(() => {
+                                window.location.href = "entry"
+                            }, 1000);
+                        }
+                    })
+
+                }
+            }
+
+
+        })
+
+
+    </script>
+
+    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+</body>
+
+</html>

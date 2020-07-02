@@ -201,6 +201,7 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
       pnum: req.body.phone,
       photo: photu,
       status: req.body.status,
+      totalloan:0,
     }).then((user) => {
       arr2 = [];
       photu = '';
