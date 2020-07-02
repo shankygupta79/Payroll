@@ -247,7 +247,7 @@ route.get('/api/quickemp', authCheckview, (req, res) => {
   }
 })
 route.post('/api/active', authCheckedit, (req, res) => {
-  var a0 = new Date().getTime() + 60 * 60 * 1000;
+  var a0 = new Date().getTime() + 60 * 60 * 1000*5.5;
   var dt = new Date(a0);
   var dt1 = dt.getDate()
   if (dt1 < 10) {
