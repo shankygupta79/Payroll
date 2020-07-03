@@ -34,8 +34,8 @@
         <navbar-component></navbar-component>
         <div id="navbar-top">
             <navbar-top></navbar-top>
-            
-            <div >
+
+            <div>
                 <div class="bord">
 
 
@@ -70,9 +70,16 @@
                         </div> <br>
                         <div v-if="success" class="success">
                             {{message_success}} !
-                        </div> <br>
+                        </div> 
                         <img src="../images/loading" v-show="paylist" id="Loading" ref="Loading">
                         <div v-show="paylist" id="content2" ref="content2">
+                            <div class="center" style="font-size: 1.2em;">
+                               Total Balance Amount &nbsp;<b>{{symbol}} {{(totalb).toLocaleString('en-IN')}}</b>
+                            </div>
+                            <div class="center" style="font-size: 1.2em;">
+                            Total Net Pay Amount  &nbsp;<b>{{symbol}}{{(totaln).toLocaleString('en-IN')}}</b>
+                            </div>
+                            
                             <div style="display: inline;">
                                 Show <select @change="entryfun(entry)" v-model="entry">
                                     <option value="10">10</option>
@@ -106,7 +113,7 @@
                                 <tr v-for="i in myArray.length"
                                     v-if="myArray[i-1]['employee_quick'].name.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
                                     <td><b>{{myArray[i-1]['employee_quick'].name}}</b></td>
-                                    <td>{{symbol}} {{myArray[i-1].netpay}}</td>
+                                    <td>{{symbol}} {{(myArray[i-1].netpay).toLocaleString('en-IN')}}</td>
                                     <td><button @click="download(myArray[i-1].emp_id)" class="btn btn-success"><i
                                                 class="fa fa-download" style="color:white" aria-hidden="true"></i>
                                             Download</button>
@@ -164,7 +171,7 @@
                 myArray: [],
                 success: 0,
                 error: 0,
-                sortfield2:'',
+                sortfield2: '',
                 yearlist: [],
                 arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
                 monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
@@ -174,13 +181,15 @@
                 message_error: "Enter the full details",
                 message_success: "Paylists loaded successfully",
                 paylist: 0,
+                totalb: 0,
+                totaln: 0,
             },
             created: function () {
                 this.load();
             },
             methods: {
                 load: function () {
-                    
+
 
                     this.year();
                 }, entryfun(entry) {
@@ -191,16 +200,16 @@
                         this.pages.push(i)
                     }
                 }, sort(name, type) {
-                    if(name=='Final Amount'){
-                        this.sortfield=name
-                        this.sortfield2='netpay'
-                    }else{
-                        
-                        this.sortfield='name'
-                        this.sortfield2=this.sortfield
+                    if (name == 'Final Amount') {
+                        this.sortfield = name
+                        this.sortfield2 = 'netpay'
+                    } else {
+
+                        this.sortfield = 'name'
+                        this.sortfield2 = this.sortfield
                     }
-                    this.sorticon=!this.sorticon
-                    if (this.sortfield == 'name' || this.sortfield=='Final Amount') {
+                    this.sorticon = !this.sorticon
+                    if (this.sortfield == 'name' || this.sortfield == 'Final Amount') {
 
                         this.myArray.sort(this.compare)
                     }
@@ -209,16 +218,16 @@
                     }
 
                 }, compare(a, b) {
-                    var nameA=''
-                    var nameB=''
-                    if(this.sortfield2=='netpay'){
+                    var nameA = ''
+                    var nameB = ''
+                    if (this.sortfield2 == 'netpay') {
                         nameA = a[this.sortfield2]
                         nameB = b[this.sortfield2]
-                    }else{
+                    } else {
                         nameA = a['employee_quick'][this.sortfield2]
                         nameB = b['employee_quick'][this.sortfield2]
                     }
-                    
+
                     if (nameA < nameB) { return -1; }
                     if (nameA > nameB) { return 1; }
                     return 0;
@@ -251,7 +260,7 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                },loaderon() {
+                }, loaderon() {
                     var app = this;
                     var loading = app.$refs.Loading
                     loading.style.display = "block"
@@ -262,11 +271,18 @@
                     window.open(x, "_blank")
 
                 }, print(idx) {
-                    var x = "https://payrollv2.herokuapp.com/payslips/printsingle?id=" + idx +"&month=" +  this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year+  "&action=print";
+                    var x = "https://payrollv2.herokuapp.com/payslips/printsingle?id=" + idx + "&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&action=print";
                     window.open(x, "_blank")
                 }, printall() {
-                    var x = "https://payrollv2.herokuapp.com/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year ;
+                    var x = "https://payrollv2.herokuapp.com/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year;
                     window.open(x, "_blank")
+                }, calc() {
+                    for (var i = 0; i < log.myArray.length; i++) {
+
+                        this.totalb = this.totalb + log.myArray[i].balance
+                        this.totaln = this.totaln + log.myArray[i].netpay
+                    }
+
                 }, year() {
                     var d = new Date();
                     var n = d.getFullYear() + 1;
@@ -278,26 +294,29 @@
                     this.select_month = this.monthlist[d.getMonth()];
                     this.select_year = n - 1;
                 }, submit() {
-                    
+
                     if (log.select_month == "" || log.select_year == "") {
                         log.error = 1
                         return
                     }
                     log.loaderon()
                     log.paylist = 1
+                    log.totalb=0
+                    log.totaln=0
                     axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
                         .then(function (Response1) {
-                            if(Response1.length==0){
+                            if (Response1.length == 0) {
                                 console.log(Response1)
-                                log.error=1
+                                log.error = 1
                                 log.loaderoff()
                                 log.paylist = 0
-                    
-                                log.message_error="NO RECORD FOUND"
+
+                                log.message_error = "NO RECORD FOUND"
                                 return
 
                             }
                             log.myArray = Response1
+                            log.calc()
                             axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
                                 .then(function (Response2) {
                                     log.symbol = Response2
@@ -308,7 +327,7 @@
                                     log.message_error = "Error connecting the database try again later !"
                                     log.loaderoff()
                                 })
-                            
+
                             log.total = log.myArray.length;
                             log.entryfun(log.entry);
                             log.loaderoff()

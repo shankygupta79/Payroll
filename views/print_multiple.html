@@ -144,13 +144,13 @@
                         Basic
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1]['employee_quick'].salary}}
+                        {{symbol}}{{parseInt(myArray[i-1]['employee_quick'].salary).toLocaleString('en-IN')}}
                     </td>
                     <td>
                         Holidays
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].holidays}}
+                        {{symbol}}{{parseInt(myArray[i-1].holidays).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -158,13 +158,13 @@
                         Extra Time
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].extratimetotoal}}
+                        {{symbol}}{{parseInt(myArray[i-1].extratimetotoal).toLocaleString('en-IN')}}
                     </td>
                     <td>
                         Advance
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].advance}}
+                        {{symbol}}{{parseInt(myArray[i-1].advance).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -172,13 +172,13 @@
                         Bonus
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].bonus}}
+                        {{symbol}}{{parseInt(myArray[i-1].bonus).toLocaleString('en-IN')}}
                     </td>
                     <td>
                         Deductions
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].deduction}}
+                        {{symbol}}{{parseInt(myArray[i-1].deduction).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -192,7 +192,7 @@
                         Transfer
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].transfer}}
+                        {{symbol}}{{parseInt(myArray[i-1].transfer).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -206,7 +206,7 @@
                         Monthly EMI
                     </td>
                     <td>
-                        {{symbol}}{{myArray[i-1].emi}}
+                        {{symbol}}{{parseInt(myArray[i-1].emi).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -214,13 +214,13 @@
                         Total Earnings
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray[i-1].bonus)+parseInt(myArray[i-1]['employee_quick'].salary)+parseInt(myArray[i-1].extratimetotoal)}}
+                        {{symbol}}{{(parseInt(myArray[i-1].bonus)+parseInt(myArray[i-1]['employee_quick'].salary)+parseInt(myArray[i-1].extratimetotoal)).toLocaleString('en-IN')}}
                     </th>
                     <th>
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].transfer)+parseInt(myArray[i-1].emi)+parseInt(myArray[i-1].deduction)}}
+                        {{symbol}}{{parseInt(parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].transfer)+parseInt(myArray[i-1].emi)+parseInt(myArray[i-1].deduction)).toLocaleString('en-IN')}}
                     </th>
                 </tr>
                 <tr>
@@ -228,13 +228,13 @@
                         Loan Left
                     </th>
                     <th style="border: none;background-color: whitesmoke;">
-                        {{symbol}}{{myArray[i-1]['employee_quick'].totalloan}}
+                        {{symbol}}{{parseInt(myArray[i-1]['employee_quick'].totalloan).toLocaleString('en-IN')}}
                     </th>
                     <th>
                         Net Pay
                     </th>
                     <th>
-                        {{symbol}}{{myArray[i-1].netpay}}
+                        {{symbol}}{{parseInt(myArray[i-1].netpay).toLocaleString('en-IN')}}
                     </th>
                 </tr>
 

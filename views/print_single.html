@@ -95,13 +95,13 @@
                         Basic
                     </td>
                     <td>
-                        {{symbol}}{{myArray['employee_quick'].salary}}
+                        {{symbol}}{{parseInt(myArray['employee_quick'].salary).toLocaleString('en-IN')}}
                     </td>
                     <td>
                         Holidays
                     </td>
                     <td>
-                        {{symbol}}{{myArray.holidays}}
+                        {{symbol}}{{parseInt(myArray.holidays).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -109,13 +109,13 @@
                         Extra Time
                     </td>
                     <td>
-                        {{symbol}}{{myArray.extratimetotoal}}
+                        {{symbol}}{{parseInt(myArray.extratimetotoal).toLocaleString('en-IN')}}
                     </td>
                     <td>
                         Advance
                     </td>
                     <td>
-                        {{symbol}}{{myArray.advance}}
+                        {{symbol}}{{parseInt(myArray.advance).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -123,13 +123,13 @@
                         Bonus
                     </td>
                     <td>
-                        {{symbol}}{{myArray.bonus}}
+                        {{symbol}}{{parseInt(myArray.bonus).toLocaleString('en-IN')}}
                     </td>
                     <td>
                         Deductions
                     </td>
                     <td>
-                        {{symbol}}{{myArray.deduction}}
+                        {{symbol}}{{parseInt(myArray.deduction).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -143,7 +143,7 @@
                         Montly EMI
                     </td>
                     <td>
-                        {{symbol}}{{myArray.emi}}
+                        {{symbol}}{{parseInt(myArray.emi).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -157,7 +157,7 @@
                         Transfer
                     </td>
                     <td>
-                        {{symbol}}{{myArray.transfer}}
+                        {{symbol}}{{parseInt(myArray.transfer).toLocaleString('en-IN')}}
                     </td>
                 </tr>
                 <tr>
@@ -165,13 +165,13 @@
                         Total Earnings
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray.bonus)+parseInt(myArray['employee_quick'].salary)+parseInt(myArray.extratimetotoal)}}
+                        {{symbol}}{{(parseInt(myArray.bonus)+parseInt(myArray['employee_quick'].salary)+parseInt(myArray.extratimetotoal)).toLocaleString('en-IN')}}
                     </th>
                     <th>
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(myArray.advance)+parseInt(myArray.holidays)+parseInt(myArray.transfer)+parseInt(myArray.emi)+parseInt(myArray.deduction)}}
+                        {{symbol}}{{(parseInt(myArray.advance)+parseInt(myArray.holidays)+parseInt(myArray.transfer)+parseInt(myArray.emi)+parseInt(myArray.deduction)).toLocaleString('en-IN')}}
                     </th>
                 </tr>
                 <tr>
@@ -182,7 +182,7 @@
                         Net Pay
                     </th>
                     <th>
-                        {{symbol}}{{myArray.netpay}}
+                        {{symbol}}{{parseInt(myArray.netpay).toLocaleString('en-IN')}}
                     </th>
                 </tr>
 

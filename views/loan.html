@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="center" style="font-size: 1.5em;">
-                            <b>TOTAL LOAN is </b>{{symbol}} {{given-reci}}
+                            <b>TOTAL LOAN is </b>{{symbol}} {{parseInt(given-reci).toLocaleString('en-IN')}}
                         </div><br>
                         <table id='tblData'>
                             <tr>
@@ -97,10 +97,10 @@
                                 <td>{{myArray[i-1].date}}</td>
                                 <td>{{myArray[i-1].text}}</td>
                                 <td>
-                                    <div v-show="myArray[i-1].type==0">{{symbol}} {{myArray[i-1].amount}}</div>
+                                    <div v-show="myArray[i-1].type==0">{{symbol}} {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
                                 </td>
                                 <td>
-                                    <div v-show="myArray[i-1].type==1">{{symbol}} {{myArray[i-1].amount}}</div>
+                                    <div v-show="myArray[i-1].type==1">{{symbol}} {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
                                 </td>
 
 
@@ -113,10 +113,10 @@
                                     <b>Total<b>
                                 </td>
                                 <td>
-                                    {{symbol}} {{given}}
+                                    {{symbol}} {{parseInt(given).toLocaleString('en-IN')}}
                                 </td>
                                 <td>
-                                    {{symbol}} {{reci}}
+                                    {{symbol}} {{parseInt(reci).toLocaleString('en-IN')}}
                                 </td>
                             </tr>
                         </table><br>
@@ -142,7 +142,7 @@
                     </div>
                     <div v-if="listing==1"><br>
                         <div class="center" style="font-size: 1.5em;">
-                            <b>TOTAL LOAN is </b>{{symbol}} {{totalloan}}
+                            <b>TOTAL LOAN is </b>{{symbol}} {{parseInt(totalloan).toLocaleString('en-IN')}}
                         </div><br>
                         <div>
                             <div style="display: inline;">
@@ -189,7 +189,7 @@
                                     {{loanarr[i-1].name}}
                                 </td>
                                 <td>
-                                    {{symbol}} {{loanarr[i-1].loan}}
+                                    {{symbol}} {{parseInt(loanarr[i-1].loan).toLocaleString('en-IN')}}
                                 </td>
                             </tr>
                         </table>
