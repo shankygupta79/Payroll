@@ -135,6 +135,8 @@ passport.use('login', new LocalStrategy({
     var salti = '';
     var hash = '';
     var hash_created = '';
+    console.log(email)
+    console.log(password)
     User.findOne({ where: { emailId: email } })
         .then((user) => {
             var users = [user.dataValues];
