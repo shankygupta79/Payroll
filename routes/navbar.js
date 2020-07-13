@@ -76,17 +76,17 @@ Vue.component('navbar-component',{
     <ul class="list-unstyled components" style="padding:0">
         <p>Welcome</p>
         <li>
-            <a href="http://localhost:3420/dashboard"><i class="fa fa-tachometer" style="color:blue" aria-hidden="true"></i>&nbsp Dashboard</a>
+            <a href="https://payrollv2.herokuapp.com/dashboard"><i class="fa fa-tachometer" style="color:blue" aria-hidden="true"></i>&nbsp Dashboard</a>
         </li>
         <li >
             <a href="#employee" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
             <i class="fa fa-users" aria-hidden="true" style="color:green"></i>&nbsp Employee</a>
             <ul class="collapse list-unstyled" id="employee" data-parent="#sidebar">
                 <li>
-                    <a href="http://localhost:3420/employee/add_emp"><i class="fa fa-ellipsis-h" style="color:green"aria-hidden="true"></i>&nbsp Add Employee</a>
+                    <a href="https://payrollv2.herokuapp.com/employee/add_emp"><i class="fa fa-ellipsis-h" style="color:green"aria-hidden="true"></i>&nbsp Add Employee</a>
                 </li>
                 <li>
-                    <a href="http://localhost:3420/employee/manage_emp"><i class="fa fa-ellipsis-h" style="color:green"aria-hidden="true"></i>&nbsp Manage Employee</a>
+                    <a href="https://payrollv2.herokuapp.com/employee/manage_emp"><i class="fa fa-ellipsis-h" style="color:green"aria-hidden="true"></i>&nbsp Manage Employee</a>
                 </li>
             </ul>
         </li>
@@ -95,10 +95,10 @@ Vue.component('navbar-component',{
             <i class="fa fa-fort-awesome" style="color:yellow" aria-hidden="true"></i>&nbsp Department</a>
             <ul class="collapse list-unstyled" id="department" data-parent="#sidebar">
                 <li>
-                    <a href="http://localhost:3420/department/add_dep"><i class="fa fa-ellipsis-h" style="color:yellow"aria-hidden="true"></i>&nbsp Add Department</a>
+                    <a href="https://payrollv2.herokuapp.com/department/add_dep"><i class="fa fa-ellipsis-h" style="color:yellow"aria-hidden="true"></i>&nbsp Add Department</a>
                 </li>
                 <li>
-                    <a href="http://localhost:3420/department/manage_dep"><i class="fa fa-ellipsis-h" style="color:yellow"aria-hidden="true"></i>&nbsp Show Department</a>
+                    <a href="https://payrollv2.herokuapp.com/department/manage_dep"><i class="fa fa-ellipsis-h" style="color:yellow"aria-hidden="true"></i>&nbsp Show Department</a>
                 </li>
             </ul>
         </li>
@@ -107,10 +107,10 @@ Vue.component('navbar-component',{
             <i class="fa fa-calendar-check-o" style="color:lightgreen" aria-hidden="true"></i>&nbsp Attendace</a>
             <ul class="collapse list-unstyled" id="attendance" data-parent="#sidebar">
                 <li>
-                    <a href="http://localhost:3420/attendance/daily_attendance"><i class="fa fa-ellipsis-h" style="color:lightgreen"aria-hidden="true"></i>&nbsp Daily Attendance</a>
+                    <a href="https://payrollv2.herokuapp.com/attendance/daily_attendance"><i class="fa fa-ellipsis-h" style="color:lightgreen"aria-hidden="true"></i>&nbsp Daily Attendance</a>
                 </li>
                 <li>
-                    <a href="http://localhost:3420/attendance/attendance_report"><i class="fa fa-ellipsis-h" style="color:lightgreen"aria-hidden="true"></i>&nbsp Attendance Report</a>
+                    <a href="https://payrollv2.herokuapp.com/attendance/attendance_report"><i class="fa fa-ellipsis-h" style="color:lightgreen"aria-hidden="true"></i>&nbsp Attendance Report</a>
                 </li>
             </ul>
         </li>
@@ -119,10 +119,10 @@ Vue.component('navbar-component',{
             <i class="fa fa-plane" aria-hidden="true" style="color:rgb(209, 137, 4)"></i>&nbsp Holidays</a>
             <ul class="collapse list-unstyled" id="holiday" data-parent="#sidebar">
                 <li>
-                    <a href="http://localhost:3420/holiday/add_holiday"><i class="fa fa-ellipsis-h" style="color:rgb(209, 137, 4)"aria-hidden="true"></i>&nbsp Add Holiday</a>
+                    <a href="https://payrollv2.herokuapp.com/holiday/add_holiday"><i class="fa fa-ellipsis-h" style="color:rgb(209, 137, 4)"aria-hidden="true"></i>&nbsp Add Holiday</a>
                 </li>
                 <li>
-                    <a href="http://localhost:3420/holiday/manage_holiday"><i class="fa fa-ellipsis-h" style="color:rgb(209, 137, 4)"aria-hidden="true"></i>&nbsp Manage Holiday</a>
+                    <a href="https://payrollv2.herokuapp.com/holiday/manage_holiday"><i class="fa fa-ellipsis-h" style="color:rgb(209, 137, 4)"aria-hidden="true"></i>&nbsp Manage Holiday</a>
                 </li>
             </ul>
         </li>
@@ -131,10 +131,10 @@ Vue.component('navbar-component',{
             <i class="fa fa-money" aria-hidden="true" style="color:lightblue"></i>&nbsp Payslips</a>
             <ul class="collapse list-unstyled" id="payslip" data-parent="#sidebar">
                 <li>
-                    <a href="http://localhost:3420/payslips/calc"><i class="fa fa-ellipsis-h" style="color:lightblue"aria-hidden="true"></i>&nbsp Salary Calculator</a>
+                    <a href="https://payrollv2.herokuapp.com/payslips/calc"><i class="fa fa-ellipsis-h" style="color:lightblue"aria-hidden="true"></i>&nbsp Salary Calculator</a>
                 </li>
                 <li>
-                    <a href="http://localhost:3420/payslips/list"><i class="fa fa-ellipsis-h" style="color:lightblue"aria-hidden="true"></i>&nbsp Payslip List</a>
+                    <a href="https://payrollv2.herokuapp.com/payslips/list"><i class="fa fa-ellipsis-h" style="color:lightblue"aria-hidden="true"></i>&nbsp Payslip List</a>
                 </li>
                 
             </ul>
@@ -145,10 +145,10 @@ Vue.component('navbar-component',{
             <ul class="collapse list-unstyled" id="loan" data-parent="#sidebar">
                 
                 <li>
-                    <a href="http://localhost:3420/payslips/loan"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Manage Loans </a>
+                    <a href="https://payrollv2.herokuapp.com/payslips/loan"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Manage Loans </a>
                 </li>
                 <li>
-                    <a href="http://localhost:3420/payslips/entry"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Add Entry </a>
+                    <a href="https://payrollv2.herokuapp.com/payslips/entry"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Add Entry </a>
                 </li>
             </ul>
         </li>
@@ -157,10 +157,10 @@ Vue.component('navbar-component',{
             <i class="fa fa-cogs" aria-hidden="true" style="color:rgb(196, 5, 5)"></i>&nbsp Settings</a>
             <ul class="collapse list-unstyled" id="setting" data-parent="#sidebar">
                 <li>
-                    <a href="http://localhost:3420/settings/change_password"><i class="fa fa-ellipsis-h" style="color:rgb(196, 5, 5)"aria-hidden="true"></i>&nbsp Change Password</a>
+                    <a href="https://payrollv2.herokuapp.com/settings/change_password"><i class="fa fa-ellipsis-h" style="color:rgb(196, 5, 5)"aria-hidden="true"></i>&nbsp Change Password</a>
                 </li>
                 <li>
-                    <a href="http://localhost:3420/settings/configrations"><i class="fa fa-ellipsis-h" style="color:rgb(196, 5, 5)"aria-hidden="true"></i>&nbsp Configurations</a>
+                    <a href="https://payrollv2.herokuapp.com/settings/configrations"><i class="fa fa-ellipsis-h" style="color:rgb(196, 5, 5)"aria-hidden="true"></i>&nbsp Configurations</a>
                 </li>
             </ul>
         </li>
@@ -169,10 +169,10 @@ Vue.component('navbar-component',{
             <i class="fa fa-user" aria-hidden="true" style="color:coral"></i>&nbsp Users</a>
             <ul class="collapse list-unstyled" id="user" data-parent="#sidebar">
                 <li>
-                    <a href="http://localhost:3420/users/add_user"><i class="fa fa-ellipsis-h" style="color:coral"aria-hidden="true"></i>&nbsp Add User</a>
+                    <a href="https://payrollv2.herokuapp.com/users/add_user"><i class="fa fa-ellipsis-h" style="color:coral"aria-hidden="true"></i>&nbsp Add User</a>
                 </li>
                 <li>
-                    <a href="http://localhost:3420/users/manage_user"><i class="fa fa-ellipsis-h" style="color:coral"aria-hidden="true"></i>&nbsp Manage User</a>
+                    <a href="https://payrollv2.herokuapp.com/users/manage_user"><i class="fa fa-ellipsis-h" style="color:coral"aria-hidden="true"></i>&nbsp Manage User</a>
                 </li>
             </ul>
         </li>
@@ -180,7 +180,7 @@ Vue.component('navbar-component',{
         
         
         <li>
-            <a href="http://localhost:3420/auth/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp Logout</a>
+            <a href="https://payrollv2.herokuapp.com/auth/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp Logout</a>
         </li>
     </ul>
 
@@ -219,10 +219,10 @@ Vue.component('navbar-top',{
         <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown2-content">
-            <a href="http://localhost:3420/settings/profile" >Profile</a>
-            <a href="http://localhost:3420/settings/change_password" class="hov">Change Password</a>
-            <a href="http://localhost:3420/settings/configrations" class="hov">Configrations</a>
-            <a href="http://localhost:3420/auth/logout" class="hov">Logout &nbsp<i class="fa fa-sign-out" aria-hidden="true"></i> </a>
+            <a href="https://payrollv2.herokuapp.com/settings/profile" >Profile</a>
+            <a href="https://payrollv2.herokuapp.com/settings/change_password" class="hov">Change Password</a>
+            <a href="https://payrollv2.herokuapp.com/settings/configrations" class="hov">Configrations</a>
+            <a href="https://payrollv2.herokuapp.com/auth/logout" class="hov">Logout &nbsp<i class="fa fa-sign-out" aria-hidden="true"></i> </a>
           </div>
     </div>
     </div>

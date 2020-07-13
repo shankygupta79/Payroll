@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
-    <link rel="stylesheet" href="http://localhost:3420/employee/css">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/employee/css">
 
     <meta name="csrf-token" content="XYZ123">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -143,7 +143,7 @@
                         <tr>
                             <td valign="top"><b>Photo</b></td>
                             <td @click="photo()">
-                                <form method="post" action="http://localhost:3420/employee/add_emp/uploadpr"
+                                <form method="post" action="https://payrollv2.herokuapp.com/employee/add_emp/uploadpr"
                                     class="dropzone" v-show="edit">
                                     <div class="fallback">
                                         <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
@@ -318,7 +318,7 @@
                 </div>
                 <div @click="docum()">
                     <form id="upload-widget" v-show="edit" method="post"
-                        action="http://localhost:3420/employee/add_emp/upload" class="dropzone doc">
+                        action="https://payrollv2.herokuapp.com/employee/add_emp/upload" class="dropzone doc">
                         <div class="fallback">
                             <input name="file" type="file" multiple />
                         </div>
@@ -344,7 +344,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="http://localhost:3420/navbar2"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -374,7 +374,7 @@
                     var app = this;
                     var params = this.getParams(window.location.href)
                     console.log(params)
-                    await axios.get('http://localhost:3420/employee/api/quickemp?empid=' + params.empid)
+                    await axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp?empid=' + params.empid)
                         .then(function (Response1) {
                             app.myArrayq = Response1
                         })
@@ -384,7 +384,7 @@
                             log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
-                    await axios.get('http://localhost:3420/employee/api/emp?empid=' + params.empid)
+                    await axios.get('https://payrollv2.herokuapp.com/employee/api/emp?empid=' + params.empid)
                         .then(function (Response2) {
                             console.log("Here Comes")
 
@@ -403,7 +403,7 @@
                             log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
-                    await axios.get('http://localhost:3420/department/api/dep')
+                    await axios.get('https://payrollv2.herokuapp.com/department/api/dep')
                         .then(function (Response) {
                             log.departments = Response
                             log.loaderoff()
@@ -552,7 +552,7 @@
         };
     </script>
 
-    <script src="http://localhost:3420/navbar2/collapsing"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 
 </html>

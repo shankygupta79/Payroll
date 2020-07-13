@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
     <link rel="stylesheet" href="../payslips/css">
 
 
@@ -201,7 +201,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="http://localhost:3420/navbar2"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -304,7 +304,7 @@
                         return
                     }
                     log.paylist = 1
-                    axios.get('http://localhost:3420/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
+                    axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
                         .then(function (Response1) {
                             log.list = Response1
                             if (Response1.length == 0) {
@@ -333,7 +333,7 @@
                                 log.list[i].extratimetotoal = extra
                                 log.list[i].holidays = Math.ceil(log.list[i]['employee_quick'].salary / days) * ab
                             }
-                            axios.get('http://localhost:3420/settings/api/symbol')
+                            axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
                                 .then(function (Response2) {
                                     log.symbol = Response2
                                 })
@@ -410,7 +410,7 @@
         });
     </script>
 
-    <script src="http://localhost:3420/navbar2/collapsing"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 
 </html>

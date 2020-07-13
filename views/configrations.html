@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
-    <link rel="stylesheet" href="http://localhost:3420/settings/css">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
@@ -55,7 +55,7 @@
                         <br><label class="label2">Company Logo&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;</label>
                         <div class="inl">
-                            <form id="upload-widget" method="post" action="http://localhost:3420/settings/uploadlg"
+                            <form id="upload-widget" method="post" action="https://payrollv2.herokuapp.com/settings/uploadlg"
                                 class="dropzone">
                                 <div class="fallback">
                                     <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
@@ -450,7 +450,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="http://localhost:3420/navbar2"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
 
     <script>
         var log = new Vue({
@@ -478,7 +478,7 @@
             },
             methods: {
                 load: function () {
-                    axios.get('http://localhost:3420/settings/api/setting')
+                    axios.get('https://payrollv2.herokuapp.com/settings/api/setting')
                         .then(function (Response1) {
                             log.name = Response1[0].name
                             log.phone = Response1[0].phone
@@ -579,7 +579,7 @@
 
     </script>
 
-    <script src="http://localhost:3420/navbar2/collapsing"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 
 </html>
