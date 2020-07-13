@@ -16,8 +16,9 @@
   <!-- Latest compiled and minified bootstap CSS -->
 
   <link rel="stylesheet" href="/signup/css">
-  <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-
+  <link rel="stylesheet" href="/signup/css2">
+  <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -77,23 +78,40 @@
         <div class="center"><a href="/signup" class="blue under"> New User ? Sign Up </a></div>
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <div data-tip="Enter Email" v-bind:if='validemail'>
+          <!--<div data-tip="Enter Email" v-bind:if='validemail'>
             <div error-tip="Enter Valid Email" v-bind:if='validemail'>
               <input type="email" class="form-control" v-model="email" id="exampleInputEmail1"
                 aria-describedby="emailHelp" placeholder="Enter email">
             </div>
-          </div>
+            
+          </div>-->
+          <div data-tip="Enter Email" v-bind:if='validemail' class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+            <div error-tip="Enter Valid Email" v-bind:if='validemail'></div>
+            <input class="input100" type="email" v-model="email" name="email" v-model="user" placeholder="Enter Email">
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+            </span>
+        </div>
           <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
             else.</small>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <div data-tip="Enter Password" v-bind:if='validpassword'>
+          <!--<div data-tip="Enter Password" v-bind:if='validpassword'>
             <div error-tip="Enter 8 character or long password" v-bind:if='validpassword'>
               <input type="password" class="form-control" v-model="password" id="exampleInputPassword1"
                 placeholder="Password">
             </div>
-          </div>
+          </div>-->
+          <div  data-tip="Enter Password" v-bind:if='validpassword' class="wrap-input100 validate-input" data-validate = "Password is required">
+            <div error-tip="Enter 8 character or long password" v-bind:if='validpassword'></div>
+            <input class="input100" type="password" v-model="password" name="pass" placeholder="Enter Password">
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+            </span>
+        </div>
           <a href="/forgotpassword" class="tomato under" style="float: right;" class="card-link">Forgot Password ?</a><br>
         </div>
         <div v-if="error" class="error">
@@ -172,7 +190,7 @@
               console.log(data)
               
               if (data === 'true') {
-                window.location.href = 'https://payrollv2.herokuapp.com/dashboard';
+                window.location.href = 'http://localhost:3420/dashboard';
               } else if (data[0] === 'wp') {
                 acc.word="Try Again"
                 acc.message = " Incorrect Password";
