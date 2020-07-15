@@ -1,5 +1,5 @@
 ## Payroll Version 2.0
-https://payrollv2.herokuapp.com/
+https://payroll.cleverapps.io/
 
 ## Currently Used by
 1.Sanjeev Store
