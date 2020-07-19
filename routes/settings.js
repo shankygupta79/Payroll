@@ -6,15 +6,23 @@ const Sequelize = require('sequelize')
 var crypto = require('crypto');
 const multer = require('multer');
 const sizeOf = require('image-size');
-const cloudinary = require('cloudinary');
-cloudinary.config({
-  cloud_name: process.env.cloud_name,
-  api_key: process.env.api_key,
-  api_secret: process.env.api_secret,
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
+AWS.config.update({ accessKeyId: process.env.BKey, secretAccessKey: process.env.BSecret });
+const endpoint = new AWS.Endpoint(process.env.BHost);
+
+const s3 = new AWS.S3({ endpoint });
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'payrollbucket2',
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, path.basename(file.originalname, path.extname(file.originalname)) + '-' + Date.now() + path.extname(file.originalname))
+    }
+  })
 });
 
-
-var upload = multer({ dest: 'uploads/' });
 function isEmpty(obj) {
   for (var key in obj) {
     if (obj.hasOwnProperty(key))
@@ -226,18 +234,10 @@ route.post('/uploadpr', upload.single('file'), (req, res) => {
       error: 'The uploaded file must be an image'
     });
   }
-  cloudinary.v2.uploader.upload(req.file.path,
-    function (error, result) {
-      photu2 = result.secure_url
+      photu2 = req.file.location;
       console.log(photu2)
       return res.send({ message: "Done" })
-    })
-    .catch((err) => {
-      console.log(err)
-      return res.send({
-        error: "Could not upload image"
-      })
-    });
+
 
 
 
@@ -249,20 +249,9 @@ route.post('/uploadlg', upload.single('file'), (req, res) => {
       error: 'The uploaded file must be an image'
     });
   }
-  cloudinary.v2.uploader.upload(req.file.path,
-    function (error, result) {
-      logo2 = result.secure_url;
+      logo2 = req.file.location;
       console.log(logo2)
       return res.send({ message: "Done" })
-    })
-    .catch((err) => {
-      console.log(err)
-      return res.send({
-        error: "Could not upload image"
-      })
-    });
-
-
 
 });
 module.exports = route

@@ -6,17 +6,27 @@ const Empq = require('../database').Employeeqdb
 const User = require('../database').User
 const multer = require('multer');
 const sizeOf = require('image-size');
-const cloudinary = require('cloudinary');
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
 var arr2 = []
 var photu = ''
-cloudinary.config({
-  cloud_name: process.env.cloud_name,
-  api_key: process.env.api_key,
-  api_secret: process.env.api_secret,
+
+AWS.config.update({ accessKeyId: process.env.BKey, secretAccessKey: process.env.BSecret });
+const endpoint = new AWS.Endpoint(process.env.BHost);
+
+const s3 = new AWS.S3({ endpoint });
+
+
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'payrollbucket2',
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, path.basename(file.originalname, path.extname(file.originalname)) + '-' + Date.now() + path.extname(file.originalname))
+    }
+  })
 });
-
-
-var upload = multer({ dest: 'uploads/' });
 function isEmpty(obj) {
   for (var key in obj) {
     if (obj.hasOwnProperty(key))
@@ -247,42 +257,42 @@ route.get('/api/quickemp', authCheckview, (req, res) => {
   }
 })
 route.post('/api/active', authCheckedit, (req, res) => {
-  var a0 = new Date().getTime() + 60 * 60 * 1000*5.5;
+  var a0 = new Date().getTime() + 60 * 60 * 1000 * 5.5;
   var dt = new Date(a0);
   var dt1 = dt.getDate()
   if (dt1 < 10) {
     dt1 = 0 + "" + dt1
   }
   var mt = dt.getMonth()
-  mt=mt+1
+  mt = mt + 1
   if (mt < 10) {
     mt = 0 + "" + mt
   }
   var present = ""
-  var marked=""
-  var attby=""
+  var marked = ""
+  var attby = ""
   console.log(parseInt(dt1))
   console.log(req.body.status)
   if (req.body.status == "Active") {
-    
+
     for (var i = 1; i <= 31; i++) {
       if (i <= parseInt(dt1)) {
-        present=present+"A"
-        marked=marked+"1"
-        attby=attby+"1"
-      }else{
-        present=present+"-"
-        marked=marked+"0"
-        attby=attby+"0"
+        present = present + "A"
+        marked = marked + "1"
+        attby = attby + "1"
+      } else {
+        present = present + "-"
+        marked = marked + "0"
+        attby = attby + "0"
       }
     }
     Att.create({
       userId: xid,
       emp_id: req.body.emp_id,
-      monthyear: mt+"-"+dt.getFullYear(),
+      monthyear: mt + "-" + dt.getFullYear(),
       present: present,
       marked: marked,
-      quick: parseInt(dt1)+'A',
+      quick: parseInt(dt1) + 'A',
       holidays: 0,
       extratimetotoal: 0,
       extratime: "0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0",
@@ -299,7 +309,7 @@ route.post('/api/active', authCheckedit, (req, res) => {
       return res.send({
         message: "true"
       })
-  
+
     })
       .catch((err) => {
         console.log(err)
@@ -307,45 +317,45 @@ route.post('/api/active', authCheckedit, (req, res) => {
           message: "Could not retrive employees"
         })
       })
-  
+
 
   } else {
     //MAKING INACTIVE
-    Att.findOne({ where: { emp_id: req.body.emp_id, monthyear:mt+"-"+dt.getFullYear() } })
-    .then((att) => {
-      for (var i = 1; i <= 31; i++) {
-        if (i >= parseInt(dt1)) {
-          present=present+"A"
-          marked=marked+"1"
-          attby=attby+"1"
+    Att.findOne({ where: { emp_id: req.body.emp_id, monthyear: mt + "-" + dt.getFullYear() } })
+      .then((att) => {
+        for (var i = 1; i <= 31; i++) {
+          if (i >= parseInt(dt1)) {
+            present = present + "A"
+            marked = marked + "1"
+            attby = attby + "1"
+          }
         }
-      }
-      present=att.present.slice(0,dt1-1)+present
-      marked=att.marked.slice(0,dt1-1)+marked
-      attby=att.attby.slice(0,dt1-1)+attby
-      Att.update({
-        present:present,
-        marked:marked,
-        attby:attby,
-        quick:parseInt(dt1)+"A",
+        present = att.present.slice(0, dt1 - 1) + present
+        marked = att.marked.slice(0, dt1 - 1) + marked
+        attby = att.attby.slice(0, dt1 - 1) + attby
+        Att.update({
+          present: present,
+          marked: marked,
+          attby: attby,
+          quick: parseInt(dt1) + "A",
 
-      },{where:{ emp_id: req.body.emp_id, monthyear:mt+"-"+dt.getFullYear() }})
-      return res.send({
-        message: "true"
+        }, { where: { emp_id: req.body.emp_id, monthyear: mt + "-" + dt.getFullYear() } })
+        return res.send({
+          message: "true"
+        })
+
       })
-  
-    })
       .catch((err) => {
         console.log(err)
         return res.send({
           message: "Could not retrive employees"
         })
       })
-  
+
   }
 
 
-  
+
 })
 route.get('/api/quickempactive', authCheckview, (req, res) => {
   Empq.findAll({ where: { userId: xid, status: 'Active' } })
@@ -380,19 +390,11 @@ route.post('/add_emp/upload', upload.array('file', 5), (req, res) => {
       error: 'The uploaded file must be an image'
     });
   }
-  cloudinary.v2.uploader.upload(req.files[0].path,
-    function (error, result) {
-      link = result.secure_url;
-      arr2.push(result.secure_url)
-      console.log(arr2)
-      return res.send({ message: "Done" })
-    })
-    .catch((err) => {
-      console.log(err)
-      return res.send({
-        message: "Could not upload image"
-      })
-    });
+  link = req.files[0].location;
+  arr2.push(link)
+  console.log(arr2)
+  return res.send({ message: "Done" })
+
 
 
 
@@ -404,21 +406,9 @@ route.post('/add_emp/uploadpr', upload.single('file'), (req, res) => {
       error: 'The uploaded file must be an image'
     });
   }
-  cloudinary.v2.uploader.upload(req.file.path,
-    function (error, result) {
-      photu = result.secure_url;
-      console.log(photu)
-      return res.send({ message: "Done" })
-    })
-    .catch((err) => {
-      console.log(err)
-      return res.send({
-        message: "Could not upload image"
-      })
-    });
-
-
-
+  photu = req.file.location;
+  console.log(photu)
+  return res.send({ message: "Done" })
 });
 
 module.exports = route

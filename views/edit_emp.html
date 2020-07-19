@@ -141,9 +141,9 @@
                             <td class="edittb" v-if="!edit">{{myArray.anum}}</td>
                         </tr>
                         <tr>
-                            <td valign="top"><b>Photo</b></td>
+                            <td valign="top" style="width: 40%;"><b>Photo</b></td>
                             <td @click="photo()">
-                                <form method="post" action="https://payroll.cleverapps.io/employee/add_emp/uploadpr"
+                                <form id="upload-widget" method="post" action="https://payroll.cleverapps.io/employee/add_emp/uploadpr"
                                     class="dropzone" v-show="edit">
                                     <div class="fallback">
                                         <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
@@ -534,7 +534,7 @@
     <script type="text/javascript">
         Dropzone.options.uploadWidget = {
             paramName: 'file',
-            maxFilesize: 2,
+            maxFilesize: 0.5,
             maxFiles: 5,
             dictDefaultMessage: 'Drag an image here to upload, or click to select one',
             headers: {

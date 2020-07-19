@@ -45,10 +45,8 @@ router.post("/fileupload",my,upload.single('image'),function(req,res,next){
 
   const filename=req.file.filename;
 
-cloudinary.v2.uploader.upload(req.file.path, 
-        function(error, result) {console.log(result.secure_url, error)
-        link=result.secure_url;
-        link=link.replace("http", "https");
+
+        link=req.file.location;
         User.update({   
           thumbnail:link,
         },{where:{emailId:req.body.mail}})
@@ -61,11 +59,8 @@ cloudinary.v2.uploader.upload(req.file.path,
               error: "Could not upload the image ! Sorry ."
           })
         })
-      })
-      .catch((err)=>{
-        console.log(err)
-        return res.send({Message:err})
-      });
+      
+      
 });
  
  
