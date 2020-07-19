@@ -350,6 +350,7 @@
                             log.error2 = 0;
                             axios.get('https://payroll.cleverapps.io/attendance/api/attendance?date=' + x + '&dx=' + log.dx)
                                 .then(function (Response1) {
+                                    log.myArray = []
                                     if (Response1 == '5') {
                                         console.log("HI1")
                                         log.error2 = 1
