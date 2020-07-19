@@ -32,10 +32,13 @@ Sample Password : sample0000
 20.	Sort the employees on basis of department , Designation or Date of joining
 21.	Collapsible left side navbar
 22.	Mobile Optimized view
+23. Manage Loans
+24. Monthly EMI Deductions 
+25. Fast Image upload via AWS S3 Buckets 
 
 ## Coding Used
 1. MySQL
-2. Multer and Cloudinary!
+2. Multer and Cloudinary and AWS S3!
 3. Vue Framework
 4. Express JS 
 5. Crypto
@@ -43,7 +46,7 @@ Sample Password : sample0000
 7. HTML and CSS
 8. Browser Local Storage
 9. SVG images
-10. Bootstrao
+10. Bootstrap
 11. JQuery
 12. Axios
 13. DropZone JS
