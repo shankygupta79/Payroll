@@ -216,8 +216,66 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
     }).then((user) => {
       arr2 = [];
       photu = '';
-      console.log("Employee Added Done !")
-      return res.send({ message: 'true' })
+      if (req.body.status == 'Active') {
+        var a0 = new Date().getTime() + 60 * 60 * 1000 * 5.5;
+        var dt = new Date(a0);
+        var dt1 = dt.getDate()
+        if (dt1 < 10) {
+          dt1 = 0 + "" + dt1
+        }
+        var mt = dt.getMonth()
+        mt = mt + 1
+        if (mt < 10) {
+          mt = 0 + "" + mt
+        }
+        var present = ""
+        var marked = ""
+        var attby = ""
+        console.log(parseInt(dt1))
+        for (var i = 1; i <= 31; i++) {
+          if (i <= parseInt(dt1)) {
+            present = present + "A"
+            marked = marked + "1"
+            attby = attby + "1"
+          } else {
+            present = present + "-"
+            marked = marked + "0"
+            attby = attby + "0"
+          }
+        }
+        Att.create({
+          userId: xid,
+          emp_id: user.emp_id,
+          monthyear: mt + "-" + dt.getFullYear(),
+          present: present,
+          marked: marked,
+          quick: parseInt(dt1) + 'A',
+          holidays: 0,
+          extratimetotoal: 0,
+          extratime: "0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0",
+          advance: 0,
+          bonus: 0,
+          deduction: 0,
+          balance: 0,
+          transfer: 0,
+          attby: attby,
+          text: "No Comments",
+          netpay: 0,
+          emi: 0,
+        }).then((att) => {
+          console.log("Employee Added Done !")
+          return res.send({ message: 'true' })
+
+        })
+          .catch((err) => {
+            console.log(err)
+            return res.send({
+              message: "Could not retrive employees"
+            })
+          })
+
+      }
+
     }).catch((err) => {
       console.log(err)
       return res.send({

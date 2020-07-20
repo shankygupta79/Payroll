@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <title>Attendance | Daily</title>
 </head>
 
@@ -13,8 +12,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payroll.cleverapps.io/settings/style2">
-    <link rel="stylesheet" href="https://payroll.cleverapps.io/attendance/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/attendance/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -40,8 +39,9 @@
                     <div class="dateon">
                         <strong style="display: inline-block;">Select Date : </strong>
                         <input style="display: inline-block;" class="" type="date" v-model="select_date">
-                        <button style="display: inline-block;" @click="submit()" style="padding: 5px 30px;"
+                        <button style="display: inline-block;" id='mybtn' @click="submit()" style="padding: 5px 30px;"
                             class="btn btn-success">Get Employee List
+                            &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
                         </button>
                     </div><br>
                     <div v-if="error2" class="error">
@@ -136,7 +136,9 @@
                             {{message_success}} !
                         </div> <br>
                         <div class="center" type="submit" value="Submit">
-                            <button @click="saveatt()" class="btn btn-success">{{word}} </button>
+                            <button @click="saveatt()" class="btn btn-success">{{word}} 
+                               
+                            </button>
                         </div>
                         <!--Pagination END-->
                     </div>
@@ -147,7 +149,7 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payroll.cleverapps.io/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script>
         var log = new Vue({
             el: "#Index",
@@ -181,6 +183,7 @@
             },
             methods: {
                 load: function () {
+                    $('#abc').hide();
                     var today = new Date();
                     this.dxt = today.getDate()
                     this.mxt = today.getMonth()
@@ -298,10 +301,14 @@
                         }
                     })
                 }, submit() {
+                    $('#abc').show();
+                    $('#mybtn').prop('disabled', true);
                     log.myArray = []
                     if (log.select_date == '') {
                         log.error2 = 1,
-                            log.message_error2 = 'Date field is incorrect !'
+                        log.message_error2 = 'Date field is incorrect !'
+                        $('#mybtn').prop('disabled', false);
+                        $('#abc').hide();
                         return
                     }
 
@@ -321,34 +328,41 @@
                         log.error2 = 1;
                         log.getlist = 0;
                         log.message_error2 = 'Future Attendance is not available !'
+                        $('#mybtn').prop('disabled', false);
+                        $('#abc').hide();
                         return
                     }
                     if (parseInt(mon) - 1 > (log.mxt)) {
                         log.error2 = 1;
                         log.getlist = 0;
                         log.message_error2 = 'Future Attendance is not available !'
+                        $('#mybtn').prop('disabled', false);
+                        $('#abc').hide();
                         return
                     }
                     if (log.dx > log.dxt && parseInt(mon) - 1 == (log.mxt)) {
                         log.error2 = 1;
                         log.getlist = 0;
                         log.message_error2 = 'Future Attendance is not available !'
+                        $('#mybtn').prop('disabled', false);
+                        $('#abc').hide();
                         return
                     }
                     log.getlist = 1;
-                    axios.get('https://payroll.cleverapps.io/attendance/api/holiday?date=' + log.select_date.slice(8, 10) + "-" + x + "&day=" + log.pp)
+                    axios.get('http://localhost:3420/attendance/api/holiday?date=' + log.select_date.slice(8, 10) + "-" + x + "&day=" + log.pp)
                         .then(function (Response1) {
                             if (Response1 == 'true') {
                                 log.error2 = 1,
                                 log.message_error2 = ' HOLIDAY ❤'
                                 var loading = log.$refs.Loading
                                 loading.style.display = "none"
-
+                                $('#mybtn').prop('disabled', false);
+                                $('#abc').hide();
                                 return
                             }
 
                             log.error2 = 0;
-                            axios.get('https://payroll.cleverapps.io/attendance/api/attendance?date=' + x + '&dx=' + log.dx)
+                            axios.get('http://localhost:3420/attendance/api/attendance?date=' + x + '&dx=' + log.dx)
                                 .then(function (Response1) {
                                     log.myArray = []
                                     if (Response1 == '5') {
@@ -357,12 +371,15 @@
                                         log.message_error2 = "Chart for this new month is created ! Try agin to mark the attendance "
                                         var loading = log.$refs.Loading
                                         loading.style.display = "none"
+                                        $('#mybtn').prop('disabled', false);
+                                        $('#abc').hide();
                                     } else if (Response1 == '0') {
                                         console.log("HI2")
                                         log.error2 = 1
                                         log.message_error2 = "You dont have acess to view previous records ! "
                                         log.getlist = 0;
-
+                                        $('#mybtn').prop('disabled', false);
+                                        $('#abc').hide();
                                     } else {
                                         for (var i = 0; i < Response1.length; i++) {
                                             var temp = '';
@@ -397,6 +414,8 @@
                                         log.entryfun(log.entry);
                                         log.sort(log.sortfield);
                                         log.loaderoff();
+                                        $('#mybtn').prop('disabled', false);
+                                        $('#abc').hide();
                                     }
 
 
@@ -407,6 +426,7 @@
                                     log.error = 1
                                     log.message_error = "Error connecting the database try again later !"
                                     log.loaderoff()
+                                    $('#abc').hide();
                                 })
                         })
                         .catch((err) => {
@@ -414,6 +434,7 @@
                             log.error = 1
                             log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
+                            $('#abc').hide();
                         })
 
                 }, saveatt() {
@@ -428,7 +449,7 @@
         })    
     </script>
 
-    <script src="https://payroll.cleverapps.io/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

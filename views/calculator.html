@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payroll.cleverapps.io/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
     <link rel="stylesheet" href="../payslips/css">
 
 
@@ -55,8 +55,8 @@
                                 </select></td>
                             <td>
                                 <div class="center">
-                                    <button @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show
-                                        Analysis
+                                    <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show
+                                        Analysis &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
                                     </button>
                                 </div>
                             </td>
@@ -190,7 +190,8 @@
                             <button @click="editfun()" style="padding: 5px 30px;" class="btn btn-success">Edit</button>
                         </div>
                         <div class="center" v-if="edit">
-                            <button @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}}</button>
+                            <button id='mybtn2' @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}}
+                                &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc2'></i></button>
                         </div>
                     </div>
 
@@ -201,7 +202,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payroll.cleverapps.io/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -235,7 +236,8 @@
             },
             methods: {
                 load: function () {
-
+                    $('#abc').hide()
+                    $('#abc2').hide()
                     this.year();
                 }, loaderoff() {
                     var app = this;
@@ -243,6 +245,7 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
+                    $('#abc').hide()
                 }, loaderon() {
                     var app = this;
                     var loading = app.$refs.Loading
@@ -298,13 +301,17 @@
                     this.select_month = this.monthlist[d.getMonth()];
                     this.select_year = n - 1;
                 }, submit() {
+                    $('#mybtn').prop('disabled', true);
+
                     log.loaderon()
                     if (log.select_month == "" || log.select_year == "") {
                         log.error = 1
+                        $('#mybtn').prop('disabled', false);
                         return
                     }
+                    $('#abc').show()
                     log.paylist = 1
-                    axios.get('https://payroll.cleverapps.io/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
+                    axios.get('http://localhost:3420/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
                         .then(function (Response1) {
                             log.list = Response1
                             if (Response1.length == 0) {
@@ -313,6 +320,8 @@
                                 log.paylist = 0
                                 log.message_error2 = "NO RECORD FOUND"
                                 log.loaderoff()
+                                $('#mybtn').prop('disabled', false);
+                                $('#abc').hide()
                                 return
 
                             }
@@ -330,10 +339,11 @@
                                         ab++
                                     }
                                 }
+                                $('#mybtn').prop('disabled', false);
                                 log.list[i].extratimetotoal = extra
                                 log.list[i].holidays = Math.ceil(log.list[i]['employee_quick'].salary / days) * ab
                             }
-                            axios.get('https://payroll.cleverapps.io/settings/api/symbol')
+                            axios.get('http://localhost:3420/settings/api/symbol')
                                 .then(function (Response2) {
                                     log.symbol = Response2
                                 })
@@ -344,7 +354,7 @@
                                     log.loaderoff()
                                 })
                             log.loaderoff()
-
+                            
                             log.sort(this.sortfield);
 
 
@@ -370,6 +380,8 @@
                             log.error = 1
                             log.message_error = data.message
                             log.word = "Save Again"
+                            $('#mybtn').prop('disabled', false);
+                            $('#abc2').hide();
                         } else {
                             log.error = 0
                             log.success = 1
@@ -382,6 +394,8 @@
                         }
                     })
                 }, save() {
+                    $('#mybtn2').prop('disabled', true);
+                    $('#abc2').show();
                     log.word = 'Saving..';
                     log.post()
 
@@ -410,7 +424,7 @@
         });
     </script>
 
-    <script src="https://payroll.cleverapps.io/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

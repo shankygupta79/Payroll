@@ -28,7 +28,7 @@ passport.deserializeUser((id, done) => {
 })
 passport.use(
     new GoogleStrategy({
-        callbackURL: "https://payroll.cleverapps.io/auth/google/redirect",
+        callbackURL: "http://localhost:3420/auth/google/redirect",
         clientID: process.env.clientIDg,
         clientSecret: process.env.clientSecretg
         //options for google strategy
@@ -78,7 +78,7 @@ passport.use(
 passport.use(new FacebookStrategy({
     clientID: process.env.clientIDf,
     clientSecret: process.env.clientSecretf,
-    callbackURL: "https://payroll.cleverapps.io/auth/facebook/redirect",
+    callbackURL: "http://localhost:3420/auth/facebook/redirect",
     profileFields: ['id', 'displayName', 'photos', 'email']
 },
     function (accessToken, refreshToken, profile, done) {

@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payroll.cleverapps.io/settings/style2">
-    <link rel="stylesheet" href="https://payroll.cleverapps.io/users/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/users/css">
 
     <meta name="csrf-token" content="XYZ123">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -49,7 +49,7 @@
                         <br><br><label class="label2">Photo :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;</label>
                         <div class="inl" @click="photo()">
-                            <form method="post" action="https://payroll.cleverapps.io/users/user/uploadpr" class="dropzone">
+                            <form method="post" action="http://localhost:3420/users/user/uploadpr" class="dropzone">
                                 <div class="fallback">
                                     <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
                                 </div>
@@ -106,7 +106,7 @@
                         {{message_success}} !
                     </div> <br>
                     <div class="center">
-                        <button @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}} </button>
+                        <button @click="save()" id='mybtn' style="padding: 5px 30px;" class="btn btn-success">{{word}} </button>
                     </div>
                 </div>
 
@@ -114,7 +114,7 @@
         </div>
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payroll.cleverapps.io/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -171,6 +171,7 @@
                         return false;
                     }
                 }, save() {
+                    $('#mybtn').prop('disabled', true);
                     var x = this.view_emp + ";" + this.edit_emp + ";" + this.view_dep + ";" + this.edit_dep + ";" + this.view_att + ";" + this.edit_att + ";";
                     var y = x + this.view_hol + ";" + this.edit_hol + ";" + this.view_pay + ";" + this.edit_pay;
                     console.log(y)
@@ -179,12 +180,14 @@
                         console.log("Mail Error")
                         this.error=1;
                         this.message_error="Enter correct Email Adress"
+                        $('#mybtn').prop('disabled', false);
                         return;
                     }
                     if (!this.checkpassword(this.newpass)) {
                         console.log("Password Error")
                         this.error=1;
                         this.message_error="Enter 8 character long passsword"
+                        $('#mybtn').prop('disabled', false);
                         return;
                     }
                     this.word = "Saving..."
@@ -200,7 +203,7 @@
                             if (data.message != 'true') {
                                 log.error = 1
                                 log.message_error = data.message
-
+                                $('#mybtn').prop('disabled', false);
                             } else {
                                 log.error = 0
                                 log.success = 1
@@ -235,7 +238,7 @@
 
         };
     </script>
-    <script src="https://payroll.cleverapps.io/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payroll.cleverapps.io/settings/style2">
-    <link rel="stylesheet" href="https://payroll.cleverapps.io/holiday/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/holiday/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -55,7 +55,7 @@
                         {{message_success}} !
                       </div> <br>
                     <div class="center">
-                    <button @click="save(date,name)" style="padding: 5px 30px;"class="btn btn-success">{{word}} </button>
+                    <button id='mybtn' @click="save(date,name)" style="padding: 5px 30px;"class="btn btn-success">{{word}} </button>
                     </div>
                     
                 </div>
@@ -65,7 +65,7 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payroll.cleverapps.io/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script>
         var app = new Vue({
             el: "#Index",
@@ -92,15 +92,18 @@
                     content.style.display = "block"
                 },save(){
                     app.word='Saving..'
+                    $('#mybtn').prop('disabled', true);
                     if(app.date==''){
                         this.error=1;
                         this.message_error="Enter correct Date !"
                         app.word='SAVE'
+                        $('#mybtn').prop('disabled', false);
                         return;
                     }else if(app.name==''){
                         this.error=1;
                         app.word='SAVE'
                         this.message_error="Enter correct Name !"
+                        $('#mybtn').prop('disabled', false);
                         return;
                     }else{
                         var x=app.date.slice(8,10)+'-'+app.date.slice(5,7)+'-'+app.date.slice(0,4);
@@ -113,7 +116,7 @@
                             if (data.message != 'true') {
                                 app.error = 1
                                 app.message_error = data.message
-
+                                $('#mybtn').prop('disabled', false);
                             } else {
                                 app.error = 0
                                 app.success = 1
@@ -130,7 +133,7 @@
         })    
     </script>
 
-    <script src="https://payroll.cleverapps.io/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>
