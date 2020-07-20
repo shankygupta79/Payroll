@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="http://localhost:3420/employee/style2">
-    <link rel="stylesheet" href="http://localhost:3420/employee/css">
+    <link rel="stylesheet" href="https://payroll.cleverapps.io/employee/style2">
+    <link rel="stylesheet" href="https://payroll.cleverapps.io/employee/css">
 
     <meta name="csrf-token" content="XYZ123">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -120,7 +120,7 @@
                         <tr>
                             <td style="width: 40%;"><b>Photo</b></td>
                             <td @click="photo()">
-                                <form id="upload-widget" method="post" action="http://localhost:3420/employee/add_emp/uploadpr"
+                                <form id="upload-widget" method="post" action="https://payroll.cleverapps.io/employee/add_emp/uploadpr"
                                     class="dropzone">
                                     <div class="fallback">
                                         <input name="file" type="file" single/>
@@ -255,7 +255,7 @@
                     <li>Upload Documents !</li>
                 </div>
                 <div @click="docum()">
-                    <form id="upload-widget" method="post" action="http://localhost:3420/employee/add_emp/upload"
+                    <form id="upload-widget" method="post" action="https://payroll.cleverapps.io/employee/add_emp/upload"
                         class="dropzone">
                         <div class="fallback">
                             <input name="file" type="file" multiple />
@@ -276,7 +276,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="http://localhost:3420/navbar2"></script>
+    <script src="https://payroll.cleverapps.io/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -305,7 +305,7 @@
             methods: {
                 load: function () {
 
-                    axios.get('http://localhost:3420/department/api/dep')
+                    axios.get('https://payroll.cleverapps.io/department/api/dep')
                         .then(function (Response) {
                             log.departments = Response
                             if (Response.length == 0) {
@@ -419,7 +419,7 @@
         };
     </script>
 
-    <script src="http://localhost:3420/navbar2/collapsing"></script>
+    <script src="https://payroll.cleverapps.io/navbar2/collapsing"></script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 ## Payroll Version 2.0
-http://localhost:3420/
+https://payroll.cleverapps.io/
 
 ## Currently Used by
 1.Sanjeev Store
