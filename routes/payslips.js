@@ -2,8 +2,9 @@ const route = require('express').Router()
 const Emp = require('../database').Employeeqdb
 const Att = require('../database').Attendance
 const Loan = require('../database').Loan
+const Adv = require('../database').Adv
 const path = require('path')
-const month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 function isEmpty(obj) {
     for (var key in obj) {
         if (obj.hasOwnProperty(key))
@@ -62,6 +63,9 @@ const authCheckedit = (req, res, next) => {
 route.get('/calc', authCheckedit, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/calculator.html'))
 })
+route.get('/ledger', authCheckview, (req, res) => {
+    res.sendFile(path.join(__dirname, '../views/ledger.html'))
+})
 route.get('/list', authCheckview, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/paylist.html'))
 })
@@ -70,6 +74,12 @@ route.get('/loan', authCheck, (req, res) => {
 })
 route.get('/entry', authCheck, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/add_entry.html'))
+})
+route.get('/adv', authCheck, (req, res) => {
+    res.sendFile(path.join(__dirname, '../views/adv.html'))
+})
+route.get('/entry_adv', authCheck, (req, res) => {
+    res.sendFile(path.join(__dirname, '../views/add_adv.html'))
 })
 route.get('/printsingle', authCheckview, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/print_single.html'))
@@ -87,7 +97,7 @@ route.get('/css', (req, res) => {
 
 })
 var abc = '';
-function update(data, x,data2) {
+function update(data, x, data2) {
     return Att.update({
         advance: data.advance,
         extratimetotoal: data.extratimetotoal,
@@ -98,12 +108,12 @@ function update(data, x,data2) {
         balance: parseInt(data['employee_quick'].salary) + parseInt(data.bonus) + parseInt(data.extratimetotoal) - parseInt(data.deduction) - parseInt(data.advance) - parseInt(data.holidays) - parseInt(data.emi),
         transfer: data.transfer,
         emi: data.emi,
-        netpay: parseInt(data['employee_quick'].salary) + parseInt(data.bonus) + parseInt(data.extratimetotoal) - parseInt(data.deduction) - parseInt(data.advance) - parseInt(data.holidays) - parseInt(data.transfer)-parseInt(data.emi),
+        netpay: parseInt(data['employee_quick'].salary) + parseInt(data.bonus) + parseInt(data.extratimetotoal) - parseInt(data.deduction) - parseInt(data.advance) - parseInt(data.holidays) - parseInt(data.transfer) - parseInt(data.emi),
     }, { where: { emp_id: data['employee_quick'].emp_id, monthyear: x } })
         .then(async (att) => {
             var amount0 = data.emi - data.emiold
             if (amount0 != 0) {
-                return await loanadd(amount0, 1, "Monthly EMI Deduction of "+month[parseInt(x.slice(0,2))-1], abc, data['employee_quick'].emp_id)
+                return await loanadd(amount0, 1, "Monthly EMI Deduction of " + month[parseInt(x.slice(0, 2)) - 1], abc, data['employee_quick'].emp_id)
             } else {
                 return true
             }
@@ -126,7 +136,7 @@ route.post('/api/calc', authCheckedit, async (req, res) => {
     if (mt < 10) {
         mt = 0 + "" + mt;
     }
-    abc = dt + "-" + mt +"-"+ d.getFullYear();
+    abc = dt + "-" + mt + "-" + d.getFullYear();
     for (var i = 0; i < req.body.list.length; i++) {
         var a = await update(req.body.list[i], req.body.x)
         if (a == true) {
@@ -180,41 +190,117 @@ function loanadd(amount, type, text, date, emp_id) {
     })
     return true
 }
+function advadd(amount, type, text, date, emp_id, monthyear) {
+    return Adv.create({
+        userId: xid,
+        amount: amount,
+        text: text,
+        emp_id: emp_id,
+        date: date,
+        type: type,
+        monthyear: monthyear,
+
+    }).then(() => {
+        if (type == 0) {
+            return Att.increment({
+                advance: amount
+            }, { where: { emp_id: emp_id, monthyear: monthyear } })
+                .then(() => {
+                    return true;
+                })
+                .catch((err) => {
+                    console.log(err)
+                    return false;
+                })
+        } else {
+            Att.increment({
+                advance: (amount * -1)
+            }, { where: { emp_id: emp_id, monthyear: monthyear } })
+                .then(() => {
+                    return true;
+                })
+                .catch((err) => {
+                    console.log(err)
+                    return false;
+                })
+        }
+
+
+    }).catch((err) => {
+        console.log(err)
+        return false
+    })
+    return true
+}
+
 route.post('/loanadd', authCheck, async (req, res) => {
     console.log("Hey")
     if (req.body.text == '') {
         req.body.text = "No Comments"
     }
-    var y=loanadd(req.body.amount, req.body.type, req.body.text, req.body.date, req.body.emp_id)
-    setTimeout(()=>{
+    var y = loanadd(req.body.amount, req.body.type, req.body.text, req.body.date, req.body.emp_id)
+    setTimeout(() => {
         return res.send({
             message: "true"
         })
-    },200)
-    
-
-
-
-
-
+    }, 200)
+})
+route.post('/advadd', authCheck, async (req, res) => {
+    console.log("Hey")
+    if (req.body.text == '') {
+        req.body.text = "No Comments"
+    }
+    var y = advadd(req.body.amount, req.body.type, req.body.text, req.body.date, req.body.emp_id, req.body.monthyear)
+    setTimeout(() => {
+        return res.send({
+            message: "true"
+        })
+    }, 200)
 })
 route.get('/api/data', authCheckview, (req, res) => {
+    if (req.query.emp != undefined) {
+        Emp.hasMany(Att, { foreignKey: 'emp_id' })
+        Att.belongsTo(Emp, { foreignKey: 'emp_id' })
 
-    Emp.hasMany(Att, { foreignKey: 'emp_id' })
-    Att.belongsTo(Emp, { foreignKey: 'emp_id' })
+        Att.findOne({ where: { monthyear: req.query.date, userId: xid ,emp_id:req.query.emp }, include: [Emp] })
+            .then((emps) => {
+                return res.status(200).send(emps)
+            })
+            .catch((err) => {
+                console.log(err)
 
-    Att.findAll({ where: { monthyear: req.query.date, userId: xid }, include: [Emp] })
+            })
+    } else {
+        Emp.hasMany(Att, { foreignKey: 'emp_id' })
+        Att.belongsTo(Emp, { foreignKey: 'emp_id' })
+
+        Att.findAll({ where: { monthyear: req.query.date, userId: xid }, include: [Emp] })
+            .then((emps) => {
+                return res.status(200).send(emps)
+            })
+            .catch((err) => {
+                console.log(err)
+
+            })
+    }
+})
+route.get('/getloan', authCheck, (req, res) => {
+
+    Loan.findAll({ where: { emp_id: req.query.id, userId: xid } })
         .then((emps) => {
             return res.status(200).send(emps)
         })
         .catch((err) => {
             console.log(err)
+            res.send({
+                message: "Could not retrive info "
+            })
 
         })
 })
-route.get('/getloan', authCheck, (req, res) => {
+route.get('/getadv', authCheck, (req, res) => {
 
-    Loan.findAll({ where: { emp_id: req.query.id, userId: xid } })
+    Adv.findAll({ where: { emp_id: req.query.id, userId: xid, monthyear: req.query.monthyear } })
         .then((emps) => {
             return res.status(200).send(emps)
         })

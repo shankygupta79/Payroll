@@ -168,9 +168,18 @@ const Loan = db.define('Loan',{
     emp_id:Sequelize.INTEGER,
     date:Sequelize.STRING,
 })
+const Adv = db.define('Adv',{
+    userId:Sequelize.INTEGER,
+    type:Sequelize.INTEGER,
+    amount : Sequelize.INTEGER,
+    text:Sequelize.STRING,
+    emp_id:Sequelize.INTEGER,
+    date:Sequelize.STRING,
+    monthyear:Sequelize.STRING,
+})
 db.sync()
     .then(() => console.log("Database has been synced"))
     .catch((err) => console.error("Error creating database " + err))
 exports = module.exports = {
-    User,Employeeqdb,Employeedb,Holiday,Department,Setting,Attendance,Loan
+    User,Employeeqdb,Employeedb,Holiday,Department,Setting,Attendance,Loan,Adv
 }

@@ -136,20 +136,30 @@ Vue.component('navbar-component',{
                 <li>
                     <a href="https://payroll.cleverapps.io/payslips/list"><i class="fa fa-ellipsis-h" style="color:lightblue"aria-hidden="true"></i>&nbsp Payslip List</a>
                 </li>
+                <li>
+                    <a href="https://payroll.cleverapps.io/payslips/ledger"><i class="fa fa-ellipsis-h" style="color:lightblue"aria-hidden="true"></i>&nbsp Ledger</a>
+                </li>
                 
             </ul>
         </li>
         <li >
             <a href="#loan" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            <i class="fa fa-usd" aria-hidden="true" style="color:ivory"></i><i class="fa fa-usd" aria-hidden="true" style="color:ivory"></i>&nbsp Loans</a>
+            <i class="fa fa-usd" aria-hidden="true" style="color:ivory"></i><i class="fa fa-usd" aria-hidden="true" style="color:ivory"></i>&nbsp Loans & Adv.</a>
             <ul class="collapse list-unstyled" id="loan" data-parent="#sidebar">
                 
                 <li>
-                    <a href="https://payroll.cleverapps.io/payslips/loan"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Manage Loans </a>
+                    <a href="https://payroll.cleverapps.io/payslips/entry"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Add Loan </a>
                 </li>
                 <li>
-                    <a href="https://payroll.cleverapps.io/payslips/entry"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Add Entry </a>
+                    <a href="https://payroll.cleverapps.io/payslips/entry_adv"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Add Advance </a>
                 </li>
+                <li>
+                    <a href="https://payroll.cleverapps.io/payslips/loan"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp View Total Loans </a>
+                </li>
+                <li>
+                    <a href="https://payroll.cleverapps.io/payslips/adv"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp View Total Adv. </a>
+                </li>
+                
             </ul>
         </li>
         <li >

@@ -147,7 +147,7 @@
                         {{symbol}}{{parseInt(myArray[i-1]['employee_quick'].salary).toLocaleString('en-IN')}}
                     </td>
                     <td>
-                        Holidays
+                        Holidays => ( {{Math.round(parseInt(myArray[i-1].holidays)/Math.ceil(parseInt(myArray[i-1]['employee_quick'].salary)/31))}} )
                     </td>
                     <td>
                         {{symbol}}{{parseInt(myArray[i-1].holidays).toLocaleString('en-IN')}}
@@ -181,20 +181,7 @@
                         {{symbol}}{{parseInt(myArray[i-1].deduction).toLocaleString('en-IN')}}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        Transfer
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray[i-1].transfer).toLocaleString('en-IN')}}
-                    </td>
-                </tr>
+                
                 <tr>
                     <td>
                         
@@ -220,8 +207,22 @@
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{parseInt(parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].transfer)+parseInt(myArray[i-1].emi)+parseInt(myArray[i-1].deduction)).toLocaleString('en-IN')}}
+                        {{symbol}}{{parseInt(parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].emi)+parseInt(myArray[i-1].deduction)).toLocaleString('en-IN')}}
                     </th>
+                </tr>
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        Transfer
+                    </td>
+                    <td>
+                        {{symbol}}{{parseInt(myArray[i-1].transfer).toLocaleString('en-IN')}}
+                    </td>
                 </tr>
                 <tr>
                     <th style="border: none; background-color: whitesmoke;">

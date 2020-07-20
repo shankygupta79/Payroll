@@ -1,0 +1,615 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Ledger </title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="https://payroll.cleverapps.io/settings/style2">
+    <link rel="stylesheet" href="../payslips/css">
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <navbar-component></navbar-component>
+        <div id="navbar-top">
+            <navbar-top></navbar-top>
+
+            <div>
+                <div class="bord">
+                    <div class="headin center">Ledger</div>
+                    <div class="roww"></div>
+                    <table class="report">
+                        <tr>
+                            <td><strong class="options">Select Year :</strong></td>
+                            <td><strong class="options">Select Month :</strong></td>
+                            <td><strong>Select Employee :</strong></td>
+
+
+                        </tr>
+                        <tr>
+
+                            <td><select class="form-control options" v-model="select_year">
+                                    <option v-for="i in yearlist">{{i}}</option>
+                                </select></td>
+                            <td><select class="form-control options" v-model="select_month">
+                                    <option v-for="i in monthlist">{{i}}</option>
+                                </select></td>
+                            <td><select class="form-control options" v-model="select_emp">
+                                    <option style="color: black;" v-for="i in employee">{{i}}</option>
+                                </select></td>
+                            <td>
+                                <div class="center">
+                                    <button id='mybtn' @click="submit()" style="padding: 5px 30px;"
+                                        class="btn btn-success">Show
+                                        Analysis &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table><br>
+                    <div v-if="error2" class="error">
+                        {{message_error2}} !
+                    </div> <br>
+                    <img src="../images/loading" v-show="paylist" id="Loading" ref="Loading">
+                    <div v-show="paylist" id="content2" ref="content2">
+                        <div v-if="error" class="error">
+                            {{message_error}} !
+                        </div> <br>
+                        <div v-if="success" class="success">
+                            {{message_success}} !
+                        </div> <br>
+                        <div>
+
+                            <div style="display: inline-block;">
+                                <label>Add Bonus</label>
+                                <input type="checkbox" id="bonuscheck" checked>
+                            </div>
+
+                            <div style="display: inline-block;">
+                                <label>Add Deductions</label>
+                                <input type="checkbox" id="deductioncheck" checked>
+                            </div>
+                            <div style="display: inline-block;">
+                                <label>Add Text</label>
+                                <input type="checkbox" id="textcheck" checked>
+                            </div>
+                            <div style="display: inline-block;">
+                                <label>Add Transfer</label>
+                                <input type="checkbox" id="transfercheck" checked>
+                            </div>
+                            <div style="display: inline-block;">
+                                <label>Loan Payments</label>
+                                <input type="checkbox" id="loani" checked>
+                            </div>
+                        </div>
+
+                        <div class="empbox center" v-for="i in list.length" style="width: 100%;">
+                            <b>{{list[i-1]['employee_quick']['name']}}</b><br>
+                            <table class="tabman">
+                                <tr>
+                                    <td colspan="2">
+                                        <img v-bind:src="list[i-1]['employee_quick']['photo']" height="80px"
+                                            width="80px">
+                                    </td>
+                                    <td> <b>Net Pay: </b></td>
+                                    <td><b>{{symbol}}
+                                            {{(parseInt(list[i-1]['employee_quick'].salary)+parseInt(list[i-1].bonus)+parseInt(list[i-1].extratimetotoal)-parseInt(list[i-1].deduction)-parseInt(list[i-1].advance)-parseInt(list[i-1].emi)-parseInt(list[i-1].holidays)-parseInt(list[i-1].transfer)).toLocaleString('en-IN')}}</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> <b>Salary : </b></td>
+                                    <td class="green">
+                                        {{symbol}}{{parseInt(list[i-1]['employee_quick'].salary).toLocaleString('en-IN')}}
+                                    </td>
+
+                                    <td> <b>Holidays : </b></td>
+                                    <td class="red">{{symbol}}{{parseInt(list[i-1].holidays).toLocaleString('en-IN')}}
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td> <b>Extra Time : </b></td>
+                                    <td class="red">
+                                        {{symbol}}{{parseInt(list[i-1].extratimetotoal).toLocaleString('en-IN')}}</td>
+
+                                    <td> <b>Advance : </b></td>
+                                    <td class="red">{{symbol}}{{list[i-1].advance}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 1.2em;"> <b>Total Loan : </b></td>
+                                    <td style="font-size: 1.2em;">{{symbol}}
+                                        {{ ((parseInt(list[i-1]['employee_quick'].totalloan)-parseInt(list[i-1].emi)+parseInt(list[i-1].emiold)).toLocaleString('en-IN'))}}
+                                    </td>
+
+                                    <td class="loani"> <b>EMI : </b></td>
+                                    <td class="red loani" v-show="!edit">
+                                        {{symbol}}{{parseInt(list[i-1].emi).toLocaleString('en-IN')}}</td>
+                                    <td class="loani " v-show="edit"><input v-model="list[i-1].emi" type="number">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bonus"> <b>Bonus : </b></td>
+                                    <td class="green bonus " v-show="!edit">
+                                        {{symbol}}{{parseInt(list[i-1].bonus).toLocaleString('en-IN')}}</td>
+                                    <td class="bonus" v-show="edit"><input v-model="list[i-1].bonus" type="number">
+                                    </td>
+
+                                    <td class="deduction"> <b>Deduction: </b></td>
+                                    <td class="red deduction" v-show="!edit">
+                                        {{symbol}}{{parseInt(list[i-1].deduction).toLocaleString('en-IN')}}</td>
+                                    <td class="deduction" v-show="edit"><input v-model="list[i-1].deduction"
+                                            type="number"> </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="transfer"> <b>Balance : </b></td>
+                                    <td class="transfer">
+                                        <b>{{symbol}}{{(parseInt(list[i-1]['employee_quick'].salary)+parseInt(list[i-1].bonus)+parseInt(list[i-1].extratimetotoal)-parseInt(list[i-1].deduction)-parseInt(list[i-1].advance)-parseInt(list[i-1].holidays)-parseInt(list[i-1].emi)).toLocaleString('en-IN')}}</b>
+                                    </td>
+
+
+                                    <td class="transfer"> <b>Transfer : </b></td>
+                                    <td class="yellow transfer" v-show="!edit">
+                                        {{symbol}}{{parseInt(list[i-1].transfer).toLocaleString('en-IN')}}
+                                    </td>
+                                    <td class="transfer" v-show="edit"><input v-model="list[i-1].transfer"
+                                            type="number"> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text"> <b>Narration : </b></td>
+                                    <td class="text" v-show="!edit" colspan="3">{{list[i-1].text}}</td>
+                                    <td class="text" colspan="3" v-show="edit"><input class="hey180"
+                                            v-model="list[i-1].text" type="text"> </td>
+
+                                </tr>
+
+                            </table>
+
+
+
+                        </div>
+                        <br><br>
+                        <div class="center" v-if="!edit">
+                            <button @click="editfun()" style="padding: 5px 30px;" class="btn btn-success">Edit</button>
+                        </div>
+                        <div class="center" v-if="edit">
+                            <button id='mybtn2' @click="save()" style="padding: 5px 30px;"
+                                class="btn btn-success">{{word}}
+                                &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc2'></i></button>
+                        </div>
+                        <br><br>
+                        <hr>
+                        <div class="center" style="font-size: 1.5em;">
+                            <b>TOTAL LOAN is </b>{{symbol}} {{parseInt(given-reci).toLocaleString('en-IN')}}
+                        </div><br>
+
+                        <table id='tblData'>
+                            <tr>
+                                <th v-for="i in head"><b>{{i}}</b>
+
+
+                                </th>
+                            </tr>
+                            <tr v-for="i in myArray.length">
+                                <td>{{myArray[i-1].date}}</td>
+                                <td>{{myArray[i-1].text}}</td>
+                                <td>
+                                    <div v-show="myArray[i-1].type==0">{{symbol}}
+                                        {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
+                                </td>
+                                <td>
+                                    <div v-show="myArray[i-1].type==1">{{symbol}}
+                                        {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td style="text-align: right;">
+                                    <b>Total<b>
+                                </td>
+                                <td>
+                                    {{symbol}} {{parseInt(given).toLocaleString('en-IN')}}
+                                </td>
+                                <td>
+                                    {{symbol}} {{parseInt(reci).toLocaleString('en-IN')}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td style="text-align: right;">
+                                    <b>Total<b>
+                                </td>
+                                
+                                <td>
+                                   <b> {{symbol}} {{(parseInt(given)-parseInt(reci)).toLocaleString('en-IN')}}</b>
+                                </td>
+                            </tr>
+                        </table><br>
+
+
+                        <br><br>
+                        <hr>
+                        <div class="center" style="font-size: 1.5em;">
+                            <b>TOTAL ADVANCE is </b>{{symbol}} {{parseInt(given2-reci2).toLocaleString('en-IN')}}
+                        </div><br>
+
+                        <table id='tblData'>
+                            <tr>
+                                <th v-for="i in head"><b>{{i}}</b>
+
+
+                                </th>
+                            </tr>
+                            <tr v-for="i in myArray2.length">
+                                <td>{{myArray2[i-1].date}}</td>
+                                <td>{{myArray2[i-1].text}}</td>
+                                <td>
+                                    <div v-show="myArray2[i-1].type==0">{{symbol}}
+                                        {{parseInt(myArray2[i-1].amount).toLocaleString('en-IN')}}</div>
+                                </td>
+                                <td>
+                                    <div v-show="myArray2[i-1].type==1">{{symbol}}
+                                        {{parseInt(myArray2[i-1].amount).toLocaleString('en-IN')}}</div>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td style="text-align: right;">
+                                    <b>Total<b>
+                                </td>
+                                <td>
+                                    {{symbol}} {{parseInt(given2).toLocaleString('en-IN')}}
+                                </td>
+                                <td>
+                                    {{symbol}} {{parseInt(reci2).toLocaleString('en-IN')}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td style="text-align: right;">
+                                    <b>Total<b>
+                                </td>
+                                
+                                <td>
+                                   <b> {{symbol}} {{(parseInt(given2)-parseInt(reci2)).toLocaleString('en-IN')}}</b>
+                                </td>
+                            </tr>
+                        </table><br>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://payroll.cleverapps.io/navbar2"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                myArray: [],
+                myArray2: [],
+                sortfield: 'Name',
+                symbol: '',
+                list: [],
+                given: 0,
+                reci: 0,
+                given2: 0,
+                reci2: 0,
+                head: ['Date', 'Narration', 'Given', 'Recieved'],
+                sortarr: ['Name', 'Department', 'Designation', 'Date of Joining'],
+                sortarr2: ['name', 'des', 'dep', 'doj'],
+                yearlist: [],
+                arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
+                select_year: '',
+                select_month: '',
+                paylist: 0,
+                word: 'Save',
+                monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
+                monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+                edit: 0,
+                employee: [],
+                select_emp: '',
+                idx: [],
+                success: 0,
+                error: 0,
+                sortfield: 'date',
+                message_error: "Enter the full details",
+                error2: 0,
+                message_error2: "Enter the full details",
+                message_success: "Attendace edited loaded successfully",
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    $('#abc').hide()
+                    $('#abc2').hide()
+                    axios.get('https://payroll.cleverapps.io/employee/api/quickemp')
+                        .then(function (Response1) {
+                            for (var i = 0; i < Response1.length; i++) {
+                                log.employee.push(Response1[i].name)
+                                log.idx.push(Response1[i].emp_id)
+
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+                    this.year();
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
+                    $('#abc').hide()
+                }, loaderon() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "block"
+                    var content = app.$refs.content2
+                    content.style.display = "none"
+                }, year() {
+                    var d = new Date();
+                    var n = d.getFullYear() + 1;
+                    var y = 2020;
+                    do {
+                        this.yearlist.push(y)
+                        y++;
+                    } while (n != y);
+                    this.select_month = this.monthlist[d.getMonth()];
+                    this.select_year = n - 1;
+                }, sortl(name, type) {
+                    this.sortfield = name.toLowerCase()
+                    if (this.sortfield == 'date') {
+                        this.sorticon = !this.sorticon
+                        this.myArray.sort(this.comparedatel)
+                        this.myArray2.sort(this.comparedatel)
+                        if (type == 'desc') {
+                            this.myArray.reverse(this.comparedatel)
+                            this.myArray2.reverse(this.comparedatel)
+                        }
+                    }
+                    console.log("AYA")
+
+                },
+                comparedatel(a, b) {
+                    var nameA = a[this.sortfield]
+                    var nameB = b[this.sortfield]
+                    nameA = nameA.slice(6, 10) + nameA.slice(3, 5) + nameA.slice(0, 2)
+                    nameB = nameB.slice(6, 10) + nameB.slice(3, 5) + nameB.slice(0, 2)
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                }, submit() {
+                    $('#mybtn').prop('disabled', true);
+
+                    log.loaderon()
+                    if (log.select_month == "" || log.select_year == "" || log.select_emp == "") {
+                        log.error = 1
+                        log.loaderoff()
+                        $('#mybtn').prop('disabled', false);
+                        return
+                    }
+                    $('#abc').show()
+                    log.error = 0
+                    log.paylist = 1
+                    axios.get('https://payroll.cleverapps.io/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year + "&emp=" + log.idx[log.employee.indexOf(log.select_emp)])
+                        .then(function (Response1) {
+                            log.list = [Response1]
+                            if (Response1.length == 0) {
+                                console.log(Response1)
+                                log.error2 = 1
+                                log.paylist = 0
+                                log.message_error2 = "NO RECORD FOUND"
+                                log.loaderoff()
+                                $('#mybtn').prop('disabled', false);
+                                $('#abc').hide()
+                                return
+
+                            }
+
+                            var days = log.monthday[log.monthlist.indexOf(log.select_month)]
+                            for (var i = 0; i < log.list.length; i++) {
+                                log.list[i].emiold = log.list[i].emi;
+                                var extrarr = log.list[i].extratime.split(';')
+                                var prearr = log.list[i].present
+                                var extra = 0
+                                var ab = 0
+                                for (var j = 0; j < days; j++) {
+                                    extra = extra + parseInt(extrarr[j])
+                                    if (prearr[j] == 'A') {
+                                        ab++
+                                    }
+                                }
+                                $('#mybtn').prop('disabled', false);
+                                log.list[i].extratimetotoal = extra
+                                log.list[i].holidays = Math.ceil(log.list[i]['employee_quick'].salary / days) * ab
+                            }
+                            axios.get('https://payroll.cleverapps.io/settings/api/symbol')
+                                .then(function (Response2) {
+                                    log.symbol = Response2
+                                    log.view()
+                                })
+                                .catch((err) => {
+                                    console.log(err)
+                                    log.error = 1
+                                    log.message_error = "Error connecting the database try again later !"
+                                    log.loaderoff()
+                                })
+                            log.loaderoff()
+
+
+
+
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })
+
+                }, editfun() {
+                    this.edit = 1
+                }, post() {
+                    $.post('./api/calc', {
+                        list: log.list,
+                        x: log.list[0].monthyear,
+
+                    }, function (data) {
+                        console.log(data.message)
+                        if (data.message != 'true') {
+                            log.error = 1
+                            log.message_error = data.message
+                            log.word = "Save Again"
+                            $('#mybtn').prop('disabled', false);
+                            $('#abc2').hide();
+                        } else {
+                            log.error = 0
+                            log.success = 1
+                            log.message_success = "Calculations saved SuccessFully !"
+                            setTimeout(() => {
+                                window.location.href = "ledger"
+                            }, 500);
+
+
+                        }
+                    })
+                }, save() {
+                    $('#mybtn2').prop('disabled', true);
+                    $('#abc2').show();
+                    log.word = 'Saving..';
+                    log.post()
+
+                }, calc() {
+                    this.given = 0
+                    this.reci = 0
+                    for (var i = 0; i < log.myArray.length; i++) {
+                        if (log.myArray[i].type == 0) {
+                            this.given = this.given + log.myArray[i].amount;
+                        } else {
+                            this.reci = this.reci + log.myArray[i].amount;
+                        }
+                    }
+                }, calc2() {
+                    this.given2 = 0
+                    this.reci2 = 0
+                    for (var i = 0; i < log.myArray2.length; i++) {
+                        if (log.myArray2[i].type == 0) {
+                            this.given2 = this.given2 + log.myArray2[i].amount;
+                        } else {
+                            this.reci2 = this.reci2 + log.myArray2[i].amount;
+                        }
+                    }
+                }, view() {
+                    axios.get('https://payroll.cleverapps.io/payslips/getloan?id=' + log.idx[log.employee.indexOf(log.select_emp)])
+                        .then(function (Response1) {
+                            console.log(Response1)
+
+                            log.myArray = Response1
+                            log.calc();
+                            log.sortl(log.sortfield, "desc");
+                            axios.get('https://payroll.cleverapps.io/payslips/getadv?id=' + log.idx[log.employee.indexOf(log.select_emp)] + '&monthyear=' + (log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year))
+                                .then(function (Response2) {
+                                    console.log(Response2)
+                                    
+                                    log.myArray2 = Response2
+                                    log.calc2();
+                                    log.sortl(log.sortfield, "desc");
+                                    
+                                }).catch((err) => {
+                                    console.log(err)
+                                    log.error = 1
+                                    log.message_error = "Error connecting the Adv. database try again later !"
+                                    
+                                })
+
+                        }).catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the Loan database try again later !"
+
+                        })
+                }
+
+            }
+        })
+        $('#bonuscheck').on('click', function () {
+
+            $('.bonus').toggleClass('wow');
+        });
+        $('#loani').on('click', function () {
+            $('.loani').toggleClass('wow');
+        });
+        $('#textcheck').on('click', function () {
+
+            $('.text').toggleClass('wow');
+        });
+        $('#deductioncheck').on('click', function () {
+
+            $('.deduction').toggleClass('wow');
+        });
+        $('#transfercheck').on('click', function () {
+
+            $('.transfer').toggleClass('wow');
+        });
+    </script>
+
+    <script src="https://payroll.cleverapps.io/navbar2/collapsing"></script>
+</body>
+
+</html>

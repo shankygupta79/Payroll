@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Loan Database</title>
+    <title>Advance Database</title>
 </head>
 
 <body>
@@ -36,17 +36,29 @@
             <img src="../images/loading" id="Loading" ref="Loading">
             <div id="content2" ref="content2">
                 <div class="bord">
-                    <div class="headin center">Manage Loans</div>
+                    <div class="headin center">Manage Advances</div>
                     <div class="roww"></div>
                     <table class="report2">
                         <tr>
+                            <td><strong class="options">Select Year :</strong></td>
+                            <td><strong class="options">Select Month :</strong></td>
                             <td><strong>Select Employee :</strong></td>
+                        </tr>
+                        <tr>
+                            <td><select class="form-control options" v-model="select_year">
+                                    <option v-for="i in yearlist">{{i}}</option>
+                                </select></td>
+                            <td><select class="form-control options" v-model="select_month">
+                                    <option v-for="i in monthlist">{{i}}</option>
+                                </select></td>
+                            
 
                             <td><select class="form-control options" v-model="select_emp">
                                     <option style="color: black;" v-for="i in employee">{{i}}</option>
                                 </select></td>
 
                         </tr>
+
                     </table>
                     <div v-if="error" class="error">
                         {{message_error}} !
@@ -55,7 +67,8 @@
                         {{message_success}} !
                     </div>
                     <div class="center">
-                        <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show Report
+                        <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show
+                            Report
                             &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
                         </button>
                     </div>
@@ -77,7 +90,7 @@
                             </div>
                         </div>
                         <div class="center" style="font-size: 1.5em;">
-                            <b>TOTAL LOAN is </b>{{symbol}} {{parseInt(given-reci).toLocaleString('en-IN')}}
+                            <b>TOTAL ADVANCE is </b>{{symbol}} {{parseInt(given-reci).toLocaleString('en-IN')}}
                         </div><br>
                         <table id='tblData'>
                             <tr>
@@ -98,10 +111,12 @@
                                 <td>{{myArray[i-1].date}}</td>
                                 <td>{{myArray[i-1].text}}</td>
                                 <td>
-                                    <div v-show="myArray[i-1].type==0">{{symbol}} {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
+                                    <div v-show="myArray[i-1].type==0">{{symbol}}
+                                        {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
                                 </td>
                                 <td>
-                                    <div v-show="myArray[i-1].type==1">{{symbol}} {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
+                                    <div v-show="myArray[i-1].type==1">{{symbol}}
+                                        {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
                                 </td>
 
 
@@ -158,7 +173,7 @@
                     </div>
                     <div v-if="listing==1"><br>
                         <div class="center" style="font-size: 1.5em;">
-                            <b>TOTAL LOAN is </b>{{symbol}} {{parseInt(totalloan).toLocaleString('en-IN')}}
+                            <b>TOTAL ADVANCE is </b>{{symbol}} {{parseInt(totalloan).toLocaleString('en-IN')}}
                         </div><br>
                         <div>
                             <div style="display: inline;">
@@ -248,24 +263,30 @@
                 success: 0,
                 loanarr: '',
                 error: 0,
-                idx: [-1,],
+                idx: [],
                 given: 0,
+                arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
+                monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+                monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
+                select_year: '',
+                select_month: '',
                 reci: 0,
                 sortfield: 'date',
                 entry: 10, entry2: 10,
                 query: '', query2: '',
                 head: ['Date', 'Narration', 'Given', 'Recieved'],
                 sorticon: 0,
-                employee: ['All Employee'],
+                employee: [],
                 getp: 0,
                 listing: 0, sortfield2: 'name', sorticon2: 0,
                 symbol: '',
                 loanarr: [],
-                select_emp: 'All Employee', totalloan: 0,
+                select_emp: '', totalloan: 0,
                 pages: [], start: 1, total: 100, end: 1, current: 1,
                 pages2: [], start2: 1, total2: 100, end2: 1, current2: 1,
                 message_error: "Enter the full details",
-                message_success: "Loan report loaded successfully",
+                message_success: "Advance report loaded successfully",
+                yearlist: [],
 
             },
             created: function () {
@@ -274,13 +295,12 @@
             methods: {
                 load: function () {
                     $('#abc').hide();
+                    this.year();
                     axios.get('https://payroll.cleverapps.io/employee/api/quickemp')
                         .then(function (Response1) {
                             for (var i = 0; i < Response1.length; i++) {
                                 log.employee.push(Response1[i].name)
                                 log.idx.push(Response1[i].emp_id)
-                                log.loanarr.push({ name: Response1[i].name, loan: Response1[i].totalloan })
-                                log.totalloan = log.totalloan + Response1[i].totalloan
 
                             }
                             log.loaderoff()
@@ -403,6 +423,16 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
+                },year() {
+                    var d = new Date();
+                    var n = d.getFullYear() + 1;
+                    var y = 2020;
+                    do {
+                        this.yearlist.push(y)
+                        y++;
+                    } while (n != y);
+                    this.select_month = this.monthlist[d.getMonth()];
+                    this.select_year = n - 1;
                 }, loaderon() {
                     var app = this;
                     var loading = app.$refs.Loading
@@ -418,22 +448,14 @@
                         }
                     }
                 }, submit() {
-                    
+
                     $('#mybtn').prop('disabled', true);
                     log.loaderon()
 
                     log.getp = 0
                     log.listing = 0
                     log.myArray = []
-                    if (log.select_emp == 'All Employee') {
-                        log.listing = 1
-                        log.sort2('name', 'asc')
-                        log.total2 = log.loanarr.length;
-                        log.entryfun2(log.entry2);
-                        log.loaderoff()
-                        $('#mybtn').prop('disabled', false);
-                        return;
-                    }
+                    
                     if (log.select_emp == '') {
                         log.error = 1;
                         log.message_error = "Select Some Employee !"
@@ -441,10 +463,15 @@
                         $('#mybtn').prop('disabled', false);
                         return;
                     }
+                    if (log.select_month == "" || log.select_year == "") {
+                        log.error = 1
+                        $('#mybtn').prop('disabled', false);
+                        return
+                    }
                     log.error = 0
                     log.idx[log.employee.indexOf(log.select_emp)]
                     $('#abc').show();
-                    axios.get('https://payroll.cleverapps.io/payslips/getloan?id=' + log.idx[log.employee.indexOf(log.select_emp)])
+                    axios.get('https://payroll.cleverapps.io/payslips/getadv?id=' + log.idx[log.employee.indexOf(log.select_emp)]+'&monthyear='+(log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year))
                         .then(function (Response1) {
                             console.log(Response1)
                             if (Response1 == '') {

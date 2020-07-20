@@ -134,10 +134,10 @@
                 </tr>
                 <tr>
                     <td>
-                        
+
                     </td>
                     <td>
-                        
+
                     </td>
                     <td>
                         Montly EMI
@@ -146,20 +146,7 @@
                         {{symbol}}{{parseInt(myArray.emi).toLocaleString('en-IN')}}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        Transfer
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray.transfer).toLocaleString('en-IN')}}
-                    </td>
-                </tr>
+                
                 <tr>
                     <th>
                         Total Earnings
@@ -171,8 +158,22 @@
                         Total Deductions
                     </th>
                     <th>
-                        {{symbol}}{{(parseInt(myArray.advance)+parseInt(myArray.holidays)+parseInt(myArray.transfer)+parseInt(myArray.emi)+parseInt(myArray.deduction)).toLocaleString('en-IN')}}
+                        {{symbol}}{{(parseInt(myArray.advance)+parseInt(myArray.holidays)+parseInt(myArray.emi)+parseInt(myArray.deduction)).toLocaleString('en-IN')}}
                     </th>
+                </tr>
+                <tr>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        Transfer
+                    </td>
+                    <td>
+                        {{symbol}}{{parseInt(myArray.transfer).toLocaleString('en-IN')}}
+                    </td>
                 </tr>
                 <tr>
                     <th colspan="2" style="border: none;">
@@ -206,7 +207,7 @@
                 symbol: 'Rs ',
                 id: '',
                 year: '2020',
-                logoimg:'',
+                logoimg: '',
                 company: 'Company Name',
             },
             created: function () {
@@ -220,6 +221,8 @@
                     axios.get('https://payroll.cleverapps.io/payslips/api/dataprint?date=' + params.month + "&id=" + params.id)
                         .then(function (Response1) {
                             log.myArray = Response1
+                            log.month = params.month
+                            log.year = params.year
                         })
 
                         .catch((err) => {
@@ -228,29 +231,29 @@
                             log.message_error = "Error connecting the database try again later !"
 
                         })
-                        axios.get('https://payroll.cleverapps.io/settings/api/setting')
-                                .then(function (Response2) {
-                                    log.logoimg=Response2[2]
-                                    log.company=Response2[0].name
-                                    log.symbol=Response2[1]
-                                    setTimeout(()=>{
-                                        if (params.action == 'download') {
-                                        log.down()
-                                    } else {
-                                        this.print()
-                                        window.close()
-                                    }
-                                    },100)
-                                    
-                                    
-                                    
+                    axios.get('https://payroll.cleverapps.io/settings/api/setting')
+                        .then(function (Response2) {
+                            log.logoimg = Response2[2]
+                            log.company = Response2[0].name
+                            log.symbol = Response2[1]
+                            setTimeout(() => {
+                                if (params.action == 'download') {
+                                    log.down()
+                                } else {
+                                    this.print()
+                                    window.close()
+                                }
+                            }, 100)
+
+
+
                         })
 
 
                 }, print() {
                     var divcontent = document.getElementById('print').innerHTML;
                     window.print()
-                    setTimeout(function () {  }, 1000);
+                    setTimeout(function () { }, 1000);
 
                 }, getParams(url) {
                     var params = {};
@@ -269,7 +272,7 @@
                     window.html2canvas(this.$refs.hi).then(canvas => {
                         image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
                         var link = document.createElement('a');
-                        link.download = a.getMilliseconds()+"my-image.png";
+                        link.download = a.getMilliseconds() + "my-image.png";
                         link.href = image;
                         link.click();
                         window.close()

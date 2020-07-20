@@ -134,8 +134,7 @@
                                     <td class="red">{{symbol}}{{parseInt(list[i-1].extratimetotoal).toLocaleString('en-IN')}}</td>
 
                                     <td> <b>Advance : </b></td>
-                                    <td class="red" v-show="!edit">{{symbol}}{{list[i-1].advance}}</td>
-                                    <td v-show="edit"><input v-model="list[i-1].advance" type="number"> </td>
+                                    <td class="red" >{{symbol}}{{list[i-1].advance}}</td>
                                 </tr>
                                 <tr>
                                     <td style="font-size: 1.2em;"> <b>Total Loan : </b></td>
