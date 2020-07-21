@@ -340,7 +340,7 @@
                                 }
                                 $('#mybtn').prop('disabled', false);
                                 log.list[i].extratimetotoal = extra
-                                log.list[i].holidays = Math.ceil(log.list[i]['employee_quick'].salary / days) * ab
+                                log.list[i].holidays = Math.round(log.list[i]['employee_quick'].salary / days) * ab
                             }
                             axios.get('https://payroll.cleverapps.io/settings/api/symbol')
                                 .then(function (Response2) {

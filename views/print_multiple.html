@@ -147,7 +147,7 @@
                         {{symbol}}{{parseInt(myArray[i-1]['employee_quick'].salary).toLocaleString('en-IN')}}
                     </td>
                     <td>
-                        Holidays => ( {{Math.round(parseInt(myArray[i-1].holidays)/Math.ceil(parseInt(myArray[i-1]['employee_quick'].salary)/31))}} )
+                        Holidays => ( {{Math.round(parseInt(myArray[i-1].holidays)/Math.ceil(parseInt(myArray[i-1]['employee_quick'].salary)/days))}} )
                     </td>
                     <td>
                         {{symbol}}{{parseInt(myArray[i-1].holidays).toLocaleString('en-IN')}}
@@ -254,10 +254,12 @@
                 month: '',
                 len:0,
                 symbol: 'Rs ',
+                monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
                 id: '',
                 logoimg:'',
                 year: '2020',
                 date:'',
+                days:30,
                 company: 'Company Name',
             },
             created: function () {
@@ -271,6 +273,7 @@
                             log.myArray = Response1
                             log.len=Response1.length
                             log.date=params.month
+                            log.days=log.monthday[parseInt(log.date)-1]
                             axios.get('https://payroll.cleverapps.io/settings/api/setting')
                                 .then(function (Response2) {
                                     log.company=Response2[0].name

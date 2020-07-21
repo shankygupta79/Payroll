@@ -128,7 +128,7 @@ Vue.component('navbar-component',{
         </li>
         <li >
             <a href="#payslip" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            <i class="fa fa-money" aria-hidden="true" style="color:lightblue"></i>&nbsp Payslips</a>
+            <i class="fa fa-money" aria-hidden="true" style="color:lightblue"></i>&nbsp Salary Ledger</a>
             <ul class="collapse list-unstyled" id="payslip" data-parent="#sidebar">
                 <li>
                     <a href="https://payroll.cleverapps.io/payslips/calc"><i class="fa fa-ellipsis-h" style="color:lightblue"aria-hidden="true"></i>&nbsp Salary Calculator</a>

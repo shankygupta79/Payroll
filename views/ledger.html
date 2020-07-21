@@ -39,38 +39,36 @@
                 <div class="bord">
                     <div class="headin center">Ledger</div>
                     <div class="roww"></div>
+                    
                     <table class="report">
                         <tr>
+                            <td><strong class="options">Select Employee :</strong></td>
                             <td><strong class="options">Select Year :</strong></td>
                             <td><strong class="options">Select Month :</strong></td>
-                            <td><strong>Select Employee :</strong></td>
-
-
                         </tr>
                         <tr>
-
+                            <td><select class="form-control options" v-model="select_emp">
+                                    <option style="color: black;" v-for="i in employee">{{i}}</option>
+                                </select></td>
                             <td><select class="form-control options" v-model="select_year">
                                     <option v-for="i in yearlist">{{i}}</option>
                                 </select></td>
                             <td><select class="form-control options" v-model="select_month">
                                     <option v-for="i in monthlist">{{i}}</option>
                                 </select></td>
-                            <td><select class="form-control options" v-model="select_emp">
-                                    <option style="color: black;" v-for="i in employee">{{i}}</option>
-                                </select></td>
-                            <td>
-                                <div class="center">
-                                    <button id='mybtn' @click="submit()" style="padding: 5px 30px;"
-                                        class="btn btn-success">Show
-                                        Analysis &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
-                                    </button>
-                                </div>
-                            </td>
                         </tr>
                     </table><br>
-                    <div v-if="error2" class="error">
-                        {{message_error2}} !
+                    <div v-if="error" class="error">
+                        {{message_error}} !
+                    </div> 
+                    <div v-if="success" class="success">
+                        {{message_success}} !
                     </div> <br>
+                    <div class="center">
+                        <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show Ledger
+                            &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
+                        </button>
+                    </div>
                     <img src="../images/loading" v-show="paylist" id="Loading" ref="Loading">
                     <div v-show="paylist" id="content2" ref="content2">
                         <div v-if="error" class="error">
@@ -477,7 +475,7 @@
                                 }
                                 $('#mybtn').prop('disabled', false);
                                 log.list[i].extratimetotoal = extra
-                                log.list[i].holidays = Math.ceil(log.list[i]['employee_quick'].salary / days) * ab
+                                log.list[i].holidays = Math.round(log.list[i]['employee_quick'].salary / days) * ab
                             }
                             axios.get('https://payroll.cleverapps.io/settings/api/symbol')
                                 .then(function (Response2) {
