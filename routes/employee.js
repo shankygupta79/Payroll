@@ -453,9 +453,6 @@ route.post('/add_emp/upload', upload.array('file', 5), (req, res) => {
   console.log(arr2)
   return res.send({ message: "Done" })
 
-
-
-
 });
 route.post('/add_emp/uploadpr', upload.single('file'), (req, res) => {
   console.log("AYA")

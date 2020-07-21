@@ -15,11 +15,140 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
+        
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <style>
+        .headin {
+            font-weight: bold;
+            color: black;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2em;
+            background: inherit;
+            width: 100%;
+            padding: 4px;
 
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .info {
+            width: 95%;
+            border-collapse: collapse;
+            word-wrap: break-word;
+        }
+        tr{
+            font-weight: bold;
+        }
+    </style>
+    <div id="Index">
+
+<div class="center info headin" style="height: 110px;"><img src="https://res.cloudinary.com/shankygupta79/image/upload/v1592936084/z6smp2yi7h77jmrdtr4t.png" width="100px"
+    style="float: left;" height="100px">
+<div style="vertical-align: middle;"><br>{{company}}</div>
+</div>
+<table style="min-width: 100%;">
+    <tr>
+        <tr style="font-weight: 100;">
+            <td>
+                Deliver To:
+            </td>
+            <td>
+                Shipped By (If undelivered, return to):
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{name}}
+            </td>
+            <td>
+                {{name2}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{address1}}
+            </td>
+            <td>
+                {{address12}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{address2}}
+            </td>
+            <td>
+                {{address22}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{city}} {{pincode}} {{country}}
+            </td>
+            <td>
+                {{city2}} {{pincode2}} {{country2}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{phone}}
+            </td>
+            <td>
+                {{phone2}} 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{email}}
+            </td>
+            <td>
+                {{email2}} 
+            </td>
+        </tr>
+
+    </tr>
+</table>
+<svg id="barcode"></svg>
+    </div>
     <script>
         var log = new Vue({
             el: "#Index",
             data: {
                 myArray: [],
+                company:'SANJEEV STORE',
+                name:'Customer name',
+                address1:'Address1',
+                address2:'Address2',
+                city:'Delhi',
+                pincode:'110092',
+                country:'India',
+                email:'shankygupta79@gmail.com',
+                phone:'+91 - 8810625118',
+                name2:'Sanjeev Store',
+                address12:'143-144 Chandni Chowk',
+                address22:'Delhi',
+                city2:'Delhi',
+                pincode2:'110006',
+                country2:'India',
+                email2:'sanjeevstore@gmail.com',
+                phone2:'+91 - 7982626664',
+                orderno:123469860
+            }, methods: {
+
             }
+            
+        })
+        JsBarcode("#barcode", log.orderno, {
+            lineColor: "#000",
+            width: 4,
+            height: 40,
+            displayValue: false
+        });
+        
+    </script>
+</body>
+
+</html>

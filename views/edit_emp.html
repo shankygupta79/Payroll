@@ -143,7 +143,7 @@
                         <tr>
                             <td valign="top" style="width: 40%;"><b>Photo</b></td>
                             <td @click="photo()">
-                                <form id="upload-widget" method="post" action="https://payroll.cleverapps.io/employee/add_emp/uploadpr"
+                                <form id="upload-widget" method="post" action="https://payroll.cleverapps.io/employee/add_emp/uploadpr?id="
                                     class="dropzone" v-show="edit">
                                     <div class="fallback">
                                         <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
