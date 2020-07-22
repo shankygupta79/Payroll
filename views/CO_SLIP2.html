@@ -224,7 +224,7 @@
                 </tr>
                 <tr>
                     <td v-show="show">
-                        To Collect : ₹ {{amount}}
+                        To Collect : ₹ {{(amount).toLocaleString('en-IN')}}
                     </td>
                     <td v-show="!show">
                         To Collect :
