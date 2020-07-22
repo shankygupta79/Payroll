@@ -28,9 +28,10 @@
             padding: 0px;
 
         }
-        .reg{
+
+        .reg {
             vertical-align: top;
-    font-size: 0.7em;
+            font-size: 0.7em;
         }
 
         .center {
@@ -45,6 +46,13 @@
         .bord {
             max-width: 100%;
             border: 2px solid black;
+        }
+
+        @media print {
+
+            .noprint {
+                display: none;
+            }
         }
     </style>
     <div id="Index">
@@ -69,38 +77,56 @@
                 <tr>
                 <tr style="font-weight: 100;">
 
-                    <td>
+                    <td v-show="show">
                         To Deliver:
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
                         {{name}}
                     </td>
+                    <td v-show="!show">
+                        <input v-model="name">
+                    </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
                         {{address1}}
                     </td>
+                    <td v-show="!show">
+                        <input v-model="address1">
+                    </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
                         {{address2}}
                     </td>
+                    <td v-show="!show">
+                        <input v-model="address2">
+                    </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
                         {{city}} {{pincode}} {{country}}
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        {{phone}}
+                    <td v-show="!show">
+                        <input v-model="city"><input style="width: 70px;" v-model="pincode"><input style="width: 70px;" v-model="country">
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
+                        {{phone}}
+                    </td>
+                    <td v-show="!show">
+                        <input v-model="phone">
+                    </td>
+                </tr>
+                <tr>
+                    <td v-show="show">
                         {{email}}
+                    </td>
+                    <td v-show="!show">
+                        <input placeholder="EMAIL ID" v-model="email">
                     </td>
                 </tr>
 
@@ -110,38 +136,56 @@
                 <tr>
                 <tr style="font-weight: 100;">
 
-                    <td>
+                    <td v-show="show">
                         Shipped By (If undelivered, return to):
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
                         {{name2}}
                     </td>
+                    <td v-show="!show">
+                        <input v-model="name2">
+                    </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
                         {{address12}}
                     </td>
+                    <td v-show="!show">
+                        <input v-model="address12">
+                    </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
                         {{address22}}
                     </td>
+                    <td v-show="!show">
+                        <input v-model="address22">
+                    </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
                         {{city2}} {{pincode2}} {{country2}}
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        {{phone2}}
+                    <td v-show="!show">
+                        <input v-model="city2"><input style="width: 70px;" v-model="pincode2"><input style="width: 70px;" v-model="country2">
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
+                        {{phone2}}
+                    </td>
+                    <td v-show="!show">
+                        <input v-model="phone2">
+                    </td>
+                </tr>
+                <tr>
+                    <td v-show="show">
                         {{email2}}
+                    </td>
+                    <td v-show="!show">
+                        <input v-model="email2">
                     </td>
                 </tr>
 
@@ -149,50 +193,82 @@
             </table>
             <br><br><br><br><br><br><br><br><br>
         </div>
-        <div class="bord" >
+        <div class="bord" style="height: 120px;">
+            <br>
             <table style="float:left;margin-left: 5%;">
                 <tr>
-                    <td>
-                        Weight :  {{weight}}
+                    <td v-show="show">
+                        Weight : {{weight}}
+                    </td>
+                    <td v-show="!show">
+                        Weight :
+                        <input v-model="weight">
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        Dimenssions (in cm) :  {{l}} x {{b}} x {{h}}
+                    <td v-show="show">
+                        Dimenssions (in cm) : {{l}} x {{b}} x {{h}}
+                    </td>
+                    <td v-show="!show">
+                        Dimenssions (in cm) :
+                        <input v-model="l" style="width: 30px;"> x <input style="width: 30px;" v-model="b"> x <input
+                            style="width: 30px;" v-model="h">
                     </td>
                 </tr>
                 <tr>
-                    <td>PAYMENT MODE: {{mode}}</td>
+                    <td v-show="show">PAYMENT MODE: {{mode}}</td>
+                    <td v-show="!show">
+                        PAYMENT MODE:
+                        <input v-model="mode">
+                    </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td v-show="show">
                         To Collect : ₹ {{amount}}
+                    </td>
+                    <td v-show="!show">
+                        To Collect :
+                        <input v-model="amount">
                     </td>
                 </tr>
 
             </table>
             <table style="float: right;margin-right: 5%;">
-                
-                <tr>
-                    <td>Courier By: {{cby}}</td>
-                </tr>
-                <tr>
-                    <td>Tracking ID: {{trackingid}}</td>
-                </tr>
 
                 <tr>
-                    <td>
+                    <td v-show="show">Courier By: {{cby}}</td>
+                </tr>
+                <td v-show="!show">
+                    Courier By:
+                    <input v-model="cby">
+                </td>
+                <tr>
+                    <td v-show="show">Tracking ID: {{trackingid}}</td>
+                </tr>
+                <td v-show="!show">
+                    Tracking ID:
+                    <input v-model="trackingid">
+                </td>
+                <tr>
+                    <td v-show="show">
                         <svg id="barcode"></svg>
                     </td>
-
                 </tr>
-                
+                <tr v-show="!show">
+                    <td v-show="!show">
+                        Order No : <input v-model="orderno">
+                    </td>
+                </tr>
+
 
             </table>
-            <br><br><br><br><br><br>
-            
+
 
         </div>
+        <button @click="print()" class="noprint" style="padding:3px 15px"><i class="fa fa-print" style="color:red"
+                aria-hidden="true"></i>&nbsp Print All</button>
+        <button @click="edit()" class="noprint" style="padding:3px 15px"><i class="fa fa-pencil" style="color:green"
+                aria-hidden="true"></i>&nbsp Edit</button>
 
 
 
@@ -203,6 +279,7 @@
             el: "#Index",
             data: {
                 myArray: [],
+                show: 1,
                 company: 'SANJEEV STORE',
                 name: 'Customer name',
                 address1: 'Address1',
@@ -210,8 +287,8 @@
                 city: 'Delhi',
                 pincode: '110092',
                 country: 'India',
-                email: 'shankygupta79@gmail.com',
-                phone: '+91 - 8810625118',
+                email: '',
+                phone: '+91 - ',
                 name2: 'Sanjeev Store',
                 address12: '143-144 Chandni Chowk',
                 address22: 'Delhi',
@@ -221,28 +298,57 @@
                 email2: 'sanjeevstore@gmail.com',
                 phone2: '+91 - 7982626664 , 011-43570389',
                 orderno: '1234567890',
-                weight: "2.13",
-                l: 10,
-                b: 10,
-                h: 10,
+                weight: "Not Weighted",
+                l: '20',
+                b: '20',
+                h: '10',
                 mode: 'COD',
                 GST: 'AAAAAAAAAA',
                 website: 'Registered R',
-                amount: '5000',
+                amount: '0',
                 dateofdispatch: '26-05-2020',
-                cby:'FEDEX',
+                cby: 'FEDEX',
                 trackingid: 'N/A',
                 thanks: 'Thank for shopping with us ! Stay Home & Stay Safe !',
 
 
-            }, methods: {
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    var dt = new Date();
+                    this.dateofdispatch = dt.getDate() + "-" + (dt.getMonth() + 1) + "-" + dt.getFullYear();
+                },
+                print() {
+                    this.show = 1
+                    JsBarcode("#barcode", this.orderno, {
+                        lineColor: "#000",
+                        width: 2.5,
+                        height: 25,
+                        displayValue: false
+                    });
+                    setTimeout(() => {
+                        window.print()
 
+                    }, 100)
+
+                }, edit() {
+                    this.show = !this.show
+                    JsBarcode("#barcode", log.orderno, {
+                        lineColor: "#000",
+                        width: 2.5,
+                        height: 25,
+                        displayValue: false
+                    });
+                }
             }
 
         })
         JsBarcode("#barcode", log.orderno, {
             lineColor: "#000",
-            width: 3,
+            width: 2.5,
             height: 25,
             displayValue: false
         });
