@@ -6,6 +6,9 @@ route.get('/loading', (req, res) => {
 route.get('/emp_man', (req, res) => {
   res.sendFile(path.join(__dirname, '../Images/emp_man.jpg'))
 })
+route.get('/qr', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Images/QR.png'))
+})
 route.get('/emp_fem', (req, res) => {
   res.sendFile(path.join(__dirname, '../Images/emp_fem.jpg'))
 })

@@ -26,22 +26,18 @@
             font-family: 'Courier New', Courier, monospace;
             font-size: 2em;
             padding: 0px;
-
         }
-        .reg{
+        .reg {
             vertical-align: top;
-    font-size: 0.7em;
+            font-size: 0.7em;
         }
-
         .center {
             text-align: center;
         }
 
-
         tr {
             font-weight: bold;
         }
-
         .bord {
             max-width: 100%;
             border: 2px solid black;
@@ -64,7 +60,7 @@
                 <br>
             </div>
         </div>
-        <div class="bord">
+        <div class="bord" style="height: 155px;">
             <table style="float: left;">
                 <tr>
                 <tr style="font-weight: 100;">
@@ -147,18 +143,18 @@
 
                 </tr>
             </table>
-            <br><br><br><br><br><br><br><br><br>
         </div>
-        <div class="bord" >
+        <div class="bord" style="height: 120px;">
+            <br>
             <table style="float:left;margin-left: 5%;">
                 <tr>
                     <td>
-                        Weight :  {{weight}}
+                        Weight : {{weight}}
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Dimenssions (in cm) :  {{l}} x {{b}} x {{h}}
+                        Dimenssions (in cm) : {{l}} x {{b}} x {{h}}
                     </td>
                 </tr>
                 <tr>
@@ -169,34 +165,21 @@
                         To Collect : ₹ {{amount}}
                     </td>
                 </tr>
-
             </table>
             <table style="float: right;margin-right: 5%;">
-                
                 <tr>
                     <td>Courier By: {{cby}}</td>
                 </tr>
                 <tr>
                     <td>Tracking ID: {{trackingid}}</td>
                 </tr>
-
                 <tr>
                     <td>
                         <svg id="barcode"></svg>
                     </td>
-
                 </tr>
-                
-
             </table>
-            <br><br><br><br><br><br>
-            
-
         </div>
-
-
-
-
     </div>
     <script>
         var log = new Vue({
@@ -230,15 +213,10 @@
                 website: 'Registered R',
                 amount: '5000',
                 dateofdispatch: '26-05-2020',
-                cby:'FEDEX',
+                cby: 'FEDEX',
                 trackingid: 'N/A',
-                thanks: 'Thank for shopping with us ! Stay Home & Stay Safe !',
-
-
             }, methods: {
-
             }
-
         })
         JsBarcode("#barcode", log.orderno, {
             lineColor: "#000",
@@ -246,8 +224,6 @@
             height: 25,
             displayValue: false
         });
-
     </script>
 </body>
-
 </html>
