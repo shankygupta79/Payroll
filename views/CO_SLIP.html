@@ -18,7 +18,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
     <style>
         .headin {
             font-weight: bold;
@@ -48,13 +47,13 @@
             <img style="float: left;"
                 src="https://res.cloudinary.com/shankygupta79/image/upload/v1592936084/z6smp2yi7h77jmrdtr4t.png"
                 width="115px" height="110px">
-            <b style="float: left;margin-left: 5%;">Date Generated : {{dateofdispatch}}<br></b>
+            <b style="float: left;margin-left: 5%;">Date Generated : dd-mm-yyyy<br></b>
             <div style="display: inline-block;vertical-align: center;min-width: 80%;">
-                <div class="headin center">{{company}}<span class="reg">®</span>
-                    <img style="float:right" src="./QR.png" width="70px">
+                <div class="headin center">SANJEEV STORE<span class="reg">®</span>
+                    <img style="float:right" src="https://res.cloudinary.com/shankygupta79/image/upload/v1595434570/qr_pjtw4k.png" width="70px">
                 </div><br><br>
                 <div>
-                    <div style="float: right;">GST:{{GST}}</div>
+                    <div style="float: right;">GST: 07AFUPG1400M1ZE</div>
                     <div style="float: left;">Website:www.lovebirdlingerie.com</div>
                 </div>
                 <br>
@@ -71,32 +70,32 @@
                 </tr>
                 <tr>
                     <td>
-                        {{name}}
+                        Customer Name
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{address1}}
+                        Address Line 1
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{address2}}
+                        Address Line 2
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{city}} {{pincode}} {{country}}
+                        Delhi 110092 India
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{phone}}
+                        +91 - 9999999999
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{email}}
+                        user@gmail.com
                     </td>
                 </tr>
 
@@ -112,32 +111,32 @@
                 </tr>
                 <tr>
                     <td>
-                        {{name2}}
+                        Sanjeev Store
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{address12}}
+                        143 - 144 Chandni Chowk
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{address22}}
+                        Delhi
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{city2}} {{pincode2}} {{country2}}
+                        Delhi 110092 India
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{phone2}}
+                        +91 - 7982626664 , 011-43570389
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{email2}}
+                        sanjeevstore@gmail.com
                     </td>
                 </tr>
 
@@ -149,29 +148,29 @@
             <table style="float:left;margin-left: 5%;">
                 <tr>
                     <td>
-                        Weight : {{weight}}
+                        Weight : 2.13 kg
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Dimenssions (in cm) : {{l}} x {{b}} x {{h}}
+                        Dimenssions (in cm) : 20 x 20 x 10
                     </td>
                 </tr>
                 <tr>
-                    <td>PAYMENT MODE: {{mode}}</td>
+                    <td>PAYMENT MODE: COD</td>
                 </tr>
                 <tr>
                     <td>
-                        To Collect : ₹ {{(amount).toLocaleString('en-IN')}}
+                        To Collect : ₹ 5000
                     </td>
                 </tr>
             </table>
             <table style="float: right;margin-right: 5%;">
                 <tr>
-                    <td>Courier By: {{cby}}</td>
+                    <td>Courier By: FEDEX</td>
                 </tr>
                 <tr>
-                    <td>Tracking ID: {{trackingid}}</td>
+                    <td>Tracking ID: N/A</td>
                 </tr>
                 <tr>
                     <td>
@@ -182,43 +181,7 @@
         </div>
     </div>
     <script>
-        var log = new Vue({
-            el: "#Index",
-            data: {
-                myArray: [],
-                company: 'SANJEEV STORE',
-                name: 'Customer name',
-                address1: 'Address1',
-                address2: 'Address2',
-                city: 'Delhi',
-                pincode: '110092',
-                country: 'India',
-                email: 'shankygupta79@gmail.com',
-                phone: '+91 - 8810625118',
-                name2: 'Sanjeev Store',
-                address12: '143-144 Chandni Chowk',
-                address22: 'Delhi',
-                city2: 'Delhi',
-                pincode2: '110006',
-                country2: 'India',
-                email2: 'sanjeevstore@gmail.com',
-                phone2: '+91 - 7982626664 , 011-43570389',
-                orderno: '1234567890',
-                weight: "2.13",
-                l: 10,
-                b: 10,
-                h: 10,
-                mode: 'COD',
-                GST: 'AAAAAAAAAA',
-                website: 'Registered R',
-                amount: '5000',
-                dateofdispatch: '26-05-2020',
-                cby: 'FEDEX',
-                trackingid: 'N/A',
-            }, methods: {
-            }
-        })
-        JsBarcode("#barcode", log.orderno, {
+        JsBarcode("#barcode", 1223456789, {
             lineColor: "#000",
             width: 3,
             height: 25,
