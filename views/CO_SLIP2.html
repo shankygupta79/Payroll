@@ -132,7 +132,7 @@
 
                 </tr>
             </table>
-            <table style="float: right;">
+            <table class="add" style="float: right;">
                 <tr>
                 <tr style="font-weight: 100;">
 
@@ -217,7 +217,7 @@
                 </tr>
                 <tr>
                     <td v-show="show">PAYMENT MODE: {{mode}}</td>
-                    <td v-show="!show">
+                    <td v-show="!show" style="word-wrap: break-word;">
                         PAYMENT MODE:
                         <input v-model="mode">
                     </td>
@@ -250,7 +250,7 @@
                     <input v-model="trackingid">
                 </td>
                 <tr>
-                    <td v-show="show">
+                    <td class="barcode" v-show="show">
                         <svg id="barcode"></svg>
                     </td>
                 </tr>
@@ -261,14 +261,28 @@
                 </tr>
 
 
+
             </table>
 
 
         </div>
+        <table class="noprint">
+            <tr>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Sender Address</label>
+                    <input type="checkbox" class="form-check-input" id="addcheck" checked>
+                </td>
+                <td>
+                    <label class="form-check-label" for="exampleCheck1">Barcode</label>
+                    <input type="checkbox" class="form-check-input" id="barcodecheck" checked>
+                </td>
+            </tr>
+        </table>
         <button @click="print()" class="noprint" style="padding:3px 15px"><i class="fa fa-print" style="color:red"
                 aria-hidden="true"></i>&nbsp Print All</button>
         <button @click="edit()" class="noprint" style="padding:3px 15px"><i class="fa fa-pencil" style="color:green"
                 aria-hidden="true"></i>&nbsp Edit</button>
+
 
 
 
@@ -351,6 +365,12 @@
             width: 2.5,
             height: 25,
             displayValue: false
+        });
+        $('#barcodecheck').on('click', function () {
+            $('.barcode').toggleClass('noprint');
+        });
+        $('#addcheck').on('click', function () {
+            $('.add').toggleClass('noprint');
         });
 
     </script>
