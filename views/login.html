@@ -17,7 +17,7 @@
 
   <link rel="stylesheet" href="/signup/css">
   <link rel="stylesheet" href="/signup/css2">
-  <link rel="stylesheet" href="https://payrollv2.herokuapp.comsettings/style2">
+  <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -194,7 +194,7 @@
               console.log(data)
               $('#abc').hide();
               if (data === 'true') {
-                window.location.href = 'https://payrollv2.herokuapp.comdashboard';
+                window.location.href = 'https://payrollv2.herokuapp.com/dashboard';
               } else if (data[0] === 'wp') {
                 acc.word="Try Again"
                 acc.message = " Incorrect Password";

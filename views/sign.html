@@ -15,7 +15,7 @@
   <script src="https://unpkg.com/vue"></script>
   <!-- Latest compiled and minified bootstap CSS -->
   <link rel="stylesheet" href="/signup/css">
-  <link rel="stylesheet" href="https://payrollv2.herokuapp.comsettings/style2">
+  <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
 
 </head>
 
@@ -163,7 +163,7 @@
             if (data.data == "ms") {
               acc.message = "An activtion Mail Has Been Sent to your Mail and you will be redirected automatically to the login page";
               setTimeout(() => {
-                window.location.href = "https://payrollv2.herokuapp.comlogin"
+                window.location.href = "https://payrollv2.herokuapp.com/login"
               }, 4000);
               acc.error = 1;
             } else if (data.data == "ae") {
