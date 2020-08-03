@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 const dotenv = require("dotenv")
 dotenv.config()
 route.get('/', (req, res) => {
-    res.redirect('https://payroll.cleverapps.io/login')
+    res.redirect('https://payrollv2.herokuapp.comlogin')
 })
 
 
@@ -184,14 +184,14 @@ function sendmail(tomailid, hash, fp) {
             from: process.env.mail,
             to: tomailid,
             subject: 'Reset Your Password',
-            text: 'Reset your password by clicking on the link (link is valid upto five minutes only) ' + 'https://payroll.cleverapps.io/forgot?id=' + hash + '&tm=' + tm + '&mail=' + tomailid,
+            text: 'Reset your password by clicking on the link (link is valid upto five minutes only) ' + 'https://payrollv2.herokuapp.comforgot?id=' + hash + '&tm=' + tm + '&mail=' + tomailid,
         };
     } else if (fp == 0) {
         mailDetails = {
             from: process.env.mail,
             to: tomailid,
             subject: 'Activate Your Account',
-            text: 'Verify your account by clicking on the link ' + 'https://payroll.cleverapps.io/activate?id=' + hash + '&mail=' + tomailid + '&tm=' + tm + ' .' + 'This Link will expire in 10 minutes',
+            text: 'Verify your account by clicking on the link ' + 'https://payrollv2.herokuapp.comactivate?id=' + hash + '&mail=' + tomailid + '&tm=' + tm + ' .' + 'This Link will expire in 10 minutes',
         };
     }
     // https://myaccount.google.com/lesssecureapps

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payroll.cleverapps.io/settings/style2">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.comsettings/style2">
     <link rel="stylesheet" href="css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -96,7 +96,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payroll.cleverapps.io/navbar2"></script>
+    <script src="https://payrollv2.herokuapp.comnavbar2"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -125,7 +125,7 @@
             methods: {
                 load: function () {
                     $('#abc').hide();
-                    axios.get('https://payroll.cleverapps.io/employee/api/quickemp')
+                    axios.get('https://payrollv2.herokuapp.comemployee/api/quickemp')
                         .then(function (Response1) {
                             for (var i = 0; i < Response1.length; i++) {
                                 log.employee.push(Response1[i].name)
@@ -196,7 +196,7 @@
 
     </script>
 
-    <script src="https://payroll.cleverapps.io/navbar2/collapsing"></script>
+    <script src="https://payrollv2.herokuapp.comnavbar2/collapsing"></script>
 </body>
 
 </html>

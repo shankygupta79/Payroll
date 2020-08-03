@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    axios.get('https://payroll.cleverapps.io/dashboard/logo')
+    axios.get('https://payrollv2.herokuapp.comdashboard/logo')
         .then(function (Response1) {
             console.log(Response1)
             $('.logoi'). attr("src", Response1);

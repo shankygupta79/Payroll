@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payroll.cleverapps.io/settings/style2">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.comsettings/style2">
     <link rel="stylesheet" href="../payslips/css">
 
 
@@ -201,7 +201,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payroll.cleverapps.io/navbar2"></script>
+    <script src="https://payrollv2.herokuapp.comnavbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -310,7 +310,7 @@
                     }
                     $('#abc').show()
                     log.paylist = 1
-                    axios.get('https://payroll.cleverapps.io/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
+                    axios.get('https://payrollv2.herokuapp.compayslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
                         .then(function (Response1) {
                             log.list = Response1
                             if (Response1.length == 0) {
@@ -342,7 +342,7 @@
                                 log.list[i].extratimetotoal = extra
                                 log.list[i].holidays = Math.round((log.list[i]['employee_quick'].salary / days) * ab)
                             }
-                            axios.get('https://payroll.cleverapps.io/settings/api/symbol')
+                            axios.get('https://payrollv2.herokuapp.comsettings/api/symbol')
                                 .then(function (Response2) {
                                     log.symbol = Response2
                                 })
@@ -423,7 +423,7 @@
         });
     </script>
 
-    <script src="https://payroll.cleverapps.io/navbar2/collapsing"></script>
+    <script src="https://payrollv2.herokuapp.comnavbar2/collapsing"></script>
 </body>
 
 </html>
