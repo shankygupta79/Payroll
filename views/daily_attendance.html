@@ -155,7 +155,7 @@
             el: "#Index",
             data: {
                 A: 'ab', P: 'pr',
-                entry: 10,
+                entry: 20,
                 query: '',
                 word: 'SAVE',
                 select_date: '', getlist: 0,
@@ -192,7 +192,7 @@
                         this.dxt="0"+this.dxt
                     }
                     this.select_date = this.yxt + "-" + this.arr[this.mxt] + this.dxt
-
+                    log.submit();
 
                 }, loaderoff() {
                     var app = this;
