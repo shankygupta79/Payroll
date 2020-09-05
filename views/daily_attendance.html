@@ -191,8 +191,10 @@
                     if(this.dxt<10){
                         this.dxt="0"+this.dxt
                     }
-                    this.select_date = this.yxt + "-" + this.arr[this.mxt] + this.dxt
-                    log.submit();
+                    this.select_date = this.yxt + "-" + this.arr[this.mxt] + this.dxt;
+                    setTimeout(function(){
+                        log.submit();
+                    },200);
 
                 }, loaderoff() {
                     var app = this;

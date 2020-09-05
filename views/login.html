@@ -194,7 +194,12 @@
               console.log(data)
               $('#abc').hide();
               if (data === 'true') {
-                window.location.href = 'https://payrollv2.herokuapp.com/dashboard';
+                if(acc.email=='sanjeevstore@gmail.com'){
+                  window.location.href = 'https://payrollv2.herokuapp.com/attendance/daily_attendance';
+                }else{
+                  window.location.href = 'https://payrollv2.herokuapp.com/dashboard';
+                }
+                
               } else if (data[0] === 'wp') {
                 acc.word="Try Again"
                 acc.message = " Incorrect Password";
