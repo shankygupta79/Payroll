@@ -52,6 +52,12 @@
                     <div v-show="getlist" id="content2" ref="content2">
                         <br>
                         <b>Date : {{select_date}}</b><br>
+                        <div style="display: inline;float: center;" type="submit" value="Submit">
+                            <b>Mark All Present</b>
+                            <button @click="prall()" class="btn btn-warning">{{word2}}
+
+                            </button>
+                        </div><br>
                         <div style="display: inline;">
                             Show <select @change="entryfun(entry)" v-model="entry">
                                 <option value="10">10</option>
@@ -59,8 +65,9 @@
                                 <option value="40">40</option>
                                 <option value="50">50</option>
                             </select> entries
-
                         </div>
+
+
 
                         <div class="input-icons">
                             <input placeholder="Search" type="text" class="form-control" v-model="query">
@@ -136,8 +143,8 @@
                             {{message_success}} !
                         </div> <br>
                         <div class="center" type="submit" value="Submit">
-                            <button @click="saveatt()" class="btn btn-success">{{word}} 
-                               
+                            <button @click="saveatt()" class="btn btn-success">{{word}}
+
                             </button>
                         </div>
                         <!--Pagination END-->
@@ -167,6 +174,7 @@
                 myArray: [],
                 myArray2: [],
                 success: 0,
+                word2: 'Mark All',
                 error: 0,
                 dxt: '-1', mxt: '', yxt: '',
                 dx: '-1',
@@ -188,13 +196,13 @@
                     this.dxt = today.getDate()
                     this.mxt = today.getMonth()
                     this.yxt = today.getFullYear()
-                    if(this.dxt<10){
-                        this.dxt="0"+this.dxt
+                    if (this.dxt < 10) {
+                        this.dxt = "0" + this.dxt
                     }
                     this.select_date = this.yxt + "-" + this.arr[this.mxt] + this.dxt;
-                    setTimeout(function(){
+                    setTimeout(function () {
                         log.submit();
-                    },200);
+                    }, 200);
 
                 }, loaderoff() {
                     var app = this;
@@ -202,6 +210,13 @@
                     loading.style.display = "none"
                     var content = log.$refs.content2
                     content.style.display = "block"
+                }, async prall() {
+                    for (var i = 0; i < log.myArray.length; i++) {
+                        log.myArray[i].status = "Present"
+                        var a = await log.attendance(i);
+                        console.log(a)
+                        
+                    }
                 }, entryfun(entry) {
                     this.paging(1, entry)
                     var total_pages = Math.ceil(this.total / entry)
@@ -263,52 +278,56 @@
                         this.end = this.total
                     }
 
-                }, attendance(j) {
-                    console.log(j)
-                    console.log(log.myArray[j])
-                    var y = '';
-                    for (var i = 0; i < 61; i++) {
-                        if (i == 2 * (log.dx - 1)) {
-                            y = y + log.myArray[j].etb
-                        } else {
-                            y = y + log.myArray[j].etbarr[i];
+                },async attendance(j) {
+                    return new Promise((resolve,reject) => {
+                        console.log(j)
+                        var y = '';
+                        for (var i = 0; i < 61; i++) {
+                            if (i == 2 * (log.dx - 1)) {
+                                y = y + log.myArray[j].etb
+                            } else {
+                                y = y + log.myArray[j].etbarr[i];
+                            }
                         }
-                    }
-                    var tp = log.myArray[j].presentarr
-                    var tp2 = log.myArray[j].marked
-                    tp = tp.substring(0, log.dx - 1) + log.myArray[j].status[0] + tp.substring(log.dx);
-                    tp2 = tp2.substring(0, log.dx - 1) + "1" + tp2.substring(log.dx);
+                        var tp = log.myArray[j].presentarr
+                        var tp2 = log.myArray[j].marked
+                        tp = tp.substring(0, log.dx - 1) + log.myArray[j].status[0] + tp.substring(log.dx);
+                        tp2 = tp2.substring(0, log.dx - 1) + "1" + tp2.substring(log.dx);
 
-                    var abc = '';
-                    if (log.dx == log.dxt) {
-                        var abc = log.myArray[j].status[0]
-                    }
-                    $.post('./edit', {
-                        present: tp,
-                        etb: y,
-                        empid: log.myArray[j].empid,
-                        quick: abc,
-                        marked: tp2,
-                        dx: log.dx,
-                        monthyear:log.myArray[j].monthyear,
-                        attby: log.myArray[j].attbyarr,
-                    }, function (data) {
-                        console.log(data.message)
-                        if (data.message != 'true') {
-                            log.error = 1
-                            log.message_error = data.message
-                        } else {
-                            log.success = 1
-                            log.message_success = log.myArray[j].name + " marked " + log.myArray[j].status
-                        }
-                    })
+                        var abc = '';
+                        if (log.dx == log.dxt) {
+                            var abc = log.myArray[j].status[0]
+                        }$.post('./edit', {
+                            present: tp,
+                            etb: y,
+                            empid: log.myArray[j].empid,
+                            quick: abc,
+                            marked: tp2,
+                            dx: log.dx,
+                            monthyear: log.myArray[j].monthyear,
+                            attby: log.myArray[j].attbyarr,
+                        },function (data) {
+                            console.log(data.message)
+                            if (data.message != 'true') {
+                                log.error = 1
+                                log.message_error = data.message
+                                reject("P")
+                            } else {
+                                log.success = 1
+                                log.message_success = log.myArray[j].name + " marked " + log.myArray[j].status
+                                resolve("A")
+                            }
+                        })
+                    });
+
+
                 }, submit() {
                     $('#abc').show();
                     $('#mybtn').prop('disabled', true);
                     log.myArray = []
                     if (log.select_date == '') {
                         log.error2 = 1,
-                        log.message_error2 = 'Date field is incorrect !'
+                            log.message_error2 = 'Date field is incorrect !'
                         $('#mybtn').prop('disabled', false);
                         $('#abc').hide();
                         return
@@ -355,7 +374,7 @@
                         .then(function (Response1) {
                             if (Response1 == 'true') {
                                 log.error2 = 1,
-                                log.message_error2 = ' HOLIDAY ❤'
+                                    log.message_error2 = ' HOLIDAY ❤'
                                 var loading = log.$refs.Loading
                                 loading.style.display = "none"
                                 $('#mybtn').prop('disabled', false);
@@ -406,7 +425,7 @@
                                                 attbyarr: Response1[i].attby,
                                                 presentarr: Response1[i].present,
                                                 marked: Response1[i].marked,
-                                                monthyear:Response1[i].monthyear,
+                                                monthyear: Response1[i].monthyear,
 
                                             }
                                             log.myArray.push(entry)
