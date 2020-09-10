@@ -54,7 +54,7 @@
                         <b>Date : {{select_date}}</b><br>
                         <div style="display: inline;float: center;" type="submit" value="Submit">
                             <b>Mark All Present</b>
-                            <button @click="prall()" class="btn btn-warning">{{word2}}
+                            <button @click="prall()" id="pall" class="btn btn-warning">{{word2}} &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc2'></i>
 
                             </button>
                         </div><br>
@@ -211,12 +211,16 @@
                     var content = log.$refs.content2
                     content.style.display = "block"
                 }, async prall() {
+                    $('#abc2').show();
+                    $('#pall').prop('disabled', true);
                     for (var i = 0; i < log.myArray.length; i++) {
                         log.myArray[i].status = "Present"
                         var a = await log.attendance(i);
                         console.log(a)
                         
                     }
+                    $('#abc2').hide();
+                    $('#pall').prop('disabled', false);
                 }, entryfun(entry) {
                     this.paging(1, entry)
                     var total_pages = Math.ceil(this.total / entry)
@@ -377,8 +381,11 @@
                                     log.message_error2 = ' HOLIDAY ❤'
                                 var loading = log.$refs.Loading
                                 loading.style.display = "none"
+                                log.getlist=0
                                 $('#mybtn').prop('disabled', false);
                                 $('#abc').hide();
+                                $('#pall').hide();
+                                $('#abc2').hide();
                                 return
                             }
 
@@ -394,6 +401,8 @@
                                         loading.style.display = "none"
                                         $('#mybtn').prop('disabled', false);
                                         $('#abc').hide();
+                                        $('#pall').hide();
+                                        $('#abc2').hide();
                                     } else if (Response1 == '0') {
                                         console.log("HI2")
                                         log.error2 = 1
@@ -401,6 +410,8 @@
                                         log.getlist = 0;
                                         $('#mybtn').prop('disabled', false);
                                         $('#abc').hide();
+                                        $('#pall').hide();
+                                        $('#abc2').hide();
                                     } else {
                                         for (var i = 0; i < Response1.length; i++) {
                                             var temp = '';
@@ -437,6 +448,7 @@
                                         log.loaderoff();
                                         $('#mybtn').prop('disabled', false);
                                         $('#abc').hide();
+                                        $('#abc2').hide();
                                     }
 
 
