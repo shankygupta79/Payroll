@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
     <link rel="stylesheet" href="css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -162,7 +162,7 @@
                         </div><br>
                         <div>
                             <div style="display: inline;">
-                                Show <select @change="entryfun2(entry)" v-model="entry2">
+                                Show <select @change="entryfun2(entry2)" v-model="entry2">
                                     <option value="10">10</option>
                                     <option value="20">20</option>
                                     <option value="30">30</option>
@@ -216,7 +216,7 @@
 
                                     <li data-page="prev" id="previ">
                                         Previous </li>
-                                    <li v-for="i in pages2" @click="paging(i,entry)">
+                                    <li v-for="i in pages2" @click="paging2(i,entry2)">
                                         <strong v-if="i==current" id="currentpage">{{i}}</strong>
                                         <strong v-else>{{i}}</strong>
                                     </li>
@@ -236,7 +236,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -252,7 +252,7 @@
                 given: 0,
                 reci: 0,
                 sortfield: 'date',
-                entry: 10, entry2: 10,
+                entry: 20, entry2: 20,
                 query: '', query2: '',
                 head: ['Date', 'Narration', 'Given', 'Recieved'],
                 sorticon: 0,
@@ -274,17 +274,17 @@
             methods: {
                 load: function () {
                     $('#abc').hide();
-                    axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp')
+                    axios.get('http://localhost:3420/employee/api/quickemp')
                         .then(function (Response1) {
                             for (var i = 0; i < Response1.length; i++) {
                                 log.employee.push(Response1[i].name)
                                 log.idx.push(Response1[i].emp_id)
                                 log.loanarr.push({ name: Response1[i].name, loan: Response1[i].totalloan })
                                 log.totalloan = log.totalloan + Response1[i].totalloan
-
+                                log.total2 = log.employee.length-1;
                             }
                             log.loaderoff()
-                            axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
+                            axios.get('http://localhost:3420/settings/api/symbol')
                                 .then(function (Response2) {
                                     log.symbol = Response2
                                 })
@@ -312,6 +312,7 @@
                     }
                 }, entryfun2(entry) {
                     this.paging2(1, entry)
+                    console.log("Hi")
                     var total_pages = Math.ceil(this.total2 / entry)
                     this.pages2 = []
                     for (i = 1; i <= total_pages; i++) {
@@ -444,7 +445,7 @@
                     log.error = 0
                     log.idx[log.employee.indexOf(log.select_emp)]
                     $('#abc').show();
-                    axios.get('https://payrollv2.herokuapp.com/payslips/getloan?id=' + log.idx[log.employee.indexOf(log.select_emp)])
+                    axios.get('http://localhost:3420/payslips/getloan?id=' + log.idx[log.employee.indexOf(log.select_emp)])
                         .then(function (Response1) {
                             console.log(Response1)
                             if (Response1 == '') {
@@ -481,7 +482,7 @@
 
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>
