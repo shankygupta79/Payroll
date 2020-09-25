@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 const dotenv = require("dotenv")
 dotenv.config()
 route.get('/', (req, res) => {
-    res.redirect('http://localhost:3420/login')
+    res.redirect('https://payrollv2.herokuapp.com/login')
 })
 
 
@@ -184,14 +184,14 @@ function sendmail(tomailid, hash, fp) {
             from: process.env.mail,
             to: tomailid,
             subject: 'Reset Your Password',
-            text: 'Reset your password by clicking on the link (link is valid upto five minutes only) ' + 'http://localhost:3420/forgot?id=' + hash + '&tm=' + tm + '&mail=' + tomailid,
+            text: 'Reset your password by clicking on the link (link is valid upto five minutes only) ' + 'https://payrollv2.herokuapp.com/forgot?id=' + hash + '&tm=' + tm + '&mail=' + tomailid,
         };
     } else if (fp == 0) {
         mailDetails = {
             from: process.env.mail,
             to: tomailid,
             subject: 'Activate Your Account',
-            text: 'Verify your account by clicking on the link ' + 'http://localhost:3420/activate?id=' + hash + '&mail=' + tomailid + '&tm=' + tm + ' .' + 'This Link will expire in 10 minutes',
+            text: 'Verify your account by clicking on the link ' + 'https://payrollv2.herokuapp.com/activate?id=' + hash + '&mail=' + tomailid + '&tm=' + tm + ' .' + 'This Link will expire in 10 minutes',
         };
     }
     // https://myaccount.google.com/lesssecureapps

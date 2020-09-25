@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
-    <link rel="stylesheet" href="http://localhost:3420/attendance/css">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/attendance/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -156,7 +156,7 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="http://localhost:3420/navbar2"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
     <script>
         var log = new Vue({
             el: "#Index",
@@ -374,7 +374,7 @@
                         return
                     }
                     log.getlist = 1;
-                    axios.get('http://localhost:3420/attendance/api/holiday?date=' + log.select_date.slice(8, 10) + "-" + x + "&day=" + log.pp)
+                    axios.get('https://payrollv2.herokuapp.com/attendance/api/holiday?date=' + log.select_date.slice(8, 10) + "-" + x + "&day=" + log.pp)
                         .then(function (Response1) {
                             if (Response1 == 'true') {
                                 log.error2 = 1,
@@ -390,7 +390,7 @@
                             }
 
                             log.error2 = 0;
-                            axios.get('http://localhost:3420/attendance/api/attendance?date=' + x + '&dx=' + log.dx)
+                            axios.get('https://payrollv2.herokuapp.com/attendance/api/attendance?date=' + x + '&dx=' + log.dx)
                                 .then(function (Response1) {
                                     log.myArray = []
                                     if (Response1 == '5') {
@@ -482,7 +482,7 @@
         })    
     </script>
 
-    <script src="http://localhost:3420/navbar2/collapsing"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 
 </html>
