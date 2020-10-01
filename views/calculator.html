@@ -55,10 +55,15 @@
                                 </select></td>
                             <td>
                                 <div class="center">
-                                    <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show
+                                    <button id='mybtn' @click="submit()" style="padding: 5px 30px;"
+                                        class="btn btn-success">Show
                                         Analysis &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
                                     </button>
                                 </div>
+                            </td>
+                        </tr>
+                        <tr v-if="monthstart">
+                            <td colspan="3"><b style="color: red;">Note : Previous Month is selected automatically !</b>
                             </td>
                         </tr>
                     </table><br>
@@ -74,7 +79,10 @@
                             {{message_success}} !
                         </div> <br>
                         <div>
-
+                            <div style="display: inline-block;">
+                                <label><u>Check All</u></label>
+                                <input type="checkbox" id="checkall">
+                            </div>
                             <div style="display: inline-block;">
                                 <label>Add Bonus</label>
                                 <input type="checkbox" id="bonuscheck">
@@ -122,42 +130,49 @@
                                 </tr>
                                 <tr>
                                     <td> <b>Salary : </b></td>
-                                    <td class="green">{{symbol}}{{parseInt(list[i-1]['employee_quick'].salary).toLocaleString('en-IN')}}
+                                    <td class="green">
+                                        {{symbol}}{{parseInt(list[i-1]['employee_quick'].salary).toLocaleString('en-IN')}}
                                     </td>
 
                                     <td> <b>Holidays : </b></td>
-                                    <td class="red">{{symbol}}{{parseInt(list[i-1].holidays).toLocaleString('en-IN')}}</td>
+                                    <td class="red">{{symbol}}{{parseInt(list[i-1].holidays).toLocaleString('en-IN')}}
+                                    </td>
 
                                 </tr>
                                 <tr>
                                     <td> <b>Extra Time : </b></td>
-                                    <td class="red">{{symbol}}{{parseInt(list[i-1].extratimetotoal).toLocaleString('en-IN')}}</td>
+                                    <td class="red">
+                                        {{symbol}}{{parseInt(list[i-1].extratimetotoal).toLocaleString('en-IN')}}</td>
 
                                     <td> <b>Advance : </b></td>
-                                    <td class="red" >{{symbol}}{{list[i-1].advance}}</td>
+                                    <td class="red">{{symbol}}{{list[i-1].advance}}</td>
                                 </tr>
                                 <tr>
                                     <td style="font-size: 1.2em;"> <b>Total Loan : </b></td>
-                                    <td  style="font-size: 1.2em;">{{symbol}} {{ ((parseInt(list[i-1]['employee_quick'].totalloan)-parseInt(list[i-1].emi)+parseInt(list[i-1].emiold)).toLocaleString('en-IN'))}}
+                                    <td style="font-size: 1.2em;">{{symbol}}
+                                        {{ ((parseInt(list[i-1]['employee_quick'].totalloan)-parseInt(list[i-1].emi)+parseInt(list[i-1].emiold)).toLocaleString('en-IN'))}}
                                     </td>
 
                                     <td class="loani wow"> <b>EMI : </b></td>
-                                    <td class="red loani wow" v-show="!edit">{{symbol}}{{parseInt(list[i-1].emi).toLocaleString('en-IN')}}</td>
-                                    <td class="loani wow" v-show="edit"><input v-model="list[i-1].emi"
-                                            type="number"> </td>
+                                    <td class="red loani wow" v-show="!edit">
+                                        {{symbol}}{{parseInt(list[i-1].emi).toLocaleString('en-IN')}}</td>
+                                    <td class="loani wow" v-show="edit"><input v-model="list[i-1].emi" type="number">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="bonus wow"> <b>Bonus : </b></td>
-                                    <td class="green bonus wow" v-show="!edit">{{symbol}}{{parseInt(list[i-1].bonus).toLocaleString('en-IN')}}</td>
+                                    <td class="green bonus wow" v-show="!edit">
+                                        {{symbol}}{{parseInt(list[i-1].bonus).toLocaleString('en-IN')}}</td>
                                     <td class="bonus wow" v-show="edit"><input v-model="list[i-1].bonus" type="number">
                                     </td>
 
                                     <td class="deduction wow"> <b>Deduction: </b></td>
-                                    <td class="red deduction wow" v-show="!edit">{{symbol}}{{parseInt(list[i-1].deduction).toLocaleString('en-IN')}}</td>
+                                    <td class="red deduction wow" v-show="!edit">
+                                        {{symbol}}{{parseInt(list[i-1].deduction).toLocaleString('en-IN')}}</td>
                                     <td class="deduction wow" v-show="edit"><input v-model="list[i-1].deduction"
                                             type="number"> </td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td class="transfer wow"> <b>Balance : </b></td>
                                     <td class="transfer wow">
@@ -166,7 +181,8 @@
 
 
                                     <td class="transfer wow"> <b>Transfer : </b></td>
-                                    <td class="yellow transfer wow" v-show="!edit">{{symbol}}{{parseInt(list[i-1].transfer).toLocaleString('en-IN')}}
+                                    <td class="yellow transfer wow" v-show="!edit">
+                                        {{symbol}}{{parseInt(list[i-1].transfer).toLocaleString('en-IN')}}
                                     </td>
                                     <td class="transfer wow" v-show="edit"><input v-model="list[i-1].transfer"
                                             type="number"> </td>
@@ -189,7 +205,8 @@
                             <button @click="editfun()" style="padding: 5px 30px;" class="btn btn-success">Edit</button>
                         </div>
                         <div class="center" v-if="edit">
-                            <button id='mybtn2' @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}}
+                            <button id='mybtn2' @click="save()" style="padding: 5px 30px;"
+                                class="btn btn-success">{{word}}
                                 &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc2'></i></button>
                         </div>
                     </div>
@@ -218,6 +235,7 @@
                 arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
                 select_year: '',
                 select_month: '',
+                monthstart: 0,
                 paylist: 0,
                 word: 'Save',
                 monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
@@ -292,13 +310,25 @@
                 }, year() {
                     var d = new Date();
                     var n = d.getFullYear() + 1;
+
                     var y = 2020;
                     do {
                         this.yearlist.push(y)
                         y++;
                     } while (n != y);
-                    this.select_month = this.monthlist[d.getMonth()];
-                    this.select_year = n - 1;
+
+                    if (d.getDate() <= 4) {
+                        this.monthstart = 1;
+                        this.select_month = this.monthlist[((d.getMonth() - 1 + 12) % 12)];
+                        this.select_year = n - 1;
+                        if (d.getMonth() == 0) {
+                            this.select_year--;
+                        }
+                    } else {
+                        this.select_month = this.monthlist[d.getMonth()];
+                        this.select_year = n - 1;
+                    }
+
                 }, submit() {
                     $('#mybtn').prop('disabled', true);
 
@@ -327,7 +357,7 @@
 
                             var days = log.monthday[log.monthlist.indexOf(log.select_month)]
                             for (var i = 0; i < log.list.length; i++) {
-                                log.list[i].emiold=log.list[i].emi;
+                                log.list[i].emiold = log.list[i].emi;
                                 var extrarr = log.list[i].extratime.split(';')
                                 var prearr = log.list[i].present
                                 var extra = 0
@@ -353,7 +383,7 @@
                                     log.loaderoff()
                                 })
                             log.loaderoff()
-                            
+
                             log.sort(this.sortfield);
 
 
@@ -371,7 +401,7 @@
                 }, post() {
                     $.post('./api/calc', {
                         list: log.list,
-                        x:log.list[0].monthyear,
+                        x: log.list[0].monthyear,
 
                     }, function (data) {
                         console.log(data.message)
@@ -420,6 +450,13 @@
         $('#transfercheck').on('click', function () {
 
             $('.transfer').toggleClass('wow');
+        });
+        $('#checkall').on('click', function () {
+            $('.deduction').toggleClass('wow');
+            $('.transfer').toggleClass('wow');
+            $('.text').toggleClass('wow');
+            $('.loani').toggleClass('wow');
+            $('.bonus').toggleClass('wow');
         });
     </script>
 

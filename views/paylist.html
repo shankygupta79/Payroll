@@ -65,6 +65,9 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr v-if="monthstart" >
+                                <td colspan="3"><b style="color: red;">Note : Previous Month is selected automatically !</b></td>
+                            </tr>
                         </table><br>
                         <div v-if="error" class="error">
                             {{message_error}} !
@@ -172,6 +175,7 @@
                 myArray: [],
                 success: 0,
                 error: 0,
+                monthstart:0,
                 sortfield2: '',
                 yearlist: [],
                 arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
@@ -288,13 +292,25 @@
                 }, year() {
                     var d = new Date();
                     var n = d.getFullYear() + 1;
+                    
                     var y = 2020;
                     do {
                         this.yearlist.push(y)
                         y++;
                     } while (n != y);
-                    this.select_month = this.monthlist[d.getMonth()];
-                    this.select_year = n - 1;
+                    
+                    if(d.getDate()<=4){
+                        this.monthstart=1;
+                        this.select_month = this.monthlist[((d.getMonth()-1+12)%12)];
+                        this.select_year = n - 1;
+                        if(d.getMonth()==0){
+                            this.select_year--;
+                        }
+                    }else{
+                        this.select_month = this.monthlist[d.getMonth()];
+                        this.select_year = n - 1;
+                    }
+                    
                 }, submit() {
                     $('#mybtn').prop('disabled', true);
                     if (log.select_month == "" || log.select_year == "") {
