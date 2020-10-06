@@ -214,7 +214,10 @@
                     $('#abc2').show();
                     $('#pall').prop('disabled', true);
                     for (var i = 0; i < log.myArray.length; i++) {
-                        log.myArray[i].status = "Present"
+                        if(log.myArray.active=="Active"){
+                            log.myArray[i].status = "Present"
+                        }
+                        
                         var a = await log.attendance(i);
                         console.log(a)
                         
@@ -437,6 +440,7 @@
                                                 presentarr: Response1[i].present,
                                                 marked: Response1[i].marked,
                                                 monthyear: Response1[i].monthyear,
+                                                active:Response1[i].employee_quick.status,
 
                                             }
                                             log.myArray.push(entry)
