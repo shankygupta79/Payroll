@@ -7,6 +7,13 @@ const Setting = require('../database').Setting
 const nodemailer = require('nodemailer');
 const dotenv = require("dotenv")
 dotenv.config()
+function isEmpty(obj) {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key))
+        return false;
+    }
+    return true;
+  }
 route.get('/', (req, res) => {
     res.redirect('https://payrollv2.herokuapp.com/login')
 })
@@ -16,7 +23,13 @@ route.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/sign.html'))
 })
 route.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../views/login.html'))
+    if (isEmpty(req.user)) {
+        //user is not logged in
+        res.sendFile(path.join(__dirname, '../views/login.html'))
+      }else{
+        res.redirect('/dashboard')
+      }
+    
 })
 route.get('/lovebird', (req, res) => {
     res.redirect('http://3.7.181.22/')
