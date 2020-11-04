@@ -148,7 +148,7 @@ Vue.component('navbar-component',{
             <ul class="collapse list-unstyled" id="loan" data-parent="#sidebar">
                 
                 <li>
-                    <a href="https://payrollv2.herokuapp.com/payslips/entry"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Add Loan </a>
+                    <a href="https://payrollv2.herokuapp.com/payslips/entry"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Add or Recieve Loan </a>
                 </li>
                 <li>
                     <a href="https://payrollv2.herokuapp.com/payslips/entry_adv"><i class="fa fa-ellipsis-h" style="color:ivory"aria-hidden="true"></i>&nbsp Add Advance </a>
