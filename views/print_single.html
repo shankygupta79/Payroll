@@ -200,6 +200,7 @@
             data: {
                 myArray: [],
                 month: '',
+                name:"",
                 arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
                 monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
                 monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
@@ -223,6 +224,7 @@
                             log.myArray = Response1
                             log.month = params.month
                             log.year = params.year
+                            log.name=log.myArray['employee_quick'].name
                         })
 
                         .catch((err) => {
@@ -272,7 +274,7 @@
                     window.html2canvas(this.$refs.hi).then(canvas => {
                         image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
                         var link = document.createElement('a');
-                        link.download = a.getMilliseconds() + "my-image.png";
+                        link.download = log.name+" Payslip.png";
                         link.href = image;
                         link.click();
                         window.close()

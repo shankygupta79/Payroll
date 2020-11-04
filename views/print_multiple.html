@@ -50,7 +50,7 @@
                 </td>
                 <td>
                     <label class="form-check-label" for="exampleCheck1">Phone No.</label>
-                    <input type="checkbox" class="form-check-input" id="phonecheck" checked> 
+                    <input type="checkbox" class="form-check-input" id="phonecheck" checked>
                 </td>
                 <td>
                     <label class="form-check-label" for="exampleCheck1">Email ID.</label>
@@ -64,11 +64,11 @@
                 </td>
                 <td>
                     <label class="form-check-label" for="exampleCheck1">Logo</label>
-                    <input type="checkbox" class="form-check-input" id="logocheck" checked> 
+                    <input type="checkbox" class="form-check-input" id="logocheck" checked>
                 </td>
                 <td>
                     <label class="form-check-label" for="exampleCheck1">Header</label>
-                    <input type="checkbox" class="form-check-input" id="headerrcheck" checked> 
+                    <input type="checkbox" class="form-check-input" id="headerrcheck" checked>
                 </td>
             </tr>
 
@@ -76,9 +76,12 @@
 
         <button @click="print()" class="noprint" style="padding:3px 15px"><i class="fa fa-print" style="color:red"
                 aria-hidden="true"></i>&nbsp Print All</button>
-        <div id="print" v-for="i in len">
-            <div class="center info headin headerr" style="height: 110px;"><img class="logo" v-bind:src="logoimg" width="100px"
-                    style="float: left;" height="100px">
+                <button @click="downall()" class="noprint" style="padding:3px 15px"><i class="fa fa-download" style="color:green"
+                    aria-hidden="true"></i>&nbsp Download All</button>
+        <div id="print"  v-for="i in len" >
+            <div :ref="`index${i}`" style="background-color: white;">
+            <div class="center info headin headerr" style="height: 110px;"><img class="logo" v-bind:src="logoimg"
+                    width="100px" style="float: left;" height="100px">
                 <div class="cname" style="vertical-align: middle;"><br>{{company}}</div>
             </div>
             <div class="roww info"></div>
@@ -147,7 +150,9 @@
                         {{symbol}}{{parseInt(myArray[i-1]['employee_quick'].salary).toLocaleString('en-IN')}}
                     </td>
                     <td>
-                        Holidays => ( {{Math.round(parseInt(myArray[i-1].holidays)/Math.ceil(parseInt(myArray[i-1]['employee_quick'].salary)/days))}} )
+                        Holidays => (
+                        {{Math.round(parseInt(myArray[i-1].holidays)/Math.ceil(parseInt(myArray[i-1]['employee_quick'].salary)/days))}}
+                        )
                     </td>
                     <td>
                         {{symbol}}{{parseInt(myArray[i-1].holidays).toLocaleString('en-IN')}}
@@ -181,13 +186,13 @@
                         {{symbol}}{{parseInt(myArray[i-1].deduction).toLocaleString('en-IN')}}
                     </td>
                 </tr>
-                
+
                 <tr>
                     <td>
-                        
+
                     </td>
                     <td>
-                        
+
                     </td>
                     <td>
                         Monthly EMI
@@ -212,10 +217,10 @@
                 </tr>
                 <tr>
                     <td>
-                        
+
                     </td>
                     <td>
-                        
+
                     </td>
                     <td>
                         Transfer
@@ -243,6 +248,7 @@
             </table>
         </div>
     </div>
+    </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -252,43 +258,47 @@
             data: {
                 myArray: [],
                 month: '',
-                len:0,
+                len: 0,
                 symbol: 'Rs ',
                 monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
                 id: '',
-                logoimg:'',
+                logoimg: '',
                 year: '2020',
-                date:'',
-                days:30,
+                date: '',
+                days: 30,
                 company: 'Company Name',
             },
             created: function () {
                 this.load();
             },
             methods: {
-                load: function () { 
+                load: function () {
                     var params = this.getParams(window.location.href)
                     axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + params.month)
                         .then(function (Response1) {
                             log.myArray = Response1
-                            log.len=Response1.length
-                            log.date=params.month
-                            log.days=log.monthday[parseInt(log.date)-1]
+                            log.len = Response1.length
+                            log.date = params.month
+                            log.days = log.monthday[parseInt(log.date) - 1]
                             axios.get('https://payrollv2.herokuapp.com/settings/api/setting')
                                 .then(function (Response2) {
-                                    log.company=Response2[0].name
-                                    log.logoimg=Response2[2]
-                                    log.symbol=Response2[1]
-                                    setTimeout(()=>{
-                                        
+                                    log.company = Response2[0].name
+                                    log.logoimg = Response2[2]
+                                    log.symbol = Response2[1]
+                                    if(params.op="d"){
+                                        log.downall()
+                                    }
+                                    setTimeout(() => {
+
                                         //this.print()
-                                    
-                                    },100)
-                                    
-                                    
-                                    
-                        })
-                            
+                                        //log.downall()
+
+                                    }, 200)
+
+
+
+                                })
+
 
                         })
 
@@ -314,6 +324,31 @@
                         params[pair[0]] = decodeURIComponent(pair[1]);
                     }
                     return params;
+                },async downall() {
+                    for (var i = 1; i <= log.len; i++) {
+                        console.log(this.$refs["index"+i]);
+                        var a = await log.down(i);
+                        
+                    }
+                    
+
+                },down(i){
+                    var a = new Date();
+                        window.html2canvas(this.$refs["index"+i]).then(canvas => {
+                            image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
+                            var link = document.createElement('a');
+                            link.download = log.myArray[i-1]['employee_quick'].name+" Payslips.png";
+                            link.href = image;
+                            link.click();
+                            if(i==log.len){
+                            window.close()
+                        }
+                            resolve("A")
+                            //window.close()
+                        }).catch((error) => {
+                            console.log("Erorr Occured", error)
+                            reject("P")
+                        });
                 }
 
             }

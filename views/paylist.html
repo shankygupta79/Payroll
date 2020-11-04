@@ -131,6 +131,9 @@
                             <button @click="printall()" style="padding:3px 15px" class="btn btn-danger"><i
                                     class="fa fa-print" style="color:white" aria-hidden="true"></i>&nbsp Print
                                 All</button>
+                                <button @click="downall()" style="padding:3px 15px" class="btn btn-success"><i
+                                    class="fa fa-download" style="color:white" aria-hidden="true"></i>&nbsp Download
+                                All</button>
                             </td>
                             <br><br>
                             <div class='pagination-container'>
@@ -281,6 +284,9 @@
                     window.open(x, "_blank")
                 }, printall() {
                     var x = "https://payrollv2.herokuapp.com/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year;
+                    window.open(x, "_blank")
+                },downall() {
+                    var x = "https://payrollv2.herokuapp.com/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year+"&op=d";
                     window.open(x, "_blank")
                 }, calc() {
                     for (var i = 0; i < log.myArray.length; i++) {
