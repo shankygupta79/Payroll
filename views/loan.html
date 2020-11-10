@@ -55,7 +55,8 @@
                         {{message_success}} !
                     </div>
                     <div class="center">
-                        <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show Report
+                        <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show
+                            Report
                             &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
                         </button>
                     </div>
@@ -98,10 +99,12 @@
                                 <td>{{myArray[i-1].date}}</td>
                                 <td>{{myArray[i-1].text}}</td>
                                 <td>
-                                    <div v-show="myArray[i-1].type==0">{{symbol}} {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
+                                    <div v-show="myArray[i-1].type==0">{{symbol}}
+                                        {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
                                 </td>
                                 <td>
-                                    <div v-show="myArray[i-1].type==1">{{symbol}} {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
+                                    <div v-show="myArray[i-1].type==1">{{symbol}}
+                                        {{parseInt(myArray[i-1].amount).toLocaleString('en-IN')}}</div>
                                 </td>
 
 
@@ -125,14 +128,14 @@
 
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                                 <td style="text-align: right;">
                                     <b>Total<b>
                                 </td>
-                                
+
                                 <td>
-                                   <b> {{symbol}} {{(parseInt(given)-parseInt(reci)).toLocaleString('en-IN')}}</b>
+                                    <b> {{symbol}} {{(parseInt(given)-parseInt(reci)).toLocaleString('en-IN')}}</b>
                                 </td>
                             </tr>
                         </table><br>
@@ -281,7 +284,7 @@
                                 log.idx.push(Response1[i].emp_id)
                                 log.loanarr.push({ name: Response1[i].name, loan: Response1[i].totalloan })
                                 log.totalloan = log.totalloan + Response1[i].totalloan
-                                log.total2 = log.employee.length-1;
+                                log.total2 = log.employee.length - 1;
                             }
                             log.loaderoff()
                             axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
@@ -419,7 +422,7 @@
                         }
                     }
                 }, submit() {
-                    
+
                     $('#mybtn').prop('disabled', true);
                     log.loaderon()
 

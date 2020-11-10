@@ -53,7 +53,8 @@
                         {{message_success}} !
                     </div> <br>
                     <div class="center">
-                        <button @click="save(name)" id='mybtn' style="padding: 5px 30px;" class="btn btn-success">{{word}} </button>
+                        <button @click="save(name)" id='mybtn' style="padding: 5px 30px;"
+                            class="btn btn-success">{{word}} </button>
                     </div>
 
                 </div>
@@ -73,7 +74,7 @@
                 message_error: "Enter the full details",
                 message_success: "Holiday created successfully",
                 department: '',
-                word:"SAVE",
+                word: "SAVE",
 
             },
             created: function () {
@@ -89,24 +90,24 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                },save(){
-                    app.word='Saving..'
+                }, save() {
+                    app.word = 'Saving..'
                     $('#mybtn').prop('disabled', true);
-                    if(app.date==''){
-                        this.error=1;
-                        this.message_error="Enter correct Date !"
-                        app.word='SAVE'
+                    if (app.date == '') {
+                        this.error = 1;
+                        this.message_error = "Enter correct Date !"
+                        app.word = 'SAVE'
                         $('#mybtn').prop('disabled', false);
                         return;
-                    }else if(app.department==''){
-                        this.error=1;
-                        app.word='SAVE'
-                        this.message_error="Enter correct Name !"
+                    } else if (app.department == '') {
+                        this.error = 1;
+                        app.word = 'SAVE'
+                        this.message_error = "Enter correct Name !"
                         $('#mybtn').prop('disabled', false);
                         return;
-                    }else{
+                    } else {
                         $.post('./add_deppost', {
-                            name:app.department,
+                            name: app.department,
                         }, function (data) {
                             console.log(data.message)
                             $('#mybtn').prop('disabled', false);

@@ -61,7 +61,8 @@
                         {{message_success}} !
                     </div> <br>
                     <div class="center">
-                        <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show Report
+                        <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show
+                            Report
                             &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
                         </button>
                     </div>
@@ -86,7 +87,7 @@
                     </div>
                     <table v-show="getpi">
                         <tr>
-                            <th v-for="i in days2" >
+                            <th v-for="i in days2">
                                 {{i+4*7}}
                             </th>
                         </tr>

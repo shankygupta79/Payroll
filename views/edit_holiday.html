@@ -38,26 +38,27 @@
                     <div class="headin center">Edit Holiday</div>
                     <div class="roww"></div>
                     <div class="form-group">
-                            <div class="field" >Date :&nbsp&nbsp;</div>
-                            <input class="inp-block" class="inputi form-control" type="date" v-model="date"><br>
-                            
-                            <div class="field">Name : </div>
-                            <input class="inp-block" class="inputi form-control" placeholder="Enter holiday" type="text"
-                                v-model="name"><br>
-                     
+                        <div class="field">Date :&nbsp&nbsp;</div>
+                        <input class="inp-block" class="inputi form-control" type="date" v-model="date"><br>
+
+                        <div class="field">Name : </div>
+                        <input class="inp-block" class="inputi form-control" placeholder="Enter holiday" type="text"
+                            v-model="name"><br>
+
 
                     </div>
                     <div class="roww"></div>
-                    <div v-if="error" class="error"> 
+                    <div v-if="error" class="error">
                         {{message_error}} !
-                      </div> <br>
-                      <div v-if="success" class="success"> 
+                    </div> <br>
+                    <div v-if="success" class="success">
                         {{message_success}} !
-                      </div> 
-                    <div class="center">
-                    <button id='mybtn' @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}} </button>
                     </div>
-                    
+                    <div class="center">
+                        <button id='mybtn' @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}}
+                        </button>
+                    </div>
+
                 </div>
 
             </div>
@@ -70,35 +71,35 @@
         var log = new Vue({
             el: "#Index",
             data: {
-                error:0,
-                success:0,
-                message_error:"Fields cannot be left empty !",
-                message_success:"Holiday changed successfully",
+                error: 0,
+                success: 0,
+                message_error: "Fields cannot be left empty !",
+                message_success: "Holiday changed successfully",
                 date: '',
                 name: '',
-                word:"EDIT",
-                idx:'',
+                word: "EDIT",
+                idx: '',
 
             },
             created: function () {
                 this.load();
             },
             methods: {
-                load: function () { 
+                load: function () {
                     var params = this.getParams(window.location.href)
-                    
-                    axios.get('https://payrollv2.herokuapp.com/holiday/api/holiday?id='+params.id)
+
+                    axios.get('https://payrollv2.herokuapp.com/holiday/api/holiday?id=' + params.id)
                         .then(function (Response1) {
-                            log.idx=params.id
-                            log.name=Response1.holname,
-                            log.date=Response1.date
-                            log.date=log.date.slice(6,10)+"-"+log.date.slice(3,5)+"-"+log.date.slice(0,2)
-                            log.loaderoff() 
+                            log.idx = params.id
+                            log.name = Response1.holname,
+                                log.date = Response1.date
+                            log.date = log.date.slice(6, 10) + "-" + log.date.slice(3, 5) + "-" + log.date.slice(0, 2)
+                            log.loaderoff()
                         })
                         .catch((err) => {
                             console.log(err)
-                            log.error=1
-                            log.message_error="Error connecting the database try again later !"
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
                 }, loaderoff() {
@@ -107,38 +108,38 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                },getParams(url) {
-                  var params = {};
-                  var parser = document.createElement('a');
-                  parser.href = url;
-                  var query = parser.search.substring(1);
-                  var vars = query.split('&');
-                  for (var i = 0; i < vars.length; i++) {
-                    var pair = vars[i].split('=');
-                    params[pair[0]] = decodeURIComponent(pair[1]);
-                  }
-                  return params;
-                },save(){
+                }, getParams(url) {
+                    var params = {};
+                    var parser = document.createElement('a');
+                    parser.href = url;
+                    var query = parser.search.substring(1);
+                    var vars = query.split('&');
+                    for (var i = 0; i < vars.length; i++) {
+                        var pair = vars[i].split('=');
+                        params[pair[0]] = decodeURIComponent(pair[1]);
+                    }
+                    return params;
+                }, save() {
                     $('#mybtn').prop('disabled', true);
-                    log.word='Saving..'
-                    if(log.date==''){
-                        this.error=1;
-                        this.message_error="Enter correct Date !"
-                        log.word='SAVE'
+                    log.word = 'Saving..'
+                    if (log.date == '') {
+                        this.error = 1;
+                        this.message_error = "Enter correct Date !"
+                        log.word = 'SAVE'
                         $('#mybtn').prop('disabled', false);
                         return;
-                    }else if(log.name==''){
-                        this.error=1;
-                        log.word='SAVE'
-                        this.message_error="Enter correct Name !"
+                    } else if (log.name == '') {
+                        this.error = 1;
+                        log.word = 'SAVE'
+                        this.message_error = "Enter correct Name !"
                         $('#mybtn').prop('disabled', false);
                         return;
-                    }else{
-                        var x=log.date.slice(8,10)+'-'+log.date.slice(5,7)+'-'+log.date.slice(0,4);
-                        $.post('./edit_holpost?id='+log.idx, {
-                            year:log.date.slice(0,4),
-                            name:log.name,
-                            date:x,
+                    } else {
+                        var x = log.date.slice(8, 10) + '-' + log.date.slice(5, 7) + '-' + log.date.slice(0, 4);
+                        $.post('./edit_holpost?id=' + log.idx, {
+                            year: log.date.slice(0, 4),
+                            name: log.name,
+                            date: x,
                         }, function (data) {
                             console.log(data.message)
                             if (data.message != 'true') {

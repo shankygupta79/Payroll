@@ -147,8 +147,8 @@
                         })
                         .catch((err) => {
                             console.log(err)
-                            log.error=1
-                            log.message_error="Error connecting the database try again later !"
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
 
@@ -207,7 +207,7 @@
                     return 0;
                 }, deletey(idx) {
                     $.post('./delete', {
-                        id:idx
+                        id: idx
                     }, function (data) {
                         console.log(data.message)
                         if (data.message != 'true') {

@@ -111,9 +111,9 @@
                 idx: [],
                 message: "",
                 optradio: 0,
-                mon:['01','02','03','04','05','06','07','08','09','10','11','12'],
+                mon: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
                 employee: [],
-                submit_cl : 1,
+                submit_cl: 1,
                 select_emp: '',
                 message_error: "Enter the full details",
                 message_success: "Attendace report loaded successfully",
@@ -146,7 +146,7 @@
                     var content = app.$refs.content2
                     content.style.display = "block"
                 }, submit() {
-                    if(log.submit_cl==0){
+                    if (log.submit_cl == 0) {
                         return
                     }
                     if (log.select_emp == '') {
@@ -154,22 +154,22 @@
                         log.message_error = "Select a Employee !"
                         return
                     }
-                    log.error=0
+                    log.error = 0
 
-                    var d=new Date();
-                    var dt=d.getDate();
-                    if(dt<10){
-                        dt=0+""+dt;
+                    var d = new Date();
+                    var dt = d.getDate();
+                    if (dt < 10) {
+                        dt = 0 + "" + dt;
                     }
                     $('#abc').show();
-                    log.submit_cl=0
+                    log.submit_cl = 0
                     $.post('./advadd', {
                         amount: log.amount,
                         text: log.message,
-                        type:log.optradio,
+                        type: log.optradio,
                         emp_id: log.idx[log.employee.indexOf(log.select_emp)],
-                        date: dt+"-"+log.mon[d.getMonth()]+"-"+d.getFullYear() ,
-                        monthyear:log.mon[d.getMonth()]+"-"+d.getFullYear(),
+                        date: dt + "-" + log.mon[d.getMonth()] + "-" + d.getFullYear(),
+                        monthyear: log.mon[d.getMonth()] + "-" + d.getFullYear(),
                     }, function (data) {
                         console.log(data.message)
                         if (data.message != 'true') {

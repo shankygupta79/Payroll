@@ -162,7 +162,7 @@
                         this.pages.push(i)
                     }
                 }, sort(name, type) {
-                    
+
                     this.sorticon = !this.sorticon;
                     this.sortfield = name.toLowerCase();
                     if (name == "Holiday") {
@@ -180,13 +180,13 @@
                         if (type == 'desc') {
                             this.myArray.reverse(this.compare)
                         }
-                        
+
 
                     }
                     console.log("AYA")
                     if (this.sortfield == "holname") {
-                            this.sortfield = "holiday"
-                        }
+                        this.sortfield = "holiday"
+                    }
                     this.paging(1, this.entry)
 
                 }, compare(a, b) {

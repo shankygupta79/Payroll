@@ -54,14 +54,15 @@
                 this.load();
             },
             methods: {
-                load: function () { setTimeout(function () { log.loaderoff() }, 500);
-                },loaderoff() {
+                load: function () {
+                    setTimeout(function () { log.loaderoff() }, 500);
+                }, loaderoff() {
                     var app = this;
                     var loading = app.$refs.Loading
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                }, 
+                },
 
             }
         })    

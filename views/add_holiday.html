@@ -33,31 +33,32 @@
         <div id="navbar-top">
             <navbar-top></navbar-top>
             <img src="../images/loading" id="Loading" ref="Loading">
-            <div id="content2" ref="content2" >
+            <div id="content2" ref="content2">
                 <div class="bord">
                     <div class="headin center">Add Holiday</div>
                     <div class="roww"></div>
                     <div class="form-group">
-                            <div class="field" >Date :&nbsp;&nbsp;</div>
-                            <input class="inp-block" class="inputi form-control" type="date" v-model="date"><br>
-                            
-                            <div class="field">Name : </div>
-                            <input class="inp-block" class="inputi form-control" placeholder="Enter holiday" type="text"
-                                v-model="name"><br>
-                     
+                        <div class="field">Date :&nbsp;&nbsp;</div>
+                        <input class="inp-block" class="inputi form-control" type="date" v-model="date"><br>
+
+                        <div class="field">Name : </div>
+                        <input class="inp-block" class="inputi form-control" placeholder="Enter holiday" type="text"
+                            v-model="name"><br>
+
 
                     </div>
                     <div class="roww"></div>
-                    <div v-if="error" class="error"> 
+                    <div v-if="error" class="error">
                         {{message_error}} !
-                      </div> <br>
-                      <div v-if="success" class="success"> 
+                    </div> <br>
+                    <div v-if="success" class="success">
                         {{message_success}} !
-                      </div> <br>
+                    </div> <br>
                     <div class="center">
-                    <button id='mybtn' @click="save(date,name)" style="padding: 5px 30px;"class="btn btn-success">{{word}} </button>
+                        <button id='mybtn' @click="save(date,name)" style="padding: 5px 30px;"
+                            class="btn btn-success">{{word}} </button>
                     </div>
-                    
+
                 </div>
 
             </div>
@@ -70,19 +71,20 @@
         var app = new Vue({
             el: "#Index",
             data: {
-                error:0,
-                success:0,
-                message_error:"Enter the full details",
-                message_success:"Holiday created successfully",
+                error: 0,
+                success: 0,
+                message_error: "Enter the full details",
+                message_success: "Holiday created successfully",
                 date: '',
                 name: '',
-                word:'SAVE',
+                word: 'SAVE',
             },
             created: function () {
                 this.load();
             },
             methods: {
-                load: function () { setTimeout(function () { app.loaderoff() }, 500);
+                load: function () {
+                    setTimeout(function () { app.loaderoff() }, 500);
 
                 }, loaderoff() {
                     var app = this;
@@ -90,27 +92,27 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                },save(){
-                    app.word='Saving..'
+                }, save() {
+                    app.word = 'Saving..'
                     $('#mybtn').prop('disabled', true);
-                    if(app.date==''){
-                        this.error=1;
-                        this.message_error="Enter correct Date !"
-                        app.word='SAVE'
+                    if (app.date == '') {
+                        this.error = 1;
+                        this.message_error = "Enter correct Date !"
+                        app.word = 'SAVE'
                         $('#mybtn').prop('disabled', false);
                         return;
-                    }else if(app.name==''){
-                        this.error=1;
-                        app.word='SAVE'
-                        this.message_error="Enter correct Name !"
+                    } else if (app.name == '') {
+                        this.error = 1;
+                        app.word = 'SAVE'
+                        this.message_error = "Enter correct Name !"
                         $('#mybtn').prop('disabled', false);
                         return;
-                    }else{
-                        var x=app.date.slice(8,10)+'-'+app.date.slice(5,7)+'-'+app.date.slice(0,4);
+                    } else {
+                        var x = app.date.slice(8, 10) + '-' + app.date.slice(5, 7) + '-' + app.date.slice(0, 4);
                         $.post('./add_holpost', {
-                            year:app.date.slice(0,4),
-                            name:app.name,
-                            date:x,
+                            year: app.date.slice(0, 4),
+                            name: app.name,
+                            date: x,
                         }, function (data) {
                             console.log(data.message)
                             if (data.message != 'true') {

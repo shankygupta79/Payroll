@@ -143,7 +143,8 @@
                         <tr>
                             <td valign="top" style="width: 40%;"><b>Photo</b></td>
                             <td @click="photo()">
-                                <form id="upload-widget" method="post" action="https://payrollv2.herokuapp.com/employee/add_emp/uploadpr?id="
+                                <form id="upload-widget" method="post"
+                                    action="https://payrollv2.herokuapp.com/employee/add_emp/uploadpr?id="
                                     class="dropzone" v-show="edit">
                                     <div class="fallback">
                                         <input name="file" type="file" accept="image/png, image/jpeg , image/jpg" />
@@ -332,7 +333,8 @@
                     {{message_success}} !
                 </div> <br>
                 <div class="center">
-                    <button @click="save()" id='mybtn' style="padding: 5px 30px;" class="btn btn-success" v-if="edit">{{word}}
+                    <button @click="save()" id='mybtn' style="padding: 5px 30px;" class="btn btn-success"
+                        v-if="edit">{{word}}
                     </button>
                 </div>
                 <div class="center">
@@ -424,8 +426,8 @@
                     content.style.display = "block"
                 }, status() {
                     $.post('./api/active', {
-                        status:log.myArrayq.status,
-                        emp_id:log.myArrayq.emp_id
+                        status: log.myArrayq.status,
+                        emp_id: log.myArrayq.emp_id
                     }, function (data) {
                         console.log(data.message)
                         if (data.message != 'true') {

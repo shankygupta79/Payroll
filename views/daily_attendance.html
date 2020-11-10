@@ -54,7 +54,8 @@
                         <b>Date : {{select_date}}</b><br>
                         <div style="display: inline;float: center;" type="submit" value="Submit">
                             <b>Mark All Present</b>
-                            <button @click="prall()" id="pall" class="btn btn-warning">{{word2}} &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc2'></i>
+                            <button @click="prall()" id="pall" class="btn btn-warning">{{word2}} &nbsp;&nbsp;<i
+                                    class="fa fa-spinner fa-spin" id='abc2'></i>
 
                             </button>
                         </div><br>
@@ -214,13 +215,13 @@
                     $('#abc2').show();
                     $('#pall').prop('disabled', true);
                     for (var i = 0; i < log.myArray.length; i++) {
-                        if(log.myArray[i].active=="Active"){
+                        if (log.myArray[i].active == "Active") {
                             log.myArray[i].status = "Present"
                         }
-                        
+
                         var a = await log.attendance(i);
                         console.log(a)
-                        
+
                     }
                     $('#abc2').hide();
                     $('#pall').prop('disabled', false);
@@ -285,8 +286,8 @@
                         this.end = this.total
                     }
 
-                },async attendance(j) {
-                    return new Promise((resolve,reject) => {
+                }, async attendance(j) {
+                    return new Promise((resolve, reject) => {
                         console.log(j)
                         var y = '';
                         for (var i = 0; i < 61; i++) {
@@ -304,7 +305,7 @@
                         var abc = '';
                         if (log.dx == log.dxt) {
                             var abc = log.myArray[j].status[0]
-                        }$.post('./edit', {
+                        } $.post('./edit', {
                             present: tp,
                             etb: y,
                             empid: log.myArray[j].empid,
@@ -313,7 +314,7 @@
                             dx: log.dx,
                             monthyear: log.myArray[j].monthyear,
                             attby: log.myArray[j].attbyarr,
-                        },function (data) {
+                        }, function (data) {
                             console.log(data.message)
                             if (data.message != 'true') {
                                 log.error = 1
@@ -384,7 +385,7 @@
                                     log.message_error2 = ' HOLIDAY ❤'
                                 var loading = log.$refs.Loading
                                 loading.style.display = "none"
-                                log.getlist=0
+                                log.getlist = 0
                                 $('#mybtn').prop('disabled', false);
                                 $('#abc').hide();
                                 $('#pall').hide();
@@ -440,7 +441,7 @@
                                                 presentarr: Response1[i].present,
                                                 marked: Response1[i].marked,
                                                 monthyear: Response1[i].monthyear,
-                                                active:Response1[i].employee_quick.status,
+                                                active: Response1[i].employee_quick.status,
 
                                             }
                                             log.myArray.push(entry)

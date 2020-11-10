@@ -41,7 +41,7 @@ route.get('/failureDirect',(req,res)=>{
     res.status(200).send(req.flash('error'));
 })
 route.get('/successDirect',(req,res)=>{
-    res.status(200).send('true');
+    res.status(200).send(['true',req.user[0].id]);
 })
 route.post('/local',passport.authenticate('login',{
     successRedirect: '/auth/successDirect',

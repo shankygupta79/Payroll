@@ -3,7 +3,7 @@ $(document).ready(function () {
     axios.get('https://payrollv2.herokuapp.com/dashboard/logo')
         .then(function (Response1) {
             console.log(Response1)
-            $('.logoi'). attr("src", Response1);
+            $('.logoi').attr("src", Response1);
         })
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar, #navbar-top,#content2').toggleClass('active');

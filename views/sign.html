@@ -8,7 +8,7 @@
     integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
   <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
     integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
     crossorigin="anonymous"></script>
@@ -21,55 +21,55 @@
 
 <body>
 
-    <div id="Sign">
-      <div class="bord">
-        <div class="center head payroll"> PAYROLL</div><br>
-        
-        <div class="mbox1">
-          <br class="noname">
-          <br class="noname">
-          <br class="noname">
-          <section class="carousel">
-            <div class="image-holder" id="image-left">
-              <img src="images/left">
-            </div>
-            <div class="image-holder" id="image-mid">
-              <img src="images/middle">
-            </div>
-            <div class="image-holder" id="image-right">
-              <img src="images/right">
-            </div>
-          </section>
-          <br>
-          <li><b>Features</b></li>
-          <table>
-            <tr>
-              <td>
-                1. Daily Attendance 
-              </td>
-              <td>
-                2. Holidays Management
-              </td>
-              <td>
-                3. Multiple Users
-              </td>
-            </tr>
-            <tr>
-              <td>
-                4. Payslips
-              </td>
-              <td>
-                5. Password Encrypted
-              </td>
-              <td>
-                6. Attendance Reports
-              </td>
-            </tr>
-          </table>
-          
-          
-  
-        </div>
+  <div id="Sign">
+    <div class="bord">
+      <div class="center head payroll"> PAYROLL</div><br>
+
+      <div class="mbox1">
+        <br class="noname">
+        <br class="noname">
+        <br class="noname">
+        <section class="carousel">
+          <div class="image-holder" id="image-left">
+            <img src="images/left">
+          </div>
+          <div class="image-holder" id="image-mid">
+            <img src="images/middle">
+          </div>
+          <div class="image-holder" id="image-right">
+            <img src="images/right">
+          </div>
+        </section>
+        <br>
+        <li><b>Features</b></li>
+        <table>
+          <tr>
+            <td>
+              1. Daily Attendance
+            </td>
+            <td>
+              2. Holidays Management
+            </td>
+            <td>
+              3. Multiple Users
+            </td>
+          </tr>
+          <tr>
+            <td>
+              4. Payslips
+            </td>
+            <td>
+              5. Password Encrypted
+            </td>
+            <td>
+              6. Attendance Reports
+            </td>
+          </tr>
+        </table>
+
+
+
+      </div>
       <div class="mbox2 card">
         <div class="center head" style="text-align: center;font-size: 24px;">Sign Up</div>
         <div class="center"><a href="/login" class="blue under"> Already a User ? Log In </a></div>
@@ -99,12 +99,12 @@
               placeholder="Password">
           </div>
         </div>
-        <div v-if="error" class="error"> 
+        <div v-if="error" class="error">
           {{message}} !
         </div><br>
         <div class="center">
           <button type="button" id='mybtn' @click="submit()" class="btn">Sign Up</button></div>
-        
+
       </div>
     </div>
   </div>
@@ -126,7 +126,7 @@
       this.load();
     },
     methods: {
-      load: function () { 
+      load: function () {
 
       },
       checkemail(email) {
@@ -182,7 +182,7 @@
 
             }
           })
-        }else{
+        } else {
           $('#mybtn').prop('disabled', false);
         }
       }

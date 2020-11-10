@@ -46,7 +46,8 @@
                     <label class="label2">Profile Photo :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;</label>
                     <div class="inl" @click="phototime()">
-                        <form id="upload-widget" method="post" action="https://payrollv2.herokuapp.com/settings/uploadpr" class="dropzone">
+                        <form id="upload-widget" method="post"
+                            action="https://payrollv2.herokuapp.com/settings/uploadpr" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" />
                             </div>
@@ -69,18 +70,19 @@
                             <option>Theme 8</option>
                         </select></div><br><br>
 
-                        <div v-if="error" class="error">
-                            {{message_error}} !
+                    <div v-if="error" class="error">
+                        {{message_error}} !
                         <br></div>
-                        <div v-if="success" class="success">
-                            {{message_success}} !
-                        <br></div> 
-                        <div class="center">
-                            <button id='mybtn' @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}} </button>
-                        </div>
+                    <div v-if="success" class="success">
+                        {{message_success}} !
+                        <br></div>
+                    <div class="center">
+                        <button id='mybtn' @click="save()" style="padding: 5px 30px;" class="btn btn-success">{{word}}
+                        </button>
+                    </div>
 
                 </div>
-                
+
             </div>
 
         </div>
@@ -99,27 +101,27 @@
                 success: 0,
                 error: 0,
                 time: 0,
-                photo:'',
+                photo: '',
                 message_error: "Dont leave empty response",
                 message_success: "Setting changed !",
-                word:'SAVE',
+                word: 'SAVE',
             },
             created: function () {
                 this.load();
             },
             methods: {
                 load: function () {
-                    
+
                     this.none = localStorage.getItem('panelTheme')
                     axios.get('https://payrollv2.herokuapp.com/settings/api/setting')
                         .then(function (Response1) {
-                            log.photo=Response1[4]
+                            log.photo = Response1[4]
                             log.loaderoff()
                         })
                         .catch((err) => {
                             console.log(err)
-                            log.error=1
-                            log.message_error="Error connecting the database try again later !"
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
                 }, loaderoff() {
@@ -178,12 +180,12 @@
                     });
                 }, phototime() {
                     log.time = 1
-                },save(){
+                }, save() {
                     $('#mybtn').prop('disabled', true);
-                    this.word="Saving.. "
+                    this.word = "Saving.. "
                     setTimeout(() => {
-                    $.post('./editpr', {
-                            photo:log.photo
+                        $.post('./editpr', {
+                            photo: log.photo
                         }, function (data) {
                             console.log(data.message)
                             if (data.message != 'true') {
@@ -199,7 +201,7 @@
                                 }, 1000);
                             }
                         })
-                    },1000*log.time);
+                    }, 1000 * log.time);
                 }
 
             }

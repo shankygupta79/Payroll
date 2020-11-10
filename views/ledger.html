@@ -39,7 +39,7 @@
                 <div class="bord">
                     <div class="headin center">Ledger</div>
                     <div class="roww"></div>
-                    
+
                     <table class="report">
                         <tr>
                             <td><strong class="options">Select Employee :</strong></td>
@@ -60,12 +60,13 @@
                     </table><br>
                     <div v-if="error" class="error">
                         {{message_error}} !
-                    </div> 
+                    </div>
                     <div v-if="success" class="success">
                         {{message_success}} !
                     </div> <br>
                     <div class="center">
-                        <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show Ledger
+                        <button id='mybtn' @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Show
+                            Ledger
                             &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
                         </button>
                     </div>
@@ -242,14 +243,14 @@
 
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                                 <td style="text-align: right;">
                                     <b>Total<b>
                                 </td>
-                                
+
                                 <td>
-                                   <b> {{symbol}} {{(parseInt(given)-parseInt(reci)).toLocaleString('en-IN')}}</b>
+                                    <b> {{symbol}} {{(parseInt(given)-parseInt(reci)).toLocaleString('en-IN')}}</b>
                                 </td>
                             </tr>
                         </table><br>
@@ -301,14 +302,14 @@
 
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                                 <td style="text-align: right;">
                                     <b>Total<b>
                                 </td>
-                                
+
                                 <td>
-                                   <b> {{symbol}} {{(parseInt(given2)-parseInt(reci2)).toLocaleString('en-IN')}}</b>
+                                    <b> {{symbol}} {{(parseInt(given2)-parseInt(reci2)).toLocaleString('en-IN')}}</b>
                                 </td>
                             </tr>
                         </table><br>
@@ -564,16 +565,16 @@
                             axios.get('https://payrollv2.herokuapp.com/payslips/getadv?id=' + log.idx[log.employee.indexOf(log.select_emp)] + '&monthyear=' + (log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year))
                                 .then(function (Response2) {
                                     console.log(Response2)
-                                    
+
                                     log.myArray2 = Response2
                                     log.calc2();
                                     log.sortl(log.sortfield, "desc");
-                                    
+
                                 }).catch((err) => {
                                     console.log(err)
                                     log.error = 1
                                     log.message_error = "Error connecting the Adv. database try again later !"
-                                    
+
                                 })
 
                         }).catch((err) => {

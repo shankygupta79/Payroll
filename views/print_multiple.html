@@ -76,178 +76,178 @@
 
         <button @click="print()" class="noprint" style="padding:3px 15px"><i class="fa fa-print" style="color:red"
                 aria-hidden="true"></i>&nbsp Print All</button>
-                <button @click="downall()" class="noprint" style="padding:3px 15px"><i class="fa fa-download" style="color:green"
-                    aria-hidden="true"></i>&nbsp Download All</button>
-        <div id="print"  v-for="i in len" >
+        <button @click="downall()" class="noprint" style="padding:3px 15px"><i class="fa fa-download"
+                style="color:green" aria-hidden="true"></i>&nbsp Download All</button>
+        <div id="print" v-for="i in len">
             <div :ref="`index${i}`" style="background-color: white;">
-            <div class="center info headin headerr" style="height: 110px;"><img class="logo" v-bind:src="logoimg"
-                    width="100px" style="float: left;" height="100px">
-                <div class="cname" style="vertical-align: middle;"><br>{{company}}</div>
+                <div class="center info headin headerr" style="height: 110px;"><img class="logo" v-bind:src="logoimg"
+                        width="100px" style="float: left;" height="100px">
+                    <div class="cname" style="vertical-align: middle;"><br>{{company}}</div>
+                </div>
+                <div class="roww info"></div>
+                <div class="center info" style="font-size: 18px;"><b>PAYSLIP FOR MONTH OF {{date}}</b></div><br>
+
+                <table class="info">
+                    <tr>
+                        <td class="id">
+                            Employee ID :
+                        </td>
+                        <td class="id">
+                            {{myArray[i-1]['employee_quick'].emp_id}}
+                        </td>
+                        <td class="name">
+                            Name :
+                        </td>
+                        <td class="name" style="color: red;font-weight: 800;">
+                            {{myArray[i-1]['employee_quick'].name}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="dep">
+                            Department :
+                        </td>
+                        <td class="dep">
+                            {{myArray[i-1]['employee_quick'].dep}}
+                        </td>
+                        <td class="des">
+                            Designation :
+                        </td>
+                        <td class="des">
+                            {{myArray[i-1]['employee_quick'].des}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="phone">
+                            Phone Number :
+                        </td>
+                        <td class="phone">
+                            {{myArray[i-1]['employee_quick'].pnum}}
+                        </td>
+                        <td class="acc">
+                            Email ID :
+                        </td>
+                        <td class="acc">
+                            {{myArray[i-1]['employee_quick'].email}}
+                        </td>
+                    </tr>
+
+                </table>
+                <table class="numbering">
+                    <tr>
+                        <th colspan="2">
+                            Earning Amount
+                        </th>
+                        <th colspan="2">
+                            Deduction Amount
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            Basic
+                        </td>
+                        <td>
+                            {{symbol}}{{parseInt(myArray[i-1]['employee_quick'].salary).toLocaleString('en-IN')}}
+                        </td>
+                        <td>
+                            Holidays => (
+                            {{Math.round(parseInt(myArray[i-1].holidays)/Math.ceil(parseInt(myArray[i-1]['employee_quick'].salary)/days))}}
+                            )
+                        </td>
+                        <td>
+                            {{symbol}}{{parseInt(myArray[i-1].holidays).toLocaleString('en-IN')}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Extra Time
+                        </td>
+                        <td>
+                            {{symbol}}{{parseInt(myArray[i-1].extratimetotoal).toLocaleString('en-IN')}}
+                        </td>
+                        <td>
+                            Advance
+                        </td>
+                        <td>
+                            {{symbol}}{{parseInt(myArray[i-1].advance).toLocaleString('en-IN')}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Bonus
+                        </td>
+                        <td>
+                            {{symbol}}{{parseInt(myArray[i-1].bonus).toLocaleString('en-IN')}}
+                        </td>
+                        <td>
+                            Deductions
+                        </td>
+                        <td>
+                            {{symbol}}{{parseInt(myArray[i-1].deduction).toLocaleString('en-IN')}}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            Monthly EMI
+                        </td>
+                        <td>
+                            {{symbol}}{{parseInt(myArray[i-1].emi).toLocaleString('en-IN')}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Total Earnings
+                        </th>
+                        <th>
+                            {{symbol}}{{(parseInt(myArray[i-1].bonus)+parseInt(myArray[i-1]['employee_quick'].salary)+parseInt(myArray[i-1].extratimetotoal)).toLocaleString('en-IN')}}
+                        </th>
+                        <th>
+                            Total Deductions
+                        </th>
+                        <th>
+                            {{symbol}}{{parseInt(parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].emi)+parseInt(myArray[i-1].deduction)).toLocaleString('en-IN')}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            Transfer
+                        </td>
+                        <td>
+                            {{symbol}}{{parseInt(myArray[i-1].transfer).toLocaleString('en-IN')}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="border: none; background-color: whitesmoke;">
+                            Loan Left
+                        </th>
+                        <th style="border: none;background-color: whitesmoke;">
+                            {{symbol}}{{parseInt(myArray[i-1]['employee_quick'].totalloan).toLocaleString('en-IN')}}
+                        </th>
+                        <th>
+                            Net Pay
+                        </th>
+                        <th style="background-color: lightblue;">
+                            {{symbol}}{{parseInt(myArray[i-1].netpay).toLocaleString('en-IN')}}
+                        </th>
+                    </tr>
+
+
+                </table>
             </div>
-            <div class="roww info"></div>
-            <div class="center info" style="font-size: 18px;"><b>PAYSLIP FOR MONTH OF {{date}}</b></div><br>
-
-            <table class="info">
-                <tr>
-                    <td class="id">
-                        Employee ID :
-                    </td>
-                    <td class="id">
-                        {{myArray[i-1]['employee_quick'].emp_id}}
-                    </td>
-                    <td class="name">
-                        Name :
-                    </td>
-                    <td class="name" style="color: red;font-weight: 800;">
-                        {{myArray[i-1]['employee_quick'].name}}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="dep">
-                        Department :
-                    </td>
-                    <td class="dep">
-                        {{myArray[i-1]['employee_quick'].dep}}
-                    </td>
-                    <td class="des">
-                        Designation :
-                    </td>
-                    <td class="des">
-                        {{myArray[i-1]['employee_quick'].des}}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="phone">
-                        Phone Number :
-                    </td>
-                    <td class="phone">
-                        {{myArray[i-1]['employee_quick'].pnum}}
-                    </td>
-                    <td class="acc">
-                        Email ID :
-                    </td>
-                    <td class="acc">
-                        {{myArray[i-1]['employee_quick'].email}}
-                    </td>
-                </tr>
-
-            </table>
-            <table class="numbering">
-                <tr>
-                    <th colspan="2">
-                        Earning Amount
-                    </th>
-                    <th colspan="2">
-                        Deduction Amount
-                    </th>
-
-                </tr>
-                <tr>
-                    <td>
-                        Basic
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray[i-1]['employee_quick'].salary).toLocaleString('en-IN')}}
-                    </td>
-                    <td>
-                        Holidays => (
-                        {{Math.round(parseInt(myArray[i-1].holidays)/Math.ceil(parseInt(myArray[i-1]['employee_quick'].salary)/days))}}
-                        )
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray[i-1].holidays).toLocaleString('en-IN')}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Extra Time
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray[i-1].extratimetotoal).toLocaleString('en-IN')}}
-                    </td>
-                    <td>
-                        Advance
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray[i-1].advance).toLocaleString('en-IN')}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Bonus
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray[i-1].bonus).toLocaleString('en-IN')}}
-                    </td>
-                    <td>
-                        Deductions
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray[i-1].deduction).toLocaleString('en-IN')}}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-                        Monthly EMI
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray[i-1].emi).toLocaleString('en-IN')}}
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        Total Earnings
-                    </th>
-                    <th>
-                        {{symbol}}{{(parseInt(myArray[i-1].bonus)+parseInt(myArray[i-1]['employee_quick'].salary)+parseInt(myArray[i-1].extratimetotoal)).toLocaleString('en-IN')}}
-                    </th>
-                    <th>
-                        Total Deductions
-                    </th>
-                    <th>
-                        {{symbol}}{{parseInt(parseInt(myArray[i-1].advance)+parseInt(myArray[i-1].holidays)+parseInt(myArray[i-1].emi)+parseInt(myArray[i-1].deduction)).toLocaleString('en-IN')}}
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-                        Transfer
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray[i-1].transfer).toLocaleString('en-IN')}}
-                    </td>
-                </tr>
-                <tr>
-                    <th style="border: none; background-color: whitesmoke;">
-                        Loan Left
-                    </th>
-                    <th style="border: none;background-color: whitesmoke;">
-                        {{symbol}}{{parseInt(myArray[i-1]['employee_quick'].totalloan).toLocaleString('en-IN')}}
-                    </th>
-                    <th>
-                        Net Pay
-                    </th>
-                    <th style="background-color: lightblue;">
-                        {{symbol}}{{parseInt(myArray[i-1].netpay).toLocaleString('en-IN')}}
-                    </th>
-                </tr>
-
-
-            </table>
         </div>
-    </div>
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
 
@@ -285,7 +285,7 @@
                                     log.company = Response2[0].name
                                     log.logoimg = Response2[2]
                                     log.symbol = Response2[1]
-                                    if(params.op=="d"){
+                                    if (params.op == "d") {
                                         log.downall()
                                     }
                                     setTimeout(() => {
@@ -324,31 +324,31 @@
                         params[pair[0]] = decodeURIComponent(pair[1]);
                     }
                     return params;
-                },async downall() {
+                }, async downall() {
                     for (var i = 1; i <= log.len; i++) {
-                        console.log(this.$refs["index"+i]);
+                        console.log(this.$refs["index" + i]);
                         var a = await log.down(i);
-                        
-                    }
-                    
 
-                },down(i){
+                    }
+
+
+                }, down(i) {
                     var a = new Date();
-                        window.html2canvas(this.$refs["index"+i]).then(canvas => {
-                            image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
-                            var link = document.createElement('a');
-                            link.download = log.myArray[i-1]['employee_quick'].name+" Payslips.png";
-                            link.href = image;
-                            link.click();
-                            if(i==log.len){
+                    window.html2canvas(this.$refs["index" + i]).then(canvas => {
+                        image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
+                        var link = document.createElement('a');
+                        link.download = log.myArray[i - 1]['employee_quick'].name + " Payslips.png";
+                        link.href = image;
+                        link.click();
+                        if (i == log.len) {
                             window.close()
                         }
-                            resolve("A")
-                            //window.close()
-                        }).catch((error) => {
-                            console.log("Erorr Occured", error)
-                            reject("P")
-                        });
+                        resolve("A")
+                        //window.close()
+                    }).catch((error) => {
+                        console.log("Erorr Occured", error)
+                        reject("P")
+                    });
                 }
 
             }

@@ -73,13 +73,14 @@
                             <td>{{myArray[i-1].dep}}</td>
                             <td>{{myArray[i-1].depcount}}</td>
                             <td>
-                                <button ref="myBtn" @click="modal(myArray[i-1].dep)" class="btn btn-danger"><i class="fa fa-times" style="color:white"
-                                        aria-hidden="true"></i>&nbsp Delete</button></td>
+                                <button ref="myBtn" @click="modal(myArray[i-1].dep)" class="btn btn-danger"><i
+                                        class="fa fa-times" style="color:white" aria-hidden="true"></i>&nbsp
+                                    Delete</button></td>
                             <div id="myModal" ref="modal" class="modal">
                                 <div class="modal-content">
                                     <span class="close">&times;</span>
                                     <div class="xi"> CONFIRM DEPARTMENT DELETE ??</div>
-                                    <div style="max-width: 100px;margin-left: auto;margin-right: auto;" >
+                                    <div style="max-width: 100px;margin-left: auto;margin-right: auto;">
                                         <button class="btn btn-danger" @click="deletey()">CONFIRM
                                             DELETE</button>
                                     </div>
@@ -135,7 +136,7 @@
                 myArray: [],
                 success: 1,
                 error: 0,
-                delete:'?',
+                delete: '?',
                 message_error: "Dont leave empty response",
                 message_success: "Newly Added Department will be shown if you add atleast one employee in it !",
 
@@ -155,8 +156,8 @@
                         })
                         .catch((err) => {
                             console.log(err)
-                            log.error=1
-                            log.message_error="Error connecting the database try again later !"
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
                 }, loaderoff() {
@@ -165,12 +166,12 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                },modal(abc){
-                    this.delete=abc;
+                }, modal(abc) {
+                    this.delete = abc;
                     var app = this;
                     var btn = app.$refs.modal
                     btn.style.display = "block"
-                },entryfun(entry) {
+                }, entryfun(entry) {
                     this.paging(1, entry)
                     var total_pages = Math.ceil(this.total / entry)
                     this.pages = []
@@ -253,7 +254,7 @@
         })
         var modal = document.getElementById("myModal");
         var span = document.getElementsByClassName("close")[0];
-        
+
         span.onclick = function () {
             modal.style.display = "none";
         }

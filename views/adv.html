@@ -51,7 +51,7 @@
                             <td><select class="form-control options" v-model="select_month">
                                     <option v-for="i in monthlist">{{i}}</option>
                                 </select></td>
-                            
+
 
                             <td><select class="form-control options" v-model="select_emp">
                                     <option style="color: black;" v-for="i in employee">{{i}}</option>
@@ -140,14 +140,14 @@
 
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                                 <td style="text-align: right;">
                                     <b>Total<b>
                                 </td>
-                                
+
                                 <td>
-                                   <b> {{symbol}} {{(parseInt(given)-parseInt(reci)).toLocaleString('en-IN')}}</b>
+                                    <b> {{symbol}} {{(parseInt(given)-parseInt(reci)).toLocaleString('en-IN')}}</b>
                                 </td>
                             </tr>
                         </table><br>
@@ -423,7 +423,7 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                },year() {
+                }, year() {
                     var d = new Date();
                     var n = d.getFullYear() + 1;
                     var y = 2020;
@@ -455,7 +455,7 @@
                     log.getp = 0
                     log.listing = 0
                     log.myArray = []
-                    
+
                     if (log.select_emp == '') {
                         log.error = 1;
                         log.message_error = "Select Some Employee !"
@@ -471,7 +471,7 @@
                     log.error = 0
                     log.idx[log.employee.indexOf(log.select_emp)]
                     $('#abc').show();
-                    axios.get('https://payrollv2.herokuapp.com/payslips/getadv?id=' + log.idx[log.employee.indexOf(log.select_emp)]+'&monthyear='+(log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year))
+                    axios.get('https://payrollv2.herokuapp.com/payslips/getadv?id=' + log.idx[log.employee.indexOf(log.select_emp)] + '&monthyear=' + (log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year))
                         .then(function (Response1) {
                             console.log(Response1)
                             if (Response1 == '') {

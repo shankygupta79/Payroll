@@ -44,7 +44,7 @@
                     <div class="sbox">
                         <b>{{total}}</b>
                         <i class="fa fa-users" style="color:green" aria-hidden="true"></i><br>
-                        Totol Employees
+                        Total Employees
                     </div>
                     <div class="sbox">
                         <b>{{department}}</b>
@@ -67,8 +67,8 @@
 
                     <div class="mbox2">
                         <div style="display: table;" class="center">Attendance Analysis</div>
-                    <div id="chart" style="height: 330px;">
-                    </div>
+                        <div id="chart" style="height: 330px;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 present: 0,
                 department: 0,
                 absent: 0,
-                error:0,
+                error: 0,
                 message_error: "Some Error",
 
             },
@@ -97,21 +97,21 @@
                 this.load();
             },
             methods: {
-                load: function () { 
+                load: function () {
                     axios.get('https://payrollv2.herokuapp.com/dashboard/api/dash')
                         .then(function (Response1) {
                             console.log(Response1)
-                            log.total=Response1[0]
-                            log.department=Response1[1]
-                            log.present=Response1[2]
-                            log.absent=Response1[3]
+                            log.total = Response1[0]
+                            log.department = Response1[1]
+                            log.present = Response1[2]
+                            log.absent = Response1[3]
                             log.loaderoff()
 
                         })
                         .catch((err) => {
                             console.log(err)
-                            log.error=1
-                            log.message_error="Error connecting the database try again later !"
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
                 }, loaderoff() {
@@ -120,48 +120,48 @@
                     loading.style.display = "none"
                     var content = app.$refs.content2
                     content.style.display = "block"
-                }, 
+                },
 
             }
         })
 
     </script>
-    <script type = "text/javascript" src = "https://www.gstatic.com/charts/loader.js"></script>
-    <script type = "text/javascript">
-       google.charts.load('current', {packages: ['corechart']});     
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { packages: ['corechart'] });     
     </script>
     <script type="text/javascript">
         function drawChart() {
             // Define the chart to be drawn.
             var data = google.visualization.arrayToDataTable([
-               ['Month', 'Present', 'Absent'],
-               ['January',  1200,      50],
-               ['Februaury',  1000,      400],
-               ['March',  1170,      440],
-               ['April',  1250,       480],
-               ['May',  1530,540],
-               ['June',  1530,      540],
-               ['July',  1530,      540],
-               ['August',  1530,      540],
-               ['September',  1530,      540],
-               ['October',  1530,      540],
-               ['November',  1530,      540],
-               ['December',  1530,      540],
+                ['Month', 'Present', 'Absent'],
+                ['January', 1200, 50],
+                ['Februaury', 1000, 400],
+                ['March', 1170, 440],
+                ['April', 1250, 480],
+                ['May', 1530, 540],
+                ['June', 1530, 540],
+                ['July', 1530, 540],
+                ['August', 1530, 540],
+                ['September', 1530, 540],
+                ['October', 1530, 540],
+                ['November', 1530, 540],
+                ['December', 1530, 540],
             ]);
 
             var options = {
-               title: 'Attendance (in percentage)',
-               isStacked:'percent'	  
-            };  
+                title: 'Attendance (in percentage)',
+                isStacked: 'percent'
+            };
 
             // Instantiate and draw the chart.
             var chart = new google.visualization.BarChart(document.getElementById('chart'));
             chart.draw(data, options);
-         }
-         google.charts.setOnLoadCallback(drawChart);
-        
+        }
+        google.charts.setOnLoadCallback(drawChart);
+
     </script>
-    
+
     <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 

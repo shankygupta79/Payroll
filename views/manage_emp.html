@@ -122,7 +122,7 @@
                     var app = this;
                     axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp')
                         .then(function (Response) {
-                            app.myArray=Response
+                            app.myArray = Response
                             var loading = app.$refs.Loading
                             loading.style.display = "none"
                             var content = app.$refs.content2
@@ -130,8 +130,8 @@
                         })
                         .catch((err) => {
                             console.log(err)
-                            log.error=1
-                            log.message_error="Error connecting the database try again later !"
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
                     this.sort(this.sortfield);

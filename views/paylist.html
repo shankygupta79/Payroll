@@ -65,8 +65,9 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr v-if="monthstart" >
-                                <td colspan="3"><b style="color: red;">Note : Previous Month is selected automatically !</b></td>
+                            <tr v-if="monthstart">
+                                <td colspan="3"><b style="color: red;">Note : Previous Month is selected automatically
+                                        !</b></td>
                             </tr>
                         </table><br>
                         <div v-if="error" class="error">
@@ -74,16 +75,16 @@
                         </div> <br>
                         <div v-if="success" class="success">
                             {{message_success}} !
-                        </div> 
+                        </div>
                         <img src="../images/loading" v-show="paylist" id="Loading" ref="Loading">
                         <div v-show="paylist" id="content2" ref="content2">
                             <div class="center" style="font-size: 1.2em;">
-                               Total Balance Amount &nbsp;<b>{{symbol}} {{(totalb).toLocaleString('en-IN')}}</b>
+                                Total Balance Amount &nbsp;<b>{{symbol}} {{(totalb).toLocaleString('en-IN')}}</b>
                             </div>
                             <div class="center" style="font-size: 1.2em;">
-                            Total Net Pay Amount  &nbsp;<b>{{symbol}}{{(totaln).toLocaleString('en-IN')}}</b>
+                                Total Net Pay Amount &nbsp;<b>{{symbol}}{{(totaln).toLocaleString('en-IN')}}</b>
                             </div>
-                            
+
                             <div style="display: inline;">
                                 Show <select @change="entryfun(entry)" v-model="entry">
                                     <option value="10">10</option>
@@ -131,7 +132,7 @@
                             <button @click="printall()" style="padding:3px 15px" class="btn btn-danger"><i
                                     class="fa fa-print" style="color:white" aria-hidden="true"></i>&nbsp Print
                                 All</button>
-                                <button @click="downall()" style="padding:3px 15px" class="btn btn-success"><i
+                            <button @click="downall()" style="padding:3px 15px" class="btn btn-success"><i
                                     class="fa fa-download" style="color:white" aria-hidden="true"></i>&nbsp Download
                                 All</button>
                             </td>
@@ -178,7 +179,7 @@
                 myArray: [],
                 success: 0,
                 error: 0,
-                monthstart:0,
+                monthstart: 0,
                 sortfield2: '',
                 yearlist: [],
                 arr: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
@@ -285,8 +286,8 @@
                 }, printall() {
                     var x = "https://payrollv2.herokuapp.com/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year;
                     window.open(x, "_blank")
-                },downall() {
-                    var x = "https://payrollv2.herokuapp.com/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year+"&op=d";
+                }, downall() {
+                    var x = "https://payrollv2.herokuapp.com/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&op=d";
                     window.open(x, "_blank")
                 }, calc() {
                     for (var i = 0; i < log.myArray.length; i++) {
@@ -298,25 +299,25 @@
                 }, year() {
                     var d = new Date();
                     var n = d.getFullYear() + 1;
-                    
+
                     var y = 2020;
                     do {
                         this.yearlist.push(y)
                         y++;
                     } while (n != y);
-                    
-                    if(d.getDate()<=4){
-                        this.monthstart=1;
-                        this.select_month = this.monthlist[((d.getMonth()-1+12)%12)];
+
+                    if (d.getDate() <= 4) {
+                        this.monthstart = 1;
+                        this.select_month = this.monthlist[((d.getMonth() - 1 + 12) % 12)];
                         this.select_year = n - 1;
-                        if(d.getMonth()==0){
+                        if (d.getMonth() == 0) {
                             this.select_year--;
                         }
-                    }else{
+                    } else {
                         this.select_month = this.monthlist[d.getMonth()];
                         this.select_year = n - 1;
                     }
-                    
+
                 }, submit() {
                     $('#mybtn').prop('disabled', true);
                     if (log.select_month == "" || log.select_year == "") {
@@ -326,8 +327,8 @@
                     }
                     log.loaderon()
                     log.paylist = 1
-                    log.totalb=0
-                    log.totaln=0
+                    log.totalb = 0
+                    log.totaln = 0
                     $('#abc').show();
                     axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
                         .then(function (Response1) {

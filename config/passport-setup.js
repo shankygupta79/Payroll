@@ -56,18 +56,18 @@ passport.use(
 
                     }).then((newUser) => {
                         Setting.create({
-                            userId:newUser.id,
+                            userId: newUser.id,
                         })
-                        .then((setting)=>{
-                            console.log('new User Created', newUser)
-                            var user = [newUser.dataValues];
-                            console.log(user)
-                            done(null, user)
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                        })
-                        
+                            .then((setting) => {
+                                console.log('new User Created', newUser)
+                                var user = [newUser.dataValues];
+                                console.log(user)
+                                done(null, user)
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+
                     }).catch((err) => {
                         console.log(err)
                     })
@@ -108,19 +108,19 @@ passport.use(new FacebookStrategy({
                         logo: "https://res.cloudinary.com/shankygupta79/image/upload/v1592489600/love_bird_transparent_bg_dlwkpq.png",
                         office_close: '0000000',
                     }).then((newUser) => {
-                        
+
                         Setting.create({
-                            userId:newUser.id,
+                            userId: newUser.id,
                         })
-                        .then((setting)=>{
-                            console.log('new User Created', newUser)
-                            var user = [newUser.dataValues];
-                            console.log(user)
-                            done(null, user)
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                        })
+                            .then((setting) => {
+                                console.log('new User Created', newUser)
+                                var user = [newUser.dataValues];
+                                console.log(user)
+                                done(null, user)
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
                     }).catch((err) => {
                         console.log(err)
                     })
@@ -156,7 +156,7 @@ passport.use('login', new LocalStrategy({
                 console.log("Correct Password")//The password is correct
                 console.log(email + " Autheticated")
 
-                done(null, [user])
+                done(null, [user], { message: user.id })
             }
             if (hash_created != hash) {
                 err = "Wrong Password"

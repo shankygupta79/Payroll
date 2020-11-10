@@ -9,11 +9,11 @@ const dotenv = require("dotenv")
 dotenv.config()
 function isEmpty(obj) {
     for (var key in obj) {
-      if (obj.hasOwnProperty(key))
-        return false;
+        if (obj.hasOwnProperty(key))
+            return false;
     }
     return true;
-  }
+}
 route.get('/', (req, res) => {
     res.redirect('https://payrollv2.herokuapp.com/login')
 })
@@ -26,10 +26,10 @@ route.get('/login', (req, res) => {
     if (isEmpty(req.user)) {
         //user is not logged in
         res.sendFile(path.join(__dirname, '../views/login.html'))
-      }else{
+    } else {
         res.redirect('/dashboard')
-      }
-    
+    }
+
 })
 route.get('/lovebird', (req, res) => {
     res.redirect('http://3.7.181.22/')
@@ -157,17 +157,17 @@ route.post('/signup', (req, res) => {
                     logo: "https://res.cloudinary.com/shankygupta79/image/upload/v1592489600/love_bird_transparent_bg_dlwkpq.png",
                     office_close: '0000000',
                 }).then((user) => {
-                    
+
                     Setting.create({
-                        userId:user.id,
+                        userId: user.id,
                     })
-                    .then((setting)=>{
-                        sendmail(mailing_id, hash, 0);
-                        return res.send({ data: 'ms', email: req.body.email })
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
+                        .then((setting) => {
+                            sendmail(mailing_id, hash, 0);
+                            return res.send({ data: 'ms', email: req.body.email })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                 }).catch((err) => {
                     console.log(err)
                     return res.send({ data: 'error' })
