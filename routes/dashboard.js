@@ -4,6 +4,7 @@ const Dep = require('../database').Department
 const Att = require('../database').Attendance
 const Sequelize = require('sequelize')
 const path = require('path')
+var CryptoJS = require("crypto-js");
 function isEmpty(obj) {
   for (var key in obj) {
     if (obj.hasOwnProperty(key))
@@ -15,20 +16,31 @@ var xid = 0
 var alreadylogo='';
 var arr=['01-','02-','03-','04-','05-','06-','07-','08-','09-','10-','11-','12-']
 const authCheck = (req, res, next) => {
-  if (isEmpty(req.user)) {
-    //user is not logged in
-    res.redirect('/login')
-  } else {
-    if (req.user[0].admin == '0') {
-      xid = req.user[0].userId
-
+  if(req.query.platform=='APP'){
+    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString()
     } else {
-      xid = req.user[0].id
+      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      console.log(xid)
     }
-   
-    alreadylogo=req.user[0].logo
     next()
+  }else{
+    if (isEmpty(req.user)) {
+      //user is not logged in
+      res.redirect('/login')
+    } else {
+      if (req.user[0].admin == '0') {
+        xid = req.user[0].userId
+  
+      } else {
+        xid = req.user[0].id
+      }
+     
+      alreadylogo=req.user[0].logo
+      next()
+    }
   }
+  
 }
 route.get('/logo', authCheck, (req, res) => {
   res.status(200).send(alreadylogo)
