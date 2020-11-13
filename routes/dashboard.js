@@ -18,7 +18,7 @@ var arr=['01-','02-','03-','04-','05-','06-','07-','08-','09-','10-','11-','12-'
 const authCheck = (req, res, next) => {
   if(req.query.platform=='APP'){
     if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
-      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString()
+      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8heroku )
     } else {
       xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
       console.log(xid)

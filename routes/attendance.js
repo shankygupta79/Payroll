@@ -3,6 +3,7 @@ const Emp = require('../database').Employeeqdb
 const Att = require('../database').Attendance
 const Hol = require('../database').Holiday
 const path = require('path')
+var CryptoJS = require("crypto-js");
 function isEmpty(obj) {
   for (var key in obj) {
     if (obj.hasOwnProperty(key))
@@ -18,29 +19,62 @@ var admin = 1;
 var office = '';
 var y5 = 'true';
 const authCheckmark = (req, res, next) => {
-  if (isEmpty(req.user)) {
-    //user is not logged in
-    res.redirect('/login')
-  } else {
-    if (req.user[0].admin == '0') {
-      admin = 0
-      xid = req.user[0].userId
-      var y = req.user[0].access.split(';')
-      y5 = y[5];
+  if (req.query.platform == "APP") {
+    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin=0
+      var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
       if (y[4] == 'false') {
-
-        res.redirect('../users/lock')
+        return res.send(false)
       }
+      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
     } else {
-      admin = 1
-      xid = req.user[0].id
+      admin=1
+      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      console.log(xid)
     }
-    office = req.user[0].office_close
-    console.log(xid)
+    office = req.query.off
     next()
+  } else {
+    if (isEmpty(req.user)) {
+      //user is not logged in
+      res.redirect('/login')
+    } else {
+      if (req.user[0].admin == '0') {
+        admin = 0
+        xid = req.user[0].userId
+        var y = req.user[0].access.split(';')
+        y5 = y[5];
+        if (y[4] == 'false') {
+
+          res.redirect('../users/lock')
+        }
+      } else {
+        admin = 1
+        xid = req.user[0].id
+      }
+      office = req.user[0].office_close
+      console.log(xid)
+      next()
+    }
   }
 }
 const authCheckedit = (req, res, next) => {
+  if (req.query.platform == "APP") {
+    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin=0
+      var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+      if (y[5] == 'false') {
+        return res.send(false)
+      }
+      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+    } else {
+      admin=1
+      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      console.log(xid)
+    }
+    office = req.query.off
+    next()
+  } else {
   if (isEmpty(req.user)) {
     //user is not logged in
     res.redirect('/login')
@@ -58,6 +92,7 @@ const authCheckedit = (req, res, next) => {
       xid = req.user[0].id
     }
     next()
+  }
   }
 }
 route.get('/daily_attendance', authCheckmark, (req, res) => {
@@ -105,7 +140,7 @@ function create(data, x2) {
     attby: "0000000000000000000000000000000",
     text: "No Comments",
     netpay: 0,
-    emi:0,
+    emi: 0,
   }).then((att) => {
     console.log("Chart created new")
     return true
@@ -116,7 +151,7 @@ function create(data, x2) {
     })
 }
 route.get('/api/attendance', authCheckmark, (req, res) => {
-  if (y5 == 'false' && req.query.dx != a.getDate() && admin==0) {
+  if (y5 == 'false' && req.query.dx != a.getDate() && admin == 0) {
     return res.status(201).send('0')
   }
   Emp.hasMany(Att, { foreignKey: 'emp_id' })
@@ -133,9 +168,9 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
           .then(async (emps) => {
             for (var i = 0; i < emps.length; i++) {
               var x = await create(emps[i], req.query.date)
-              
+
             }
-            
+
           })
           .catch((err) => {
             console.log(err)
@@ -143,7 +178,7 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
               message: "Could not retrive info "
             })
           })
-          return res.status(200).send('5');
+        return res.status(200).send('5');
 
       }
     })
@@ -167,7 +202,7 @@ route.post('/edit', authCheckmark, (req, res) => {
       present: req.body.present,
       extratime: req.body.etb,
       attby: tp,
-    }, { where: { emp_id: req.body.empid , monthyear:req.body.monthyear} }).then((att) => {
+    }, { where: { emp_id: req.body.empid, monthyear: req.body.monthyear } }).then((att) => {
       return res.send({
         message: "true"
       })
@@ -186,7 +221,7 @@ route.post('/edit', authCheckmark, (req, res) => {
       extratime: req.body.etb,
       quick: req.body.dx + req.body.quick,
       attby: tp,
-    }, { where: { emp_id: req.body.empid  , monthyear:req.body.monthyear} }).then((att) => {
+    }, { where: { emp_id: req.body.empid, monthyear: req.body.monthyear } }).then((att) => {
       return res.send({
         message: "true"
       })
