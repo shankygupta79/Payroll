@@ -13,6 +13,22 @@ function isEmpty(obj) {
     return true;
 }
 const authCheckview = (req, res, next) => {
+    if (req.query.platform == "APP") {
+        if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+          admin=0
+          var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+          if (y[8] == 'false') {
+            return res.send(false)
+          }
+          xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+        } else {
+          admin=1
+          xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+          console.log(xid)
+        }
+        office = req.query.off
+        next()
+      } else {
     if (isEmpty(req.user)) {
         //user is not logged in
         res.redirect('/login')
@@ -31,7 +47,9 @@ const authCheckview = (req, res, next) => {
         next()
     }
 }
+}
 const authCheck = (req, res, next) => {
+    
     if (isEmpty(req.user)) {
         //user is not logged in
         res.redirect('/login')
@@ -44,6 +62,22 @@ const authCheck = (req, res, next) => {
     }
 }
 const authCheckedit = (req, res, next) => {
+    if (req.query.platform == "APP") {
+        if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+          admin=0
+          var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+          if (y[9] == 'false') {
+            return res.send(false)
+          }
+          xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+        } else {
+          admin=1
+          xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+          console.log(xid)
+        }
+        office = req.query.off
+        next()
+      } else {
     if (isEmpty(req.user)) {
         //user is not logged in
         res.redirect('/login')
@@ -60,6 +94,7 @@ const authCheckedit = (req, res, next) => {
         next()
     }
 }
+}
 route.get('/calc', authCheckedit, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/calculator.html'))
 })
@@ -69,16 +104,16 @@ route.get('/ledger', authCheckview, (req, res) => {
 route.get('/list', authCheckview, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/paylist.html'))
 })
-route.get('/loan', authCheck, (req, res) => {
+route.get('/loan', authCheckedit, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/loan.html'))
 })
-route.get('/entry', authCheck, (req, res) => {
+route.get('/entry', authCheckedit, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/add_entry.html'))
 })
-route.get('/adv', authCheck, (req, res) => {
+route.get('/adv', authCheckedit, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/adv.html'))
 })
-route.get('/entry_adv', authCheck, (req, res) => {
+route.get('/entry_adv', authCheckedit, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/add_adv.html'))
 })
 route.get('/printsingle', authCheckview, (req, res) => {
@@ -233,7 +268,7 @@ function advadd(amount, type, text, date, emp_id, monthyear) {
     return true
 }
 
-route.post('/loanadd', authCheck, async (req, res) => {
+route.post('/loanadd', authCheckedit, async (req, res) => {
     console.log("Hey")
     if (req.body.text == '') {
         req.body.text = "No Comments"
@@ -245,7 +280,7 @@ route.post('/loanadd', authCheck, async (req, res) => {
         })
     }, 200)
 })
-route.post('/advadd', authCheck, async (req, res) => {
+route.post('/advadd', authCheckedit, async (req, res) => {
     console.log("Hey")
     if (req.body.text == '') {
         req.body.text = "No Comments"
@@ -284,7 +319,7 @@ route.get('/api/data', authCheckview, (req, res) => {
             })
     }
 })
-route.get('/getloan', authCheck, (req, res) => {
+route.get('/getloan', authCheckview, (req, res) => {
 
     Loan.findAll({ where: { emp_id: req.query.id, userId: xid } })
         .then((emps) => {
@@ -298,7 +333,7 @@ route.get('/getloan', authCheck, (req, res) => {
 
         })
 })
-route.get('/getadv', authCheck, (req, res) => {
+route.get('/getadv', authCheckview, (req, res) => {
 
     Adv.findAll({ where: { emp_id: req.query.id, userId: xid, monthyear: req.query.monthyear } })
         .then((emps) => {

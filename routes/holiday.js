@@ -10,6 +10,22 @@ function isEmpty(obj) {
 }
 var xid = 0;
 const authCheckview = (req, res, next) => {
+  if (req.query.platform == "APP") {
+    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin=0
+      var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+      if (y[6] == 'false') {
+        return res.send(false)
+      }
+      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+    } else {
+      admin=1
+      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      console.log(xid)
+    }
+    office = req.query.off
+    next()
+  } else {
   if (isEmpty(req.user)) {
     //user is not logged in
     res.redirect('/login')
@@ -26,9 +42,25 @@ const authCheckview = (req, res, next) => {
     }
     console.log(xid)
     next()
-  }
+  }}
 }
 const authCheckedit = (req, res, next) => {
+  if (req.query.platform == "APP") {
+    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin=0
+      var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+      if (y[7] == 'false') {
+        return res.send(false)
+      }
+      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+    } else {
+      admin=1
+      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      console.log(xid)
+    }
+    office = req.query.off
+    next()
+  } else {
   if (isEmpty(req.user)) {
     //user is not logged in
     res.redirect('/login')
@@ -44,6 +76,7 @@ const authCheckedit = (req, res, next) => {
     }
     next()
   }
+}
 }
 route.get('/add_holiday', authCheckview, (req, res) => {
   res.sendFile(path.join(__dirname, '../views/add_holiday.html'))
