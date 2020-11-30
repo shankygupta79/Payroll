@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/employee/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/employee/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -91,6 +91,55 @@
 
 
                     </div>
+                    <br><br>
+                    <div><button style="padding: 5px 30px;" class="btn btn-warning" @click="show=!show">
+                         Show Inactive Employees
+                         <i class="fa fa-caret-down" v-if="show"></i>
+                         <i class="fa fa-caret-up" v-if="!show"></i>
+                        </button></div>
+                    <br>
+                    <div class="empbox center" v-if="show" @click="edit(i.emp_id)" v-for="i in myArray2">
+                        <b>{{i.name}}</b>
+                        <br>
+                        <img v-bind:src="i.photo" height="80px" width="80px">
+                        <table class="tabman">
+                            <tr>
+                                <td><b>Date of Joining</b></td>
+                                <td>{{i.doj}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Department</b></td>
+                                <td>{{i.dep}}</td>
+                            </tr>
+                            <tr>
+                                <td> <b>Designation</b></td>
+                                <td>{{i.des}}</td>
+                            </tr>
+                        </table>
+                        <table class="tabman2">
+                            <tr>
+                                <td><b>Date of Joining </b></td>
+                            </tr>
+                            <tr>
+                                <td>{{i.doj}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Department </b></td>
+                            </tr>
+                            <tr>
+                                <td>{{i.dep}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Designation </b></td>
+                            </tr>
+                            <tr>
+                                <td>{{i.des}}</td>
+                            </tr>
+
+                        </table>
+
+
+                    </div>
                     <div v-if="error" class="error">
                         {{message_error}} !
                     </div> <br>
@@ -100,14 +149,16 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
         var log = new Vue({
             el: "#Index",
             data: {
+                show:0,
                 myArray: [],
+                myArray2:[],
                 sortfield: 'Name',
                 error: 0,
                 message_error: "Dont leave empty response",
@@ -120,9 +171,15 @@
             methods: {
                 load: function () {
                     var app = this;
-                    axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp')
+                    axios.get('http://localhost:3420/employee/api/quickemp')
                         .then(function (Response) {
-                            app.myArray = Response
+                            for(var i=0;i<Response.length;i++){
+                                if(Response[i].status=="Active"){
+                                    app.myArray.push(Response[i])
+                                }else{
+                                    app.myArray2.push(Response[i])
+                                }
+                            }
                             var loading = app.$refs.Loading
                             loading.style.display = "none"
                             var content = app.$refs.content2
@@ -134,7 +191,22 @@
                             log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
-                    this.sort(this.sortfield);
+                        /*axios.get('http://localhost:3420/employee/api/quickemp')
+                        .then(function (Response) {
+                            app.myArray = Response
+                            var loading = app.$refs.Loading
+                            loading.style.display = "none"
+                            var content = app.$refs.content2
+                            content.style.display = "block"
+                            app.sort(app.sortfield);
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            log.error = 1
+                            log.message_error = "Error connecting the database try again later !"
+                            log.loaderoff()
+                        })*/
+                    
                 }, sort(name, type) {
                     var i = 0;
                     if (name == "Name") {
@@ -174,7 +246,7 @@
                     }
                     return 0;
                 }, edit(idx) {
-                    window.location.href = "https://payrollv2.herokuapp.com/employee/edit_emp?empid=" + idx;
+                    window.location.href = "http://localhost:3420/employee/edit_emp?empid=" + idx;
                 }
 
             }
@@ -186,7 +258,7 @@
 
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

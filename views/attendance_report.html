@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
     <link rel="stylesheet" href="css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -36,6 +36,7 @@
             <img src="../images/loading" id="Loading" ref="Loading">
             <div id="content2" ref="content2">
                 <div class="bord">
+
                     <table class="report">
                         <tr>
                             <td><strong class="options">Select Employee :</strong></td>
@@ -66,6 +67,46 @@
                             &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
                         </button>
                     </div>
+
+                    <div class="sp" v-if="all">
+                        <br>
+                        <table class="table1">
+                            <tr>
+                                <th class="thx">Employees</th>
+                                <th v-for="i in days" class="th1">
+                                    {{week[(i+ week_bias-1)%7 ]}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="thx">
+                                    -
+                                </th>
+                                <th v-for="i in days" class="th1">
+                                    {{i}}
+                                </th>
+                            </tr>
+                            <tr v-for="j in list.length">
+                                <td class="tdx">
+                                   <b> {{list[j-1]['employee_quick']['name']}}</b>
+                                </td>
+                                <td v-for="i in days">
+                                    <b v-if="list[j-1]['present'][i-1]=='A'" style="color: red;">
+                                        {{list[j-1]['present'][i-1]}}
+                                    </b>
+                                    <b v-else>
+                                        {{list[j-1]['present'][i-1]}}
+                                    </b>
+                                    
+                                    
+                                </td>
+                                
+                            </tr>
+
+                        </table>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
                     <div class="center headin"></div>
                     <div class="row"></div>
                     <div v-for="j in 2">
@@ -111,7 +152,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -122,15 +163,20 @@
                 myArray: [],
                 success: 0,
                 error: 0,
-                idx: [],
+                list: [],
+                idx: [-1,],
                 getpi: 0,
-                employee: [],
+                all: 0,
+                employee: ['All Employees',],
                 yearlist: [],
                 monthlist: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', "December"],
                 monthday: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+                week: ["Sun", 'Mon', 'Tue', "Wed", 'Thu', "Fri", "Sat"],
                 select_year: '',
+                arrx: ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-'],
                 select_emp: '',
                 present: '',
+                week_bias: 0,
                 days: 0,
                 days2: 0,
                 select_month: '',
@@ -143,7 +189,7 @@
             methods: {
                 load: function () {
                     $('#abc').hide()
-                    axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp')
+                    axios.get('http://localhost:3420/employee/api/quickemp')
                         .then(function (Response1) {
                             for (var i = 0; i < Response1.length; i++) {
                                 log.employee.push(Response1[i].name)
@@ -160,6 +206,7 @@
                         })
                     this.year();
                 }, submit() {
+                    log.all = 0
                     console.log("SUBMIT")
                     $('#mybtn').prop('disabled', true);
                     var z = log.monthlist.indexOf(log.select_month)
@@ -168,14 +215,66 @@
                         $('#mybtn').prop('disabled', false);
                         return
                     }
+                    var x = new Date(log.select_year, z, 1)
+
+                    log.week_bias = x.getDay()
                     $('#abc').show();
-                    axios.get('https://payrollv2.herokuapp.com/attendance/api/report?n=' + log.idx[log.employee.indexOf(log.select_emp)] + "&m=" + z + "&y=" + log.select_year)
+                    if (log.idx[log.employee.indexOf(log.select_emp)] == -1) {
+                        console.log("ALL")
+                        axios.get('http://localhost:3420/payslips/api/data?date=' + log.arrx[log.monthlist.indexOf(log.select_month)] + log.select_year)
+                            .then(function (Response1) {
+                                log.list = Response1
+                                log.all = 1
+                                log.days = log.monthday[z]
+                                log.days2 = log.days - 28
+                                $('#abc').hide();
+                                $('#mybtn').prop('disabled', false);
+                                if (Response1.length == 0) {
+                                    console.log(Response1)
+
+                                    log.error = 1
+                                    log.message_error = "NO RECORD FOUND"
+                                    log.all = 0
+                                    log.loaderoff()
+                                    $('#mybtn').prop('disabled', false);
+                                    $('#abc').hide()
+                                    return
+
+                                }
+                                axios.get('http://localhost:3420/settings/api/symbol')
+                                    .then(function (Response2) {
+                                        log.symbol = Response2
+                                    })
+                                    .catch((err) => {
+                                        console.log(err)
+                                        log.error = 1
+                                        log.message_error = "Error connecting the database try again later !"
+                                        log.loaderoff()
+                                        $('#abc').hide();
+                                        $('#mybtn').prop('disabled', false);
+                                    })
+                                log.loaderoff()
+
+
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                                log.error = 1
+                                log.message_error = "Error connecting the database try again later !"
+                                log.loaderoff()
+                                $('#mybtn').prop('disabled', false);
+                            })
+                        return
+                    }
+                    
+                    axios.get('http://localhost:3420/attendance/api/report?n=' + log.idx[log.employee.indexOf(log.select_emp)] + "&m=" + z + "&y=" + log.select_year)
                         .then(function (Response1) {
                             console.log(Response1)
                             $('#abc').hide();
                             if (Response1 == '') {
                                 log.error = 1
                                 log.message_error = "No Record Found !"
+                                $('#mybtn').prop('disabled', false);
                                 return
                             }
                             if (log.select_year % 4 == 0) {
@@ -244,6 +343,9 @@
                     } while (n != y);
                     this.select_month = this.monthlist[d.getMonth()];
                     this.select_year = n - 1;
+                }, getall() {
+
+
                 }
 
             }
@@ -252,7 +354,7 @@
 
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

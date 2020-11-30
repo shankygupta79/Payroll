@@ -37,6 +37,17 @@ table.center {
     padding:1px 5px;
 }
 
+.table1{       
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    font-size: 18px;
+    display: table;
+    align-content: center;
+    font-family:HelveticaNeueW01-Thin,HelveticaNeueW02-Thin,HelveticaNeueW10-35Thin,sans-serif;
+    overflow-x:scroll  !important;
+    max-width: 75vw !important;
+    scroll-behavior: smooth;
+}
 tr th[data='Extra-Time Bonus']{
     width: 10%;
 }
@@ -59,6 +70,32 @@ tr:nth-child(odd) {
 }
 tr:hover{
     background: #9abdf5;
+}
+.sp{
+    width: 75vw;
+    overflow-x: scroll;
+}
+.td1, .th1 {
+    display: table-cell;
+    line-height: 40px;
+    min-width: 100% !important;
+    max-width: 80px;
+    overflow: hidden;
+    padding:1px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    text-align: center;  
+}
+.tdx, .thx {
+    display: table-cell;
+    line-height: 20px;
+    min-width: 100% !important;
+    max-width: 160px;
+    overflow: hidden;
+    padding:1px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    text-align: center;  
 }
 #piechart_3d{
     width: 90%;
