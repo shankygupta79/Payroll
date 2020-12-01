@@ -20,12 +20,9 @@ route.post('/send', (req, res) => {
 
                 const a=await axios.post('https://exp.host/--/api/v2/push/send', {
                     "to": user.Expotoken,
-                    "value": user.Expotoken,
-                    "description": "",
                     "body": req.body.body,
                     "title": req.body.title,
-                    "type": "text",
-                    "enabled": true
+                    
                 }, async function (data) {
                     console.log(data)
                     return data

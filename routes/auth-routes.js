@@ -70,6 +70,13 @@ route.post('/googleapp', (req, res) => {
                 const admin = CryptoJS.AES.encrypt(currentUser.admin + "", process.env.appkey).toString();
                 const token2 = CryptoJS.AES.encrypt(currentUser.userId + "", process.env.appkey).toString();
                 res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
+                if(req.body.expotoken!=currentUser.Expotoken){
+                    User.update({
+                        Expotoken: req.body.expotoken,
+              
+                      }, { where: { id:currentUser.id} })
+                      return 
+                }
             } else {
                 User.create({
                     userId: user.id,
@@ -81,7 +88,7 @@ route.post('/googleapp', (req, res) => {
                     currency: '₹',
                     logo: "https://res.cloudinary.com/shankygupta79/image/upload/v1592489600/love_bird_transparent_bg_dlwkpq.png",
                     office_close: '0000000',
-
+                    Expotoken:req.body.expotoken
                 }).then((newUser) => {
                     Setting.create({
                         userId: newUser.id,
@@ -120,6 +127,9 @@ route.get('/successDirect', (req, res) => {
     const logo = req.user[0].logo
     const admin = CryptoJS.AES.encrypt(req.user[0].admin + "", process.env.appkey).toString();
     const token2 = CryptoJS.AES.encrypt(req.user[0].userId + "", process.env.appkey).toString();
+
+
+    
     res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
 })
 route.post('/local', passport.authenticate('login', {

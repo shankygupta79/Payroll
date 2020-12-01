@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
     <link rel="stylesheet" href="css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -239,7 +239,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -277,7 +277,7 @@
             methods: {
                 load: function () {
                     $('#abc').hide();
-                    axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp')
+                    axios.get('http://localhost:3420/employee/api/quickemp')
                         .then(function (Response1) {
                             for (var i = 0; i < Response1.length; i++) {
                                 log.employee.push(Response1[i].name)
@@ -287,7 +287,7 @@
                                 log.total2 = log.employee.length - 1;
                             }
                             log.loaderoff()
-                            axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
+                            axios.get('http://localhost:3420/settings/api/symbol')
                                 .then(function (Response2) {
                                     log.symbol = Response2
                                 })
@@ -447,7 +447,7 @@
                     log.error = 0
                     log.idx[log.employee.indexOf(log.select_emp)]
                     $('#abc').show();
-                    axios.get('https://payrollv2.herokuapp.com/payslips/getloan?id=' + log.idx[log.employee.indexOf(log.select_emp)])
+                    axios.get('http://localhost:3420/payslips/getloan?id=' + log.idx[log.employee.indexOf(log.select_emp)])
                         .then(function (Response1) {
                             console.log(Response1)
                             if (Response1 == '') {
@@ -484,7 +484,7 @@
 
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>
