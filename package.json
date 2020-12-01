@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.715.0",
+    "axios": "^0.21.0",
     "cloudinary": "^1.22.0",
     "connect-flash": "^0.1.1",
     "cookie-session": "^1.4.0",

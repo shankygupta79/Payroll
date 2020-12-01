@@ -51,6 +51,7 @@ const User = db.define('User_local', {
     currency: Sequelize.STRING,
     office_close: Sequelize.STRING,
     logo: Sequelize.STRING,
+    Expotoken: Sequelize.STRING,
 })
 const Employeedb = db.define('employee', {
     emp_id:{

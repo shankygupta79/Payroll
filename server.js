@@ -40,6 +40,7 @@ app.use('/settings', require('./routes/settings'));
 app.use('/navbar2', require('./routes/navbar2'));
 app.use('/images', require('./routes/images'));
 app.use('/payslips', require('./routes/payslips'));
+app.use('/notification', require('./routes/notification'));
 
 app.listen(SERVER_PORT, function () {
     console.log("Server started on https://payrollv2.herokuapp.com/");

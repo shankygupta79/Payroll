@@ -1,0 +1,186 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Notifications</title>
+</head>
+
+<body>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../payslips/css">
+
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <div id="Index" id="navba">
+        <div id="navbar-top">
+            <img src="../images/loading" id="Loading" ref="Loading">
+            <div id="content2" ref="content2">
+
+                <div class="bord">
+                    <div class="headin center">Send Notification on Payroll App</div>
+                    <div class="roww"></div>
+                    <table class="report2">
+
+
+                        <tr>
+                            <td style="text-align: right;"><strong>User ID :</strong>
+
+                            </td>
+                            <td><input type="text" class="form-control" v-model="id"
+                                    placeholder="8 digit long user ID "></td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: right;"><strong>Title :</strong>
+
+                            </td>
+                            <td><input type="text" class="form-control" v-model="title"
+                                    placeholder="Title of Notification "></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;"><strong>Body :</strong>
+
+                            </td>
+                            <td><input type="text" class="form-control" v-model="body"
+                                    placeholder="Body for notification"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;"><strong>Password :</strong>
+
+                            </td>
+                            <td><input type="password" class="form-control" v-model="password" placeholder="Password">
+                            </td>
+                        </tr>
+
+
+
+                        </tr>
+                    </table>
+                    <div v-if="error" class="error">
+                        {{message_error}} !
+                    </div> <br>
+                    <div v-if="success" class="success">
+                        {{message_success}} !
+                    </div>
+                    <div class="center">
+                        <button @click="submit()" style="padding: 5px 30px;" class="btn btn-success">Sent
+                            &nbsp;&nbsp;<i class="fa fa-spinner fa-spin" id='abc'></i>
+                        </button>
+                    </div>
+                    <div class="center headin"></div>
+                    <div class="row"></div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script>
+        var log = new Vue({
+            el: "#Index",
+            data: {
+                myArray: [],
+                amount: 0,
+                success: 0,
+                error: 0,
+                idx: [],
+                message: "",
+                optradio: 0,
+                body: '',
+                password: '',
+                id: '',
+                title: '',
+                select_emp: '',
+                message_error: "Enter the full details",
+                message_success: "Attendace report loaded successfully",
+
+            },
+            created: function () {
+                this.load();
+            },
+            methods: {
+                load: function () {
+                    $('#abc').hide();
+
+                    setTimeout(() => {
+                        log.loaderoff()
+                    }, 100)
+
+                }, loaderoff() {
+                    var app = this;
+                    var loading = app.$refs.Loading
+                    loading.style.display = "none"
+                    var content = app.$refs.content2
+                    content.style.display = "block"
+                }, submit() {
+                    if (log.id == '') {
+                        log.error = 1;
+                        log.message_error = "Enter a ID !"
+                        return
+                    }
+                    if (log.password == '') {
+                        log.error = 1;
+                        log.message_error = "Enter the password !"
+                        return
+                    }
+                    $('#abc').show();
+                    log.error = 0
+                    $.post('../notification/send', {
+                        password: log.password,
+                        title: log.title,
+                        body: log.body,
+                        id: log.id
+                    }, function (data) {
+                        console.log(data.message)
+                        if (data.message != 'true') {
+                            log.error = 1
+                            log.message_error = data.message
+                            $('#mybtn').prop('disabled', false);
+                            $('#abc').hide();
+                        } else {
+                            log.error = 0
+                            log.success = 1
+                            log.message_success = "Entry Added SuccessFully !"
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 1000);
+                        }
+                    })
+
+                }
+            }
+
+
+        })
+
+
+    </script>
+
+</body>
+
+</html>
