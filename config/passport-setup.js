@@ -28,7 +28,7 @@ passport.deserializeUser((id, done) => {
 })
 passport.use(
     new GoogleStrategy({
-        callbackURL: "http://localhost:3420/auth/google/redirect",
+        callbackURL: "https://payrollv2.herokuapp.com/auth/google/redirect",
         clientID: process.env.clientIDg,
         clientSecret: process.env.clientSecretg
         //options for google strategy
@@ -78,7 +78,7 @@ passport.use(
 passport.use(new FacebookStrategy({
     clientID: process.env.clientIDf,
     clientSecret: process.env.clientSecretf,
-    callbackURL: "http://localhost:3420/auth/facebook/redirect",
+    callbackURL: "https://payrollv2.herokuapp.com/auth/facebook/redirect",
     profileFields: ['id', 'displayName', 'photos', 'email']
 },
     function (accessToken, refreshToken, profile, done) {
@@ -135,8 +135,8 @@ passport.use('login', new LocalStrategy({
     var salti = '';
     var hash = '';
     var hash_created = '';
-    var expotoken=email.split(";")[1]
-    var email=email.split(";")[0]
+    var expotoken = email.split(";")[1]
+    var email = email.split(";")[0]
     console.log(email)
     console.log(password)
     console.log(expotoken)
@@ -157,13 +157,13 @@ passport.use('login', new LocalStrategy({
             hash_created = crypto.pbkdf2Sync(password, salti, 1000, 64, `sha512`).toString(`hex`);
             if (hash_created == hash) {
                 console.log(expotoken)
-                console.log(user.Expotoken)
-                if(expotoken!=user.Expotoken){
+                console.log(user[0].Expotoken)
+                if (expotoken != user[0].Expotoken) {
                     User.update({
-                        Expotoken: req.body.expotoken,
-              
-                      }, { where: { id:currentUser.id} })
-                      return 
+                        Expotoken: expotoken,
+
+                    }, { where: { id: user[0].id } })
+                    return
                 }
                 console.log("Correct Password")//The password is correct
                 console.log(email + " Autheticated")
