@@ -22,6 +22,7 @@ route.post('/send', (req, res) => {
                     "to": user.Expotoken,
                     "body": req.body.body,
                     "title": req.body.title,
+                    "enabled":true
                     
                 }, async function (data) {
                     console.log(data)

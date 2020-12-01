@@ -162,7 +162,7 @@ passport.use('login', new LocalStrategy({
                     User.update({
                         Expotoken: expotoken,
 
-                    }, { where: { id: user[0].id } })
+                    }, { where: { id: user.id } })
                     return
                 }
                 console.log("Correct Password")//The password is correct
