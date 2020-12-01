@@ -157,8 +157,8 @@ passport.use('login', new LocalStrategy({
             hash_created = crypto.pbkdf2Sync(password, salti, 1000, 64, `sha512`).toString(`hex`);
             if (hash_created == hash) {
                 console.log(expotoken)
-                console.log(user[0].Expotoken)
-                if (expotoken != user[0].Expotoken) {
+                console.log(user.Expotoken)
+                if (expotoken!=undefined && expotoken != user.Expotoken) {
                     User.update({
                         Expotoken: expotoken,
 
