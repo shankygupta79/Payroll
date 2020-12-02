@@ -71,7 +71,7 @@ route.post('/googleapp', (req, res) => {
                 const token2 = CryptoJS.AES.encrypt(currentUser.userId + "", process.env.appkey).toString();
                 res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
                 if(req.body.expotoken!=currentUser.Expotoken){
-                    User.update({
+                    return User.update({
                         Expotoken: req.body.expotoken,
               
                       }, { where: { id:currentUser.id} })

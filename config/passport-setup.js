@@ -159,7 +159,7 @@ passport.use('login', new LocalStrategy({
                 console.log(expotoken)
                 console.log(user.Expotoken)
                 if (expotoken!=undefined && expotoken != user.Expotoken) {
-                    User.update({
+                    return User.update({
                         Expotoken: expotoken,
 
                     }, { where: { id: user.id } })
