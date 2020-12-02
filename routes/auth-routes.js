@@ -73,10 +73,11 @@ route.post('/googleapp', (req, res) => {
                 if(req.body.expotoken!=currentUser.Expotoken){
                     User.update({
                         Expotoken: req.body.expotoken,
-              
                       }, { where: { id:currentUser.id} }).then((att) => {
                         return res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
                       })
+                    }else{
+                        return res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
                     }
             } else {
                 User.create({
