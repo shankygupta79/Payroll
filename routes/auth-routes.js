@@ -69,14 +69,15 @@ route.post('/googleapp', (req, res) => {
                 const logo = currentUser.logo
                 const admin = CryptoJS.AES.encrypt(currentUser.admin + "", process.env.appkey).toString();
                 const token2 = CryptoJS.AES.encrypt(currentUser.userId + "", process.env.appkey).toString();
-                res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
+               
                 if(req.body.expotoken!=currentUser.Expotoken){
-                    return User.update({
+                    User.update({
                         Expotoken: req.body.expotoken,
               
-                      }, { where: { id:currentUser.id} })
-                      return 
-                }
+                      }, { where: { id:currentUser.id} }).then((att) => {
+                        return res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
+                      })
+                    }
             } else {
                 User.create({
                     userId: user.id,

@@ -159,11 +159,10 @@ passport.use('login', new LocalStrategy({
                 console.log(expotoken)
                 console.log(user.Expotoken)
                 if (expotoken!=undefined && expotoken != user.Expotoken) {
-                    return User.update({
+                    User.update({
                         Expotoken: expotoken,
 
                     }, { where: { id: user.id } })
-                    return
                 }
                 console.log("Correct Password")//The password is correct
                 console.log(email + " Autheticated")
