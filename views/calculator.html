@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://payrollv2.herokuapp.com/settings/style2">
     <link rel="stylesheet" href="../payslips/css">
 
 
@@ -150,7 +150,8 @@
                                 <tr>
                                     <td style="font-size: 1.2em;"> <b>Total Loan : </b></td>
                                     <td style="font-size: 1.2em;">{{symbol}}
-                                        {{ ((parseInt(list[i-1]['employee_quick'].totalloan)-parseInt(list[i-1].emi)+parseInt(list[i-1].emiold)).toLocaleString('en-IN'))}}
+                                        {{
+                                        ((parseInt(list[i-1]['employee_quick'].totalloan)-parseInt(list[i-1].emi)+parseInt(list[i-1].emiold)).toLocaleString('en-IN'))}}
                                     </td>
 
                                     <td class="loani wow"> <b>EMI : </b></td>
@@ -218,7 +219,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://payrollv2.herokuapp.com/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -340,7 +341,7 @@
                     }
                     $('#abc').show()
                     log.paylist = 1
-                    axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
+                    axios.get('http://payrollv2.herokuapp.com/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
                         .then(function (Response1) {
                             log.list = Response1
                             if (Response1.length == 0) {
@@ -372,7 +373,7 @@
                                 log.list[i].extratimetotoal = extra
                                 log.list[i].holidays = Math.round((log.list[i]['employee_quick'].salary / days) * ab)
                             }
-                            axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
+                            axios.get('http://payrollv2.herokuapp.com/settings/api/symbol')
                                 .then(function (Response2) {
                                     log.symbol = Response2
                                 })
@@ -460,7 +461,7 @@
         });
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 
 </html>

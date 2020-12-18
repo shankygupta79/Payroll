@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/department/css">
+    <link rel="stylesheet" href="http://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://payrollv2.herokuapp.com/department/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -75,7 +75,8 @@
                             <td>
                                 <button ref="myBtn" @click="modal(myArray[i-1].dep)" class="btn btn-danger"><i
                                         class="fa fa-times" style="color:white" aria-hidden="true"></i>&nbsp
-                                    Delete</button></td>
+                                    Delete</button>
+                            </td>
                             <div id="myModal" ref="modal" class="modal">
                                 <div class="modal-content">
                                     <span class="close">&times;</span>
@@ -121,7 +122,7 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://payrollv2.herokuapp.com/navbar2"></script>
     <script>
         var log = new Vue({
             el: "#Index",
@@ -146,7 +147,7 @@
             },
             methods: {
                 load: function () {
-                    axios.get('https://payrollv2.herokuapp.com/department/api/dep2')
+                    axios.get('http://payrollv2.herokuapp.com/department/api/dep2')
                         .then(function (Response) {
                             log.myArray = Response
                             log.loaderoff()
@@ -266,7 +267,7 @@
         }    
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 
 </html>

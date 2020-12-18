@@ -321,7 +321,7 @@ route.get('/api/data', authCheckview, (req, res) => {
 })
 route.get('/getloan', authCheckview, (req, res) => {
 
-    Loan.findAll({ where: { emp_id: req.query.id, userId: xid } })
+    Loan.findAll({ where: { emp_id: req.query.idx, userId: xid } })
         .then((emps) => {
             return res.status(200).send(emps)
         })
@@ -335,7 +335,7 @@ route.get('/getloan', authCheckview, (req, res) => {
 })
 route.get('/getadv', authCheckview, (req, res) => {
 
-    Adv.findAll({ where: { emp_id: req.query.id, userId: xid, monthyear: req.query.monthyear } })
+    Adv.findAll({ where: { emp_id: req.query.idx, userId: xid, monthyear: req.query.monthyear } })
         .then((emps) => {
             return res.status(200).send(emps)
         })

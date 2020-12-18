@@ -7,6 +7,7 @@ const dotenv = require("dotenv")
 dotenv.config()
 const User = require('../database').User
 const Setting = require('../database').Setting
+
 function isEmpty(obj) {
     for (var key in obj) {
         if (obj.hasOwnProperty(key))
@@ -28,7 +29,7 @@ passport.deserializeUser((id, done) => {
 })
 passport.use(
     new GoogleStrategy({
-        callbackURL: "https://payrollv2.herokuapp.com/auth/google/redirect",
+        callbackURL: "http://payrollv2.herokuapp.com/auth/google/redirect",
         clientID: process.env.clientIDg,
         clientSecret: process.env.clientSecretg
         //options for google strategy
@@ -78,7 +79,7 @@ passport.use(
 passport.use(new FacebookStrategy({
     clientID: process.env.clientIDf,
     clientSecret: process.env.clientSecretf,
-    callbackURL: "https://payrollv2.herokuapp.com/auth/facebook/redirect",
+    callbackURL: "http://payrollv2.herokuapp.com/auth/facebook/redirect",
     profileFields: ['id', 'displayName', 'photos', 'email']
 },
     function (accessToken, refreshToken, profile, done) {
@@ -145,36 +146,36 @@ passport.use('login', new LocalStrategy({
             var users = [user.dataValues];
             console.log(users)
             if (users[0].authenticationType == 'local' && users[0].valid == '0') {
-                return done(null, false, { message: "ve" })//The email is not validate till not
+                return done(null, false, { message: "ve" }) //The email is not validate till not
             }
             if (users[0].authenticationType == 'Google') {
-                return done(null, false, { message: "ag" })//The user exist with google
+                return done(null, false, { message: "ag" }) //The user exist with google
             } else if (users[0].authenticationType == 'Facebook') {
                 return done(null, false, { message: "af" })
-            }//The user exist with facebook
+            } //The user exist with facebook
             salti = user.salt
             hash = user.password
             hash_created = crypto.pbkdf2Sync(password, salti, 1000, 64, `sha512`).toString(`hex`);
             if (hash_created == hash) {
                 console.log(expotoken)
                 console.log(user.Expotoken)
-                if (expotoken!=undefined && expotoken != user.Expotoken) {
+                if (expotoken != undefined && expotoken != user.Expotoken) {
                     User.update({
                         Expotoken: expotoken,
 
                     }, { where: { id: user.id } })
                 }
-                console.log("Correct Password")//The password is correct
+                console.log("Correct Password") //The password is correct
                 console.log(email + " Autheticated")
 
                 done(null, [user], { message: user.id })
             }
             if (hash_created != hash) {
                 err = "Wrong Password"
-                return done(null, false, { message: "wp" })//The password entered is wrong
+                return done(null, false, { message: "wp" }) //The password entered is wrong
             }
         }).catch((err) => {
             //IF USER NOT FOUND OR CHECK IF USER IS FROM GOOGLE
-            return done(null, false, { message: "ue" })//User Not exist
+            return done(null, false, { message: "ue" }) //User Not exist
         })
 }));
