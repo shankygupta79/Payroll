@@ -1,5 +1,6 @@
 ## Payroll Version 2.0
-http://payrollv2.herokuapp.com/
+https://payrollv2.herokuapp.com/
+heroku git:remote -a payrollv2
 
 ## Currently Used by
 1.Sanjeev Store
