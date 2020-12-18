@@ -4,6 +4,7 @@ const Att = require('../database').Attendance
 const Loan = require('../database').Loan
 const Adv = require('../database').Adv
 const path = require('path')
+var CryptoJS = require("crypto-js");
 const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 function isEmpty(obj) {
     for (var key in obj) {
