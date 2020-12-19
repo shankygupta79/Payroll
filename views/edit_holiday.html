@@ -88,7 +88,7 @@
                 load: function () {
                     var params = this.getParams(window.location.href)
 
-                    axios.get('https://payrollv2.herokuapp.com/holiday/api/holiday?id=' + params.id)
+                    axios.get('https://payrollv2.herokuapp.com/holiday/api/holiday?idx=' + params.id)
                         .then(function (Response1) {
                             log.idx = params.id
                             log.name = Response1.holname,
@@ -136,7 +136,7 @@
                         return;
                     } else {
                         var x = log.date.slice(8, 10) + '-' + log.date.slice(5, 7) + '-' + log.date.slice(0, 4);
-                        $.post('./edit_holpost?id=' + log.idx, {
+                        $.post('./edit_holpost?idx=' + log.idx, {
                             year: log.date.slice(0, 4),
                             name: log.name,
                             date: x,
