@@ -98,7 +98,7 @@ route.post('/add_holpost', authCheckedit, (req, res) => {
   console.log("Hey")
   Holiday.create({
     userId: xid,
-    name: req.body.name,
+    holname: req.body.name,
     year: req.body.year,
     date: req.body.date,
 
@@ -115,7 +115,7 @@ route.post('/add_holpost', authCheckedit, (req, res) => {
 })
 route.get('/api/holiday', authCheckview, (req, res) => {
   console.log(req.query.idx)
-  if (req.query.id > 0) {
+  if (req.query.idx > 0) {
     Holiday.findOne({ where: { hol_id: req.query.idx } })
       .then((emps) => {
         res.status(200).send(emps)
