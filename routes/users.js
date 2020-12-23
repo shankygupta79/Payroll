@@ -45,28 +45,56 @@ var curren = '';
 
 
 const authCheck = (req, res, next) => {
-  if (isEmpty(req.user)) {
-    //user is not logged in
-    res.redirect('/login')
-  } else {
-    if (req.user[0].admin == '0') {
-      res.redirect('./lock')
+  if (req.query.platform == "APP") {
+    if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin = 0
+      return res.send(false)
+
+    } else {
+      admin = 1
+      xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      console.log(xid)
     }
-    xid = req.user[0].id
-    curren = req.user[0].currency
-    office = req.user[0].office_close
-    logo = req.user[0].logo
-    console.log(xid)
+    office = req.query.off
     next()
+  } else {
+    if (isEmpty(req.user)) {
+      //user is not logged in
+      res.redirect('/login')
+    } else {
+      if (req.user[0].admin == '0') {
+        res.redirect('./lock')
+      }
+      xid = req.user[0].id
+      curren = req.user[0].currency
+      office = req.user[0].office_close
+      logo = req.user[0].logo
+      console.log(xid)
+      next()
+    }
   }
 }
 const authCheck2 = (req, res, next) => {
-  if (isEmpty(req.user)) {
-    //user is not logged in
-    res.redirect('/login')
-  } else {
-    xid = req.user[0].id
+  if (req.query.platform == "APP") {
+    if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin = 0
+      return res.send(false)
+
+    } else {
+      admin = 1
+      xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      console.log(xid)
+    }
+    office = req.query.off
     next()
+  } else {
+    if (isEmpty(req.user)) {
+      //user is not logged in
+      res.redirect('/login')
+    } else {
+      xid = req.user[0].id
+      next()
+    }
   }
 }
 route.get('/lock', authCheck2, (req, res) => {
@@ -112,7 +140,7 @@ route.post('/edit_userpost', authCheck, (req, res) => {
   User.update({
     username: req.body.name,
     access: req.body.y,
-  },{ where: { id:req.body.id }}).then((user) => {
+  }, { where: { id: req.body.id } }).then((user) => {
     console.log("User Edited Successfully !")
     return res.send({ message: 'true' })
 
@@ -163,11 +191,11 @@ route.post('/user/uploadpr', upload.single('file'), (req, res) => {
       error: 'The uploaded file must be an image'
     });
   }
-      photu = req.file.location;
-      console.log(photu)
-      return res.send({ message: "Done" })
-    
-  
+  photu = req.file.location;
+  console.log(photu)
+  return res.send({ message: "Done" })
+
+
 
 
 });
