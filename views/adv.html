@@ -471,7 +471,7 @@
                     log.error = 0
                     log.idx[log.employee.indexOf(log.select_emp)]
                     $('#abc').show();
-                    axios.get('https://payrollv2.herokuapp.com/payslips/getadv?id=' + log.idx[log.employee.indexOf(log.select_emp)] + '&monthyear=' + (log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year))
+                    axios.get('https://payrollv2.herokuapp.com/payslips/getadv?idx=' + log.idx[log.employee.indexOf(log.select_emp)] + '&monthyear=' + (log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year))
                         .then(function (Response1) {
                             console.log(Response1)
                             if (Response1 == '') {

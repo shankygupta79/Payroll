@@ -1,6 +1,7 @@
 const route = require('express').Router()
 const Holiday = require('../database').Holiday
 const path = require('path')
+var CryptoJS = require("crypto-js");
 function isEmpty(obj) {
   for (var key in obj) {
     if (obj.hasOwnProperty(key))

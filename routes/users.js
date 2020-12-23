@@ -9,6 +9,7 @@ const cloudinary = require('cloudinary');
 const AWS = require('aws-sdk');
 const multerS3 = require('multer-s3');
 var photu = ''
+var CryptoJS = require("crypto-js");
 AWS.config.update({ accessKeyId: process.env.BKey, secretAccessKey: process.env.BSecret });
 const endpoint = new AWS.Endpoint(process.env.BHost);
 

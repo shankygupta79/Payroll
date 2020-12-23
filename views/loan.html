@@ -447,7 +447,7 @@
                     log.error = 0
                     log.idx[log.employee.indexOf(log.select_emp)]
                     $('#abc').show();
-                    axios.get('https://payrollv2.herokuapp.com/payslips/getloan?id=' + log.idx[log.employee.indexOf(log.select_emp)])
+                    axios.get('https://payrollv2.herokuapp.com/payslips/getloan?idx=' + log.idx[log.employee.indexOf(log.select_emp)])
                         .then(function (Response1) {
                             console.log(Response1)
                             if (Response1 == '') {
