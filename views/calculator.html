@@ -150,7 +150,8 @@
                                 <tr>
                                     <td style="font-size: 1.2em;"> <b>Total Loan : </b></td>
                                     <td style="font-size: 1.2em;">{{symbol}}
-                                        {{ ((parseInt(list[i-1]['employee_quick'].totalloan)-parseInt(list[i-1].emi)+parseInt(list[i-1].emiold)).toLocaleString('en-IN'))}}
+                                        {{
+                                        ((parseInt(list[i-1]['employee_quick'].totalloan)-parseInt(list[i-1].emi)+parseInt(list[i-1].emiold)).toLocaleString('en-IN'))}}
                                     </td>
 
                                     <td class="loani wow"> <b>EMI : </b></td>
