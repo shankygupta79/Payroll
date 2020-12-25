@@ -299,6 +299,9 @@
                         }
                         var tp = log.myArray[j].presentarr
                         var tp2 = log.myArray[j].marked
+                        if(log.myArray[j].status[0]==undefined){
+                            reject("P")
+                        }
                         tp = tp.substring(0, log.dx - 1) + log.myArray[j].status[0] + tp.substring(log.dx);
                         tp2 = tp2.substring(0, log.dx - 1) + "1" + tp2.substring(log.dx);
 
