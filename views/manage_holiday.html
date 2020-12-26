@@ -216,7 +216,7 @@
                     }
                     return 0;
                 }, deletey(date) {
-                    $.post('./delete?id=' + date, {
+                    $.post('./delete?idx=' + date, {
                     }, function (data) {
                         console.log(data.message)
                         if (data.message != 'true') {

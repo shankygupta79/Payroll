@@ -170,7 +170,7 @@ route.post('/delete', authCheckedit, (req, res) => {
   }).catch((err) => {
     console.log(err)
     return res.send({
-      message: "Could not retrive holidays"
+      message: "Some Error Occured ! Try Again Later"
     })
   })
 })
