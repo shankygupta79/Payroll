@@ -149,15 +149,15 @@ route.get('/api/dep2', authCheckview, (req, res) => {
 
 })
 route.post('/delete', authCheckedit, (req, res) => {
-  console.log(req.query.id + " IN Delete")
+  console.log(req.query.idx + " IN Delete")
   Department.destroy({
     where: {
-      depname: req.query.id
+      depname: req.query.idx
     }
   }).then((dep) => {
     Employee.update({
       dep: 'unknown',
-    }, { where: { dep: req.query.id } }).then((emps) => {
+    }, { where: { dep: req.query.idx } }).then((emps) => {
       console.log("Holiday Edited Successfully !")
       return res.send({ message: 'true' })
   

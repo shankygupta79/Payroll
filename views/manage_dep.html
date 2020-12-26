@@ -221,7 +221,7 @@
                     }
                     return 0;
                 }, deletey() {
-                    $.post('./delete?id=' + log.delete, {
+                    $.post('./delete?idx=' + log.delete, {
                     }, function (data) {
                         console.log(data.message)
                         if (data.message != 'true') {
