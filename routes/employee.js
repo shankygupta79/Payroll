@@ -209,6 +209,11 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
       photu = "https://res.cloudinary.com/shankygupta79/image/upload/v1592573098/emp_fem_y1vkfa.jpg";
     }
   }
+  console.log(req.body.photu)
+  if(req.body.photu!=undefined){
+    photu=req.body.photu;
+  }
+  console.log(photu)
   Emp.create({
     userId: xid,
     fname: req.body.fname,
