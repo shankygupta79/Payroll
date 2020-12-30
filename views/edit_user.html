@@ -140,7 +140,7 @@
                 load: function () {
                     var params = this.getParams(window.location.href)
 
-                    axios.get('https://payrollv2.herokuapp.com/users/api/user?id=' + params.id)
+                    axios.get('https://payrollv2.herokuapp.com/users/api/user?idx=' + params.id)
                         .then(function (Response1) {
                             log.params = params
                             log.myArray = Response1

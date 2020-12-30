@@ -200,9 +200,9 @@ route.post('/user/uploadpr', upload.single('file'), (req, res) => {
 
 });
 route.get('/api/user', authCheck, (req, res) => {
-  console.log(req.query.id)
-  if (req.query.id > 0) {
-    User.findOne({ where: { id: req.query.id } })
+  console.log(req.query.idx)
+  if (req.query.idx > 0) {
+    User.findOne({ where: { id: req.query.idx } })
       .then((emps) => {
         res.status(200).send(emps)
       })
