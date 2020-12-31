@@ -123,7 +123,7 @@ route.post('/googleapp', (req, res) => {
 route.get('/successDirect', (req, res) => {
     const token = CryptoJS.AES.encrypt(req.user[0].id + "", process.env.appkey).toString();
     const fullname = req.user[0].fullname
-    const access = CryptoJS.AES.encrypt(req.user[0].access = "", process.env.appkey).toString();
+    const access = CryptoJS.AES.encrypt(req.user[0].access + "", process.env.appkey).toString();
     const currency = req.user[0].currency
     const office_close = req.user[0].office_close
     const logo = req.user[0].logo
