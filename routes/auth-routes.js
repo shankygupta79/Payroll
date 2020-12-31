@@ -62,7 +62,7 @@ route.post('/googleapp', (req, res) => {
                 currentUser=currentUser[0].dataValues
                 const token = CryptoJS.AES.encrypt(currentUser.id + "", process.env.appkey).toString();
                 const fullname = currentUser.fullname
-                const access = CryptoJS.AES.encrypt(currentUser.access = "", process.env.appkey).toString();
+                const access = CryptoJS.AES.encrypt(currentUser.access + "", process.env.appkey).toString();
                 const currency = currentUser.currency
                 const office_close = currentUser.office_close
                 const logo = currentUser.logo

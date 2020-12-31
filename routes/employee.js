@@ -40,8 +40,12 @@ const authCheckview = (req, res, next) => {
   if (req.query.platform == "APP") {
     if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
       admin = 0
+      //console.log(req.query.access)
+      //console.log(CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8))
       var y = CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+      //console.log(y)
       if (y[0] == 'false') {
+        console.log("HEYAA")
         return res.send(false)
       }
       xid = CryptoJS.AES.decrypt(req.query.id2 + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
