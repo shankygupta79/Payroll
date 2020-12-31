@@ -68,6 +68,7 @@ route.post('/googleapp', (req, res) => {
                 const office_close = currentUser.office_close
                 const logo = currentUser.logo
                 const admin = CryptoJS.AES.encrypt(currentUser.admin + "", process.env.appkey).toString();
+                console.log(admin)
                 const token2 = CryptoJS.AES.encrypt(currentUser.userId + "", process.env.appkey).toString();
                
                 if(req.body.expotoken!=currentUser.Expotoken){

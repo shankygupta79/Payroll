@@ -7,6 +7,7 @@ var crypto = require('crypto');
 const multer = require('multer');
 const sizeOf = require('image-size');
 const AWS = require('aws-sdk');
+var CryptoJS = require("crypto-js");
 const multerS3 = require('multer-s3');
 AWS.config.update({ accessKeyId: process.env.BKey, secretAccessKey: process.env.BSecret });
 const endpoint = new AWS.Endpoint(process.env.BHost);

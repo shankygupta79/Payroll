@@ -32,7 +32,7 @@ passport.use(
         callbackURL: "https://payrollv2.herokuapp.com/auth/google/redirect",
         clientID: process.env.clientIDg,
         clientSecret: process.env.clientSecretg
-            //options for google strategy
+        //options for google strategy
     }, (accessToken, refreshToken, profile, done) => {
         console.log("passport callback function fired ")
         console.log(profile)
@@ -57,8 +57,8 @@ passport.use(
 
                     }).then((newUser) => {
                         Setting.create({
-                                userId: newUser.id,
-                            })
+                            userId: newUser.id,
+                        })
                             .then((setting) => {
                                 console.log('new User Created', newUser)
                                 var user = [newUser.dataValues];
@@ -77,12 +77,12 @@ passport.use(
     })
 )
 passport.use(new FacebookStrategy({
-        clientID: process.env.clientIDf,
-        clientSecret: process.env.clientSecretf,
-        callbackURL: "https://payrollv2.herokuapp.com/auth/facebook/redirect",
-        profileFields: ['id', 'displayName', 'photos', 'email']
-    },
-    function(accessToken, refreshToken, profile, done) {
+    clientID: process.env.clientIDf,
+    clientSecret: process.env.clientSecretf,
+    callbackURL: "https://payrollv2.herokuapp.com/auth/facebook/redirect",
+    profileFields: ['id', 'displayName', 'photos', 'email']
+},
+    function (accessToken, refreshToken, profile, done) {
         console.log("passport callback function fired ")
         console.log(profile)
         console.log(profile.id)
@@ -111,8 +111,8 @@ passport.use(new FacebookStrategy({
                     }).then((newUser) => {
 
                         Setting.create({
-                                userId: newUser.id,
-                            })
+                            userId: newUser.id,
+                        })
                             .then((setting) => {
                                 console.log('new User Created', newUser)
                                 var user = [newUser.dataValues];
