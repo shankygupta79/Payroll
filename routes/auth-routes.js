@@ -60,7 +60,6 @@ route.post('/googleapp', (req, res) => {
                 //already user exist
                 console.log("DEKHNA")
                 currentUser=currentUser[0].dataValues
-                console.log('user is', currentUser)
                 const token = CryptoJS.AES.encrypt(currentUser.id + "", process.env.appkey).toString();
                 const fullname = currentUser.fullname
                 const access = CryptoJS.AES.encrypt(currentUser.access = "", process.env.appkey).toString();
@@ -68,7 +67,6 @@ route.post('/googleapp', (req, res) => {
                 const office_close = currentUser.office_close
                 const logo = currentUser.logo
                 const admin = CryptoJS.AES.encrypt(currentUser.admin + "", process.env.appkey).toString();
-                console.log(admin)
                 const token2 = CryptoJS.AES.encrypt(currentUser.userId + "", process.env.appkey).toString();
                
                 if(req.body.expotoken!=currentUser.Expotoken){

@@ -161,6 +161,7 @@ route.post('/add_userpost', authCheck, (req, res) => {
   User.create({
     userId: xid,
     username: req.body.name,
+    fullname:req.body.name,
     thumbnail: photu,
     emailId: req.body.mail,
     authenticationType: 'local',
