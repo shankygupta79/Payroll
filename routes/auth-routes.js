@@ -97,6 +97,7 @@ route.post('/googleapp', (req, res) => {
                         .then((setting) => {
                             console.log('new User Created', newUser)
                             newUser=newUser.dataValues
+                            console.log(newUser)
                             const token = CryptoJS.AES.encrypt(newUser.id + "", process.env.appkey).toString();
                             const fullname = newUser.fullname
                             const access = CryptoJS.AES.encrypt(newUser.access + "", process.env.appkey).toString();
