@@ -228,6 +228,9 @@ route.post('/edit', authCheck, (req, res) => {
   if (logo2 == '') {
     logo2 = req.body.logo
   }
+  if(req.query.platform=="APP"){
+    logo2=req.body.logo
+  }
   console.log(logo2)
   User.update({
     currency: matches[1],
