@@ -110,11 +110,12 @@ route.post('/changepass', authCheck, (req, res) => {
   if (req.query.platform == 'APP') {
     User.findOne({ where: { userId: xid } })
       .then((currentUser) => {
+        //console.log(currentUser)
         if (currentUser.salt == 'null') {
           return res.send({ message: 'Error ! Only Local users can change the password !' })
         }
         var hash = crypto.pbkdf2Sync(req.body.password, currentUser.salt, 1000, 64, `sha512`).toString(`hex`);
-        if (hash != password) {
+        if (hash != currentUser.password) {
           return res.send({ message: 'Error ! You entered wrong password !' })
         }
         var newsalt = crypto.randomBytes(16).toString('hex');
