@@ -110,11 +110,14 @@ route.post('/changepass', authCheck, (req, res) => {
   if (req.query.platform == 'APP') {
     User.findOne({ where: { userId: xid } })
       .then((currentUser) => {
-        //console.log(currentUser)
+        console.log(currentUser)
         if (currentUser.salt == 'null') {
           return res.send({ message: 'Error ! Only Local users can change the password !' })
         }
         var hash = crypto.pbkdf2Sync(req.body.password, currentUser.salt, 1000, 64, `sha512`).toString(`hex`);
+        console.log(hash)
+        console.log(currentUser.password)
+        console.log(req.body.password)
         if (hash != currentUser.password) {
           return res.send({ message: 'Error ! You entered wrong password !' })
         }
@@ -125,8 +128,7 @@ route.post('/changepass', authCheck, (req, res) => {
           password: hash,
         }, { where: { id: xid } }).then((user) => {
           console.log("Password changed Successfully !")
-          var abc = CryptoJS.AES.encrypt(currentUser.password + "", process.env.appkey).toString();
-          return res.send({ message: 'true', id: abc })
+          return res.send({ message: 'true'})
 
         }).catch((err) => {
           console.log(err)
