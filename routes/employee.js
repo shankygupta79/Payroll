@@ -43,7 +43,6 @@ const authCheckview = (req, res, next) => {
       console.log(req.query.access)
       console.log(CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8))
       var y = CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
-      console.log(y)
       if (y[0] == 'false') {
         console.log("HEYAA")
         return res.send(false)
@@ -79,9 +78,11 @@ const authCheckview = (req, res, next) => {
 }
 const authCheckedit = (req, res, next) => {
   if (req.query.platform == "APP") {
+    console.log(CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8))
     if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
       admin = 0
       var y = CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+      console.log(y)
       if (y[1] == 'false') {
         return res.send(false)
       }

@@ -50,39 +50,36 @@ var currency = '';
 var office = '';
 
 const authCheck = (req, res, next) => {
-  if (isEmpty(req.user)) {
-    //user is not logged in
-    res.redirect('/login')
-  } else {
-    if (req.user[0].admin == '0') {
-      res.redirect('../users/lock')
-    }
-    xid = req.user[0].id
-    salt = req.user[0].salt
-    password = req.user[0].password
-    office = req.user[0].office_close
-    currency = req.user[0].currency
-    alreadylogo = req.user[0].logo
-    photu = req.user[0].thumbnail
-    console.log(xid)
-    next()
-  }
-}
-const authCheck2 = (req, res, next) => {
-  if (isEmpty(req.user)) {
-    //user is not logged in
-    res.redirect('/login')
-  } else {
-    if (req.user[0].admin == '0') {
-      xid = req.user[0].userId
+  if (req.query.platform == 'APP') {
+    console.log(CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8))
+    if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      xid = CryptoJS.AES.decrypt(req.query.id2 + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
     } else {
-      xid = req.user[0].id
+      xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      console.log(xid)
     }
-    alreadylogo = req.user[0].logo
-
     next()
+  } else {
+    if (isEmpty(req.user)) {
+      //user is not logged in
+      res.redirect('/login')
+    } else {
+      if (req.user[0].admin == '0') {
+        res.redirect('../users/lock')
+      }
+      xid = req.user[0].id
+      salt = req.user[0].salt
+      password = req.user[0].password
+      office = req.user[0].office_close
+      currency = req.user[0].currency
+      alreadylogo = req.user[0].logo
+      photu = req.user[0].thumbnail
+      console.log(xid)
+      next()
+    }
   }
 }
+
 route.get('/css', (req, res) => {
 
   res.sendFile(path.join(__dirname, '../css/profile.css'))
@@ -110,28 +107,65 @@ route.get('/configrations', authCheck, (req, res) => {
 })
 route.post('/changepass', authCheck, (req, res) => {
   console.log(" IN Changepass")
-  if (salt == 'null') {
-    return res.send({ message: 'Error ! Only Local users can change the password !' })
-  }
-  var hash = crypto.pbkdf2Sync(req.body.password, salt, 1000, 64, `sha512`).toString(`hex`);
-  if (hash != password) {
-    return res.send({ message: 'Error ! You entered wrong password !' })
-  }
-  var newsalt = crypto.randomBytes(16).toString('hex');
-  var hash = crypto.pbkdf2Sync(req.body.newpass, newsalt, 1000, 64, `sha512`).toString(`hex`);
-  User.update({
-    salt: newsalt,
-    password: hash,
-  }, { where: { id: xid } }).then((user) => {
-    console.log("Password changed Successfully !")
-    return res.send({ message: 'true' })
+  if (req.query.platform == 'APP') {
+    User.findOne({ where: { userId: xid } })
+      .then((currentUser) => {
+        if (currentUser.salt == 'null') {
+          return res.send({ message: 'Error ! Only Local users can change the password !' })
+        }
+        var hash = crypto.pbkdf2Sync(req.body.password, currentUser.salt, 1000, 64, `sha512`).toString(`hex`);
+        if (hash != password) {
+          return res.send({ message: 'Error ! You entered wrong password !' })
+        }
+        var newsalt = crypto.randomBytes(16).toString('hex');
+        var hash = crypto.pbkdf2Sync(req.body.newpass, newsalt, 1000, 64, `sha512`).toString(`hex`);
+        User.update({
+          salt: newsalt,
+          password: hash,
+        }, { where: { id: xid } }).then((user) => {
+          console.log("Password changed Successfully !")
+          var abc = CryptoJS.AES.encrypt(currentUser.password + "", process.env.appkey).toString();
+          return res.send({ message: 'true', id: abc })
 
-  }).catch((err) => {
-    console.log(err)
-    return res.send({
-      message: "Could not retrive holidays"
+        }).catch((err) => {
+          console.log(err)
+          return res.send({
+            message: "Could not retrive data"
+          })
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+          return res.send({
+            message: "Could not retrive data"
+          })
+      })
+
+  } else {
+    if (salt == 'null') {
+      return res.send({ message: 'Error ! Only Local users can change the password !' })
+    }
+    var hash = crypto.pbkdf2Sync(req.body.password, salt, 1000, 64, `sha512`).toString(`hex`);
+    if (hash != password) {
+      return res.send({ message: 'Error ! You entered wrong password !' })
+    }
+    var newsalt = crypto.randomBytes(16).toString('hex');
+    var hash = crypto.pbkdf2Sync(req.body.newpass, newsalt, 1000, 64, `sha512`).toString(`hex`);
+    User.update({
+      salt: newsalt,
+      password: hash,
+    }, { where: { id: xid } }).then((user) => {
+      console.log("Password changed Successfully !")
+      return res.send({ message: 'true' })
+
+    }).catch((err) => {
+      console.log(err)
+      return res.send({
+        message: "Could not retrive holidays"
+      })
     })
-  })
+  }
+
 })
 route.get('/api/setting', authCheck, (req, res) => {
   Setting.findOne({ where: { userId: xid } })
@@ -235,9 +269,9 @@ route.post('/uploadpr', upload.single('file'), (req, res) => {
       error: 'The uploaded file must be an image'
     });
   }
-      photu2 = req.file.location;
-      console.log(photu2)
-      return res.send({ message: "Done" })
+  photu2 = req.file.location;
+  console.log(photu2)
+  return res.send({ message: "Done" })
 
 
 
@@ -250,9 +284,9 @@ route.post('/uploadlg', upload.single('file'), (req, res) => {
       error: 'The uploaded file must be an image'
     });
   }
-      logo2 = req.file.location;
-      console.log(logo2)
-      return res.send({ message: "Done" })
+  logo2 = req.file.location;
+  console.log(logo2)
+  return res.send({ message: "Done" })
 
 });
 module.exports = route
