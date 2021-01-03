@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/employee/css">
+    <link rel="stylesheet" href="http://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://payrollv2.herokuapp.com/employee/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -149,7 +149,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://payrollv2.herokuapp.com/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -171,7 +171,7 @@
             methods: {
                 load: function () {
                     var app = this;
-                    axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp')
+                    axios.get('http://payrollv2.herokuapp.com/employee/api/quickemp')
                         .then(function (Response) {
                             for (var i = 0; i < Response.length; i++) {
                                 if (Response[i].status == "Active") {
@@ -191,7 +191,7 @@
                             log.message_error = "Error connecting the database try again later !"
                             log.loaderoff()
                         })
-                    /*axios.get('https://payrollv2.herokuapp.com/employee/api/quickemp')
+                    /*axios.get('http://payrollv2.herokuapp.com/employee/api/quickemp')
                     .then(function (Response) {
                         app.myArray = Response
                         var loading = app.$refs.Loading
@@ -246,7 +246,7 @@
                     }
                     return 0;
                 }, edit(idx) {
-                    window.location.href = "https://payrollv2.herokuapp.com/employee/edit_emp?empid=" + idx;
+                    window.location.href = "http://payrollv2.herokuapp.com/employee/edit_emp?empid=" + idx;
                 }
 
             }
@@ -258,7 +258,7 @@
 
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 
 </html>

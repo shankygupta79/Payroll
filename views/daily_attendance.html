@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/attendance/css">
+    <link rel="stylesheet" href="http://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://payrollv2.herokuapp.com/attendance/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -157,7 +157,7 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://payrollv2.herokuapp.com/navbar2"></script>
     <script>
         var log = new Vue({
             el: "#Index",
@@ -290,16 +290,14 @@
                     return new Promise((resolve, reject) => {
                         console.log(j)
                         var y = '';
-                        for (var i = 0; i < 61; i++) {
-                            if (i == 2 * (log.dx - 1)) {
-                                y = y + log.myArray[j].etb
-                            } else {
-                                y = y + log.myArray[j].etbarr[i];
-                            }
+                        log.myArray[j].etbarr[log.dx - 1] = log.myArray[j].etb
+                        //console.log(log.myArray[j].etbarr)
+                        for (var i = 0; i < 31; i++) {
+                            y = y + log.myArray[j].etbarr[i] + ";"
                         }
                         var tp = log.myArray[j].presentarr
                         var tp2 = log.myArray[j].marked
-                        if(log.myArray[j].status[0]==undefined){
+                        if (log.myArray[j].status[0] == undefined) {
                             reject("P")
                         }
                         tp = tp.substring(0, log.dx - 1) + log.myArray[j].status[0] + tp.substring(log.dx);
@@ -381,7 +379,7 @@
                         return
                     }
                     log.getlist = 1;
-                    axios.get('https://payrollv2.herokuapp.com/attendance/api/holiday?date=' + log.select_date.slice(8, 10) + "-" + x + "&day=" + log.pp)
+                    axios.get('http://payrollv2.herokuapp.com/attendance/api/holiday?date=' + log.select_date.slice(8, 10) + "-" + x + "&day=" + log.pp)
                         .then(function (Response1) {
                             if (Response1 == 'true') {
                                 log.error2 = 1,
@@ -397,7 +395,7 @@
                             }
 
                             log.error2 = 0;
-                            axios.get('https://payrollv2.herokuapp.com/attendance/api/attendance?date=' + x + '&dx=' + log.dx)
+                            axios.get('http://payrollv2.herokuapp.com/attendance/api/attendance?date=' + x + '&dx=' + log.dx)
                                 .then(function (Response1) {
                                     log.myArray = []
                                     if (Response1 == '5') {
@@ -423,8 +421,9 @@
                                         for (var i = 0; i < Response1.length; i++) {
                                             var temp = '';
                                             var tpr = '';
-                                            var temparray = Response1[i].extratime.slice(';')
-                                            temp = temparray[(log.dx - 1) * 2]
+                                            var temparray = Response1[i].extratime.split(';')
+                                            //console.log(temparray)
+                                            temp = temparray[(log.dx - 1)]
                                             var st = Response1[i].present[log.dx - 1]
                                             if (st == '-') {
                                                 tpr = ''
@@ -490,7 +489,7 @@
         })    
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://payrollv2.herokuapp.com/navbar2/collapsing"></script>
 </body>
 
 </html>
