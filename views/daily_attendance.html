@@ -217,6 +217,8 @@
                     for (var i = 0; i < log.myArray.length; i++) {
                         if (log.myArray[i].active == "Active") {
                             log.myArray[i].status = "Present"
+                        }else{
+                            continue
                         }
 
                         var a = await log.attendance(i);
