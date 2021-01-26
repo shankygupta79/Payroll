@@ -72,6 +72,9 @@ route.post('/updatepassword', (req, res) => {
 route.get('/signup/css', (req, res) => {
     res.sendFile(path.join(__dirname, '../css/login.css'))
 })
+route.get('/act', (req, res) => {
+    res.sendFile(path.join(__dirname, '../views/abc.html'))
+})
 route.get('/signup/css2', (req, res) => {
     res.sendFile(path.join(__dirname, '../css/main.css'))
 })
