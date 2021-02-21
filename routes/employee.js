@@ -214,7 +214,7 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
       photu = "https://res.cloudinary.com/shankygupta79/image/upload/v1592573098/emp_fem_y1vkfa.jpg";
     }
   }
-  var depart=req.body.depart
+  var depart=req.body.dep
   if(req.body.dep==''){
     depart="Default"
   }
