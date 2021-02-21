@@ -214,6 +214,10 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
       photu = "https://res.cloudinary.com/shankygupta79/image/upload/v1592573098/emp_fem_y1vkfa.jpg";
     }
   }
+  var depart=req.body.depart
+  if(req.body.dep==''){
+    depart="Default"
+  }
   console.log(req.body.photu)
   if(req.body.photu!=undefined){
     photu=req.body.photu;
@@ -251,7 +255,7 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
       doj: req.body.doj,
       salary: req.body.salary,
       des: req.body.des,
-      dep: req.body.dep,
+      dep: depart,
       email: req.body.email,
       pnum: req.body.phone,
       photo: photu,
