@@ -173,7 +173,17 @@ route.post('/changepass', authCheck, (req, res) => {
 route.get('/api/setting', authCheck, (req, res) => {
   Setting.findOne({ where: { userId: xid } })
     .then((emps) => {
-      res.status(200).send([emps, currency, alreadylogo, office, photu])
+      User.findOne({ where: { userId: xid },attributes: [
+        'currency',] })
+        .then((currency2) => {
+          res.status(200).send([emps, currency2.currency, alreadylogo, office, photu])
+        })
+        .catch((err) => {
+          console.log(err)
+          return res.send({
+            message: " Currecy symbol error"
+          })
+        })
     })
     .catch((err) => {
       console.log(err)
@@ -187,9 +197,9 @@ route.get('/api/setting', authCheck, (req, res) => {
 route.get('/api/symbol', authCheck, (req, res) => {
   User.findOne({ where: { userId: xid },attributes: [
     'currency',] })
-    .then((currency) => {
-      console.log(currency)
-      res.status(200).send(currency.currency)
+    .then((currency2) => {
+      console.log(currency2)
+      res.status(200).send(currency2.currency)
     })
     .catch((err) => {
       console.log(err)
