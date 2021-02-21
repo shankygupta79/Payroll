@@ -185,9 +185,11 @@ route.get('/api/setting', authCheck, (req, res) => {
 
 })
 route.get('/api/symbol', authCheck, (req, res) => {
-  Setting.findOne({ where: { userId: xid } })
-    .then((emps) => {
-      res.status(200).send(currency)
+  User.findOne({ where: { userId: xid },attributes: [
+    'currency',] })
+    .then((currency) => {
+      console.log(currency)
+      res.status(200).send(currency.currency)
     })
     .catch((err) => {
       console.log(err)
@@ -195,8 +197,6 @@ route.get('/api/symbol', authCheck, (req, res) => {
         message: " Currecy symbol error"
       })
     })
-
-
 })
 
 route.post('/editpr', authCheck, (req, res) => {
