@@ -174,14 +174,14 @@ route.get('/api/setting', authCheck, (req, res) => {
   Setting.findOne({ where: { userId: xid } })
     .then((emps) => {
       User.findOne({ where: { userId: xid },attributes: [
-        'currency',] })
+        'currency'] })
         .then((currency2) => {
           res.status(200).send([emps, currency2.currency, alreadylogo, office, photu])
         })
         .catch((err) => {
           console.log(err)
           return res.send({
-            message: " Currecy symbol error"
+            message: " Currency symbol error"
           })
         })
     })
@@ -195,8 +195,8 @@ route.get('/api/setting', authCheck, (req, res) => {
 
 })
 route.get('/api/symbol', authCheck, (req, res) => {
-  User.findOne({ where: { userId: xid },attributes: [
-    'currency',] })
+  User.findOne({ where: { id: xid },attributes: [
+    'currency'] })
     .then((currency2) => {
       console.log(currency2)
       res.status(200).send(currency2.currency)
@@ -204,7 +204,7 @@ route.get('/api/symbol', authCheck, (req, res) => {
     .catch((err) => {
       console.log(err)
       return res.send({
-        message: " Currecy symbol error"
+        message: " Currency symbol error"
       })
     })
 })
