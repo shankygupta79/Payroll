@@ -173,7 +173,7 @@ route.post('/changepass', authCheck, (req, res) => {
 route.get('/api/setting', authCheck, (req, res) => {
   Setting.findOne({ where: { userId: xid } })
     .then((emps) => {
-      User.findOne({ where: { userId: xid },attributes: [
+      User.findOne({ where: { id: xid },attributes: [
         'currency'] })
         .then((currency2) => {
           res.status(200).send([emps, currency2.currency, alreadylogo, office, photu])
