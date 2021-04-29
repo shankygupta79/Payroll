@@ -356,7 +356,7 @@
                         this.pp = 6
                     }
 
-                    if (parseInt(yeaar) > log.yxt) {
+                    /*if (parseInt(yeaar) > log.yxt) {
                         log.error2 = 1;
                         log.getlist = 0;
                         log.message_error2 = 'Future Attendance is not available !'
@@ -379,7 +379,7 @@
                         $('#mybtn').prop('disabled', false);
                         $('#abc').hide();
                         return
-                    }
+                    }*/
                     log.getlist = 1;
                     axios.get('https://payrollv2.herokuapp.com/attendance/api/holiday?date=' + log.select_date.slice(8, 10) + "-" + x + "&day=" + log.pp)
                         .then(function (Response1) {
