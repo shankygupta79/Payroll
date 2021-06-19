@@ -9,8 +9,8 @@ const passport = require('passport')
 const dotenv = require("dotenv")
 dotenv.config()
 const profileroutes = require('./routes/profile-routes').route
-
-var whitelist = ['https://www.lovebirdlingerie.com', 'http://dev.lovebirdlingerie.com', 'http://manager.lovebirdlingerie.com']
+var cors = require('cors')
+var whitelist = ['https://www.lovebirdlingerie.com', 'http://dev.lovebirdlingerie.com', 'http://manager.lovebirdlingerie.com'];
 
 var corsOptionsDelegate = function (req, callback) {
     var corsOptions;
