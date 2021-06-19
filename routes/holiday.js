@@ -141,6 +141,11 @@ route.get('/api/holiday', authCheckview, (req, res) => {
 
 
 })
+
+
+
+
+
 route.post('/edit_holpost', authCheckedit, (req, res) => {
   console.log(req.query.idx + " IN EDIT")
   Holiday.update({
@@ -157,6 +162,12 @@ route.post('/edit_holpost', authCheckedit, (req, res) => {
     })
   })
 })
+
+
+
+
+
+
 route.post('/delete', authCheckedit, (req, res) => {
   console.log(req.query.idx + " IN Delete")
   Holiday.destroy({

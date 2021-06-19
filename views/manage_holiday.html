@@ -138,6 +138,7 @@
                     axios.get('https://payrollv2.herokuapp.com/holiday/api/holiday')
                         .then(function (Response) {
                             log.myArray = Response
+                            console.log(Response)
                             log.loaderoff()
                             log.total = log.myArray.length;
                             log.entryfun(log.entry);

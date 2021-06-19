@@ -10,6 +10,18 @@ const dotenv = require("dotenv")
 dotenv.config()
 const profileroutes = require('./routes/profile-routes').route
 
+var whitelist = ['https://www.lovebirdlingerie.com', 'http://dev.lovebirdlingerie.com', 'http://manager.lovebirdlingerie.com']
+
+var corsOptionsDelegate = function (req, callback) {
+    var corsOptions;
+    if (whitelist.indexOf(req.header('Origin')) !== -1) {
+        corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+    } else {
+        corsOptions = { origin: false } // disable CORS for this request
+    }
+    callback(null, corsOptions) // callback expects two parameters: error and options
+}
+app.use(cors(corsOptionsDelegate));
 app.use(cookieSession({
     maxAge: 2 * 60 * 60 * 1000,
     keys: [process.env.cookieKey]
