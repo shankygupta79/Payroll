@@ -192,7 +192,8 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
 
 })
 route.post('/edit', authCheckmark, (req, res) => {
-  console.log(" IN EDIT")
+  console.log(" IN EDIT");
+  console.log(req.body.present);
   console.log(req.body.monthyear)
   var tp = req.body.attby
   tp = tp.substring(0, req.body.dx - 1) + admin + tp.substring(req.body.dx);
