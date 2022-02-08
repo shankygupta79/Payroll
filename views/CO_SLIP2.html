@@ -18,7 +18,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js@2.6.11/dist/vue.js"></script>
     <style>
         .headin {
             font-weight: bold;
@@ -110,7 +110,8 @@
                         {{city}} {{pincode}} {{country}}
                     </td>
                     <td v-show="!show">
-                        <input v-model="city"><input style="width: 70px;" v-model="pincode"><input style="width: 70px;" v-model="country">
+                        <input v-model="city"><input style="width: 70px;" v-model="pincode"><input style="width: 70px;"
+                            v-model="country">
                     </td>
                 </tr>
                 <tr>
@@ -169,7 +170,8 @@
                         {{city2}} {{pincode2}} {{country2}}
                     </td>
                     <td v-show="!show">
-                        <input v-model="city2"><input style="width: 70px;" v-model="pincode2"><input style="width: 70px;" v-model="country2">
+                        <input v-model="city2"><input style="width: 70px;" v-model="pincode2"><input
+                            style="width: 70px;" v-model="country2">
                     </td>
                 </tr>
                 <tr>

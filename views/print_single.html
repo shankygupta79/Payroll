@@ -191,7 +191,7 @@
             </table>
         </div>
     </div>
-    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js@2.6.11/dist/vue.js"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -219,7 +219,7 @@
 
                     var params = this.getParams(window.location.href)
 
-                    axios.get('https://payrollv2.herokuapp.com/payslips/api/dataprint?date=' + params.month + "&id=" + params.id)
+                    axios.get('http://payrollv2.herokuapp.com/payslips/api/dataprint?date=' + params.month + "&id=" + params.id)
                         .then(function (Response1) {
                             log.myArray = Response1
                             log.month = params.month
@@ -233,7 +233,7 @@
                             log.message_error = "Error connecting the database try again later !"
 
                         })
-                    axios.get('https://payrollv2.herokuapp.com/settings/api/setting')
+                    axios.get('http://payrollv2.herokuapp.com/settings/api/setting')
                         .then(function (Response2) {
                             log.logoimg = Response2[2]
                             log.company = Response2[0].name

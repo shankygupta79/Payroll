@@ -29,7 +29,7 @@ passport.deserializeUser((id, done) => {
 })
 passport.use(
     new GoogleStrategy({
-        callbackURL: "https://payrollv2.herokuapp.com/auth/google/redirect",
+        callbackURL: "http://payrollv2.herokuapp.com/auth/google/redirect",
         clientID: process.env.clientIDg,
         clientSecret: process.env.clientSecretg
         //options for google strategy
@@ -79,7 +79,7 @@ passport.use(
 passport.use(new FacebookStrategy({
     clientID: process.env.clientIDf,
     clientSecret: process.env.clientSecretf,
-    callbackURL: "https://payrollv2.herokuapp.com/auth/facebook/redirect",
+    callbackURL: "http://payrollv2.herokuapp.com/auth/facebook/redirect",
     profileFields: ['id', 'displayName', 'photos', 'email']
 },
     function (accessToken, refreshToken, profile, done) {
