@@ -55,7 +55,7 @@ app.use('/payslips', require('./routes/payslips'));
 app.use('/notification', require('./routes/notification'));
 
 app.listen(SERVER_PORT, function () {
-    console.log("Server started on http://payrollv2.herokuapp.com/");
+    console.log("Server started on https://payrollv2.herokuapp.com/");
 });
 
 
