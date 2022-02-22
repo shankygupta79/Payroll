@@ -29,7 +29,7 @@ route.post('/send', async (req, res) => {
     }
     return res.send({
         result: "Success",
-        message: "Some Error Occured in our Database ! "
+        message: "Notiications will be sent in a while ! "
     })
 
 })
