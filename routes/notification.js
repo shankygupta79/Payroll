@@ -16,25 +16,25 @@ route.post('/send', (req, res) => {
     if (req.body.password == "0000") {
         User.findOne({ where: { id: req.body.id } })
             .then(async (user) => {
-                console.log(user.Expotoken)
+                console.log(user.expotoken)
 
-                const a=await axios.post('https://exp.host/--/api/v2/push/send', {
-                    "to": user.Expotoken,
+                const a = await axios.post('https://exp.host/--/api/v2/push/send', {
+                    "to": user.expotoken,
                     "body": req.body.body,
                     "title": req.body.title,
-                    "enabled":true
-                    
+                    "enabled": true
+
                 }, async function (data) {
                     console.log(data)
                     return data
 
                 })
-                
-                if(a.status==200){
+
+                if (a.status == 200) {
                     return res.send({
                         message: "true"
                     })
-                }else{
+                } else {
                     return res.send({
                         message: "Some Error Occured in Expo"
                     })

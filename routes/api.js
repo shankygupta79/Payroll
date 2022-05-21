@@ -15,7 +15,7 @@ function isEmpty(obj) {
     return true;
 }
 route.get('/', (req, res) => {
-    res.redirect('https://payrollv2.herokuapp.com/login')
+    res.redirect('http://localhost:3420/login')
 })
 
 
@@ -43,9 +43,9 @@ route.get('/privacy-policy', (req, res) => {
 })
 route.post('/forgotpassword', (req, res) => {
     var email = req.body.email;
-    User.findOne({ where: { emailId: email, authenticationType: 'local' } })
+    User.findOne({ where: { emailid: email, authenticationtype: 'local' } })
         .then((user) => {
-            sendmail(user.emailId, user.password, 1);
+            sendmail(user.emailid, user.password, 1);
             return res.send({ data: 'true' })
         }).catch((err) => {
             return res.send({ data: 'No user' })
@@ -58,7 +58,7 @@ route.post('/updatepassword', (req, res) => {
     User.update({
         salt: newsalt,
         password: hash
-    }, { where: { emailId: req.body.mail } })
+    }, { where: { emailid: req.body.mail } })
         .then((user) => {
             return res.send({ data: 'true' })
         })
@@ -92,7 +92,7 @@ route.get('/activate', (req, res) => {
         res.sendFile(path.join(__dirname, '../views/updatepass.html'))
         User.update({
             valid: true
-        }, { where: { emailId: req.query.mail, password: req.query.id } })
+        }, { where: { emailid: req.query.mail, password: req.query.id } })
             .then((user) => {
             })
             .catch((err) => {
@@ -133,14 +133,14 @@ route.post('/signup', (req, res) => {
     var hash_password = crypto.pbkdf2Sync(req.body.password, salt_1, 1000, 64, `sha512`).toString(`hex`);
     mailing_id = req.body.email;
     hash = hash_password;
-    User.findOne({ where: { emailId: req.body.email } })
+    User.findOne({ where: { emailid: req.body.email } })
         .then((user) => {
             console.log(user)
             if (!isEmpty(user)) {
                 var users = [user.dataValues];
-                if (users[0].authenticationType == 'Google') {
+                if (users[0].authenticationtype == 'Google') {
                     return res.status(200).send({ data: 'ug' })
-                } else if (users[0].authenticationType == 'Facebook') {
+                } else if (users[0].authenticationtype == 'Facebook') {
                     return res.status(200).send({ data: 'uf' })
                 } else {
                     return res.status(200).send({ data: 'ae' })
@@ -148,10 +148,10 @@ route.post('/signup', (req, res) => {
             } else {
                 User.create({
                     username: req.body.username,
-                    emailId: req.body.email,
+                    emailid: req.body.email,
                     thumbnail: 'https://res.cloudinary.com/shankygupta79/image/upload/v1592562756/profile_iz3s6y.jpg',
                     fullname: req.body.name,
-                    authenticationType: 'local',
+                    authenticationtype: 'local',
                     salt: salt_1,
                     password: hash_password,
                     valid: false,
@@ -162,7 +162,7 @@ route.post('/signup', (req, res) => {
                 }).then((user) => {
 
                     Setting.create({
-                        userId: user.id,
+                        userid: user.id,
                     })
                         .then((setting) => {
                             sendmail(mailing_id, hash, 0);
@@ -200,14 +200,14 @@ function sendmail(tomailid, hash, fp) {
             from: process.env.mail,
             to: tomailid,
             subject: 'Reset Your Password',
-            text: 'Reset your password by clicking on the link (link is valid upto five minutes only) ' + 'https://payrollv2.herokuapp.com/forgot?id=' + hash + '&tm=' + tm + '&mail=' + tomailid,
+            text: 'Reset your password by clicking on the link (link is valid upto five minutes only) ' + 'http://localhost:3420/forgot?id=' + hash + '&tm=' + tm + '&mail=' + tomailid,
         };
     } else if (fp == 0) {
         mailDetails = {
             from: process.env.mail,
             to: tomailid,
             subject: 'Activate Your Account',
-            text: 'Verify your account by clicking on the link ' + 'https://payrollv2.herokuapp.com/activate?id=' + hash + '&mail=' + tomailid + '&tm=' + tm + ' .' + 'This Link will expire in 10 minutes',
+            text: 'Verify your account by clicking on the link ' + 'http://localhost:3420/activate?id=' + hash + '&mail=' + tomailid + '&tm=' + tm + ' .' + 'This Link will expire in 10 minutes',
         };
     }
     // https://myaccount.google.com/lesssecureapps

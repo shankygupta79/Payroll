@@ -54,12 +54,12 @@ function isEmpty(obj) {
 route.post('/googleapp', (req, res) => {
     console.log(req.body.user)
     var user = req.body.user
-    User.findAll({ where: { userId: user.id, authenticationType: 'Google' } })
+    User.findAll({ where: { userid: user.id, authenticationtype: 'Google' } })
         .then((currentUser) => {
             if (!isEmpty(currentUser)) {
                 //already user exist
                 console.log("DEKHNA")
-                currentUser=currentUser[0].dataValues
+                currentUser = currentUser[0].dataValues
                 const token = CryptoJS.AES.encrypt(currentUser.id + "", process.env.appkey).toString();
                 const fullname = currentUser.fullname
                 const access = CryptoJS.AES.encrypt(currentUser.access + "", process.env.appkey).toString();
@@ -67,36 +67,36 @@ route.post('/googleapp', (req, res) => {
                 const office_close = currentUser.office_close
                 const logo = currentUser.logo
                 const admin = CryptoJS.AES.encrypt(currentUser.admin + "", process.env.appkey).toString();
-                const token2 = CryptoJS.AES.encrypt(currentUser.userId + "", process.env.appkey).toString();
-               
-                if(req.body.expotoken!=currentUser.Expotoken){
+                const token2 = CryptoJS.AES.encrypt(currentUser.userid + "", process.env.appkey).toString();
+
+                if (req.body.expotoken != currentUser.expotoken) {
                     User.update({
-                        Expotoken: req.body.expotoken,
-                      }, { where: { id:currentUser.id} }).then((att) => {
+                        expotoken: req.body.expotoken,
+                    }, { where: { id: currentUser.id } }).then((att) => {
                         return res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
-                      })
-                    }else{
-                        return res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
-                    }
+                    })
+                } else {
+                    return res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
+                }
             } else {
                 User.create({
-                    userId: user.id,
+                    userid: user.id,
                     fullname: user.name,
                     thumbnail: user.photoUrl,
-                    emailId: user.email,
-                    authenticationType: 'Google',
+                    emailid: user.email,
+                    authenticationtype: 'Google',
                     admin: 1,
                     currency: '₹',
                     logo: "https://res.cloudinary.com/shankygupta79/image/upload/v1592489600/love_bird_transparent_bg_dlwkpq.png",
                     office_close: '0000000',
-                    Expotoken:req.body.expotoken
+                    expotoken: req.body.expotoken
                 }).then((newUser) => {
                     Setting.create({
-                        userId: newUser.id,
+                        userid: newUser.id,
                     })
                         .then((setting) => {
                             console.log('new User Created', newUser)
-                            newUser=newUser.dataValues
+                            newUser = newUser.dataValues
                             console.log(newUser)
                             const token = CryptoJS.AES.encrypt(newUser.id + "", process.env.appkey).toString();
                             const fullname = newUser.fullname
@@ -105,7 +105,7 @@ route.post('/googleapp', (req, res) => {
                             const office_close = newUser.office_close
                             const logo = newUser.logo
                             const admin = CryptoJS.AES.encrypt(newUser.admin + "", process.env.appkey).toString();
-                            const token2 = CryptoJS.AES.encrypt(newUser.userId + "", process.env.appkey).toString();
+                            const token2 = CryptoJS.AES.encrypt(newUser.userid + "", process.env.appkey).toString();
                             res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
                         })
                         .catch((err) => {
@@ -128,10 +128,10 @@ route.get('/successDirect', (req, res) => {
     const office_close = req.user[0].office_close
     const logo = req.user[0].logo
     const admin = CryptoJS.AES.encrypt(req.user[0].admin + "", process.env.appkey).toString();
-    const token2 = CryptoJS.AES.encrypt(req.user[0].userId + "", process.env.appkey).toString();
+    const token2 = CryptoJS.AES.encrypt(req.user[0].userid + "", process.env.appkey).toString();
 
 
-    
+
     res.status(200).send(['true', token, fullname, access, currency, office_close, logo, admin, token2]);
 })
 route.post('/local', passport.authenticate('login', {

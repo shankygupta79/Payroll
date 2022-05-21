@@ -12,72 +12,73 @@ function isEmpty(obj) {
 var xid = 0;
 const authCheckview = (req, res, next) => {
   if (req.query.platform == "APP") {
-    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
-      admin=0
-      var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+    if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin = 0
+      var y = CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
       if (y[6] == 'false') {
         return res.send(false)
       }
-      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      xid = CryptoJS.AES.decrypt(req.query.id2 + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
     } else {
-      admin=1
-      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      admin = 1
+      xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
       console.log(xid)
     }
     office = req.query.off
     next()
   } else {
-  if (isEmpty(req.user)) {
-    //user is not logged in
-    res.redirect('/login')
-  } else {
-    if (req.user[0].admin == '0') {
-      xid = req.user[0].userId
-      var y = req.user[0].access.split(';')
-      if (y[6] == 'false') {
-
-        res.redirect('../users/lock')
-      }
+    if (isEmpty(req.user)) {
+      //user is not logged in
+      res.redirect('/login')
     } else {
-      xid = req.user[0].id
+      if (req.user[0].admin == '0') {
+        xid = req.user[0].userid
+        var y = req.user[0].access.split(';')
+        if (y[6] == 'false') {
+
+          res.redirect('../users/lock')
+        }
+      } else {
+        xid = req.user[0].id
+      }
+      console.log(xid)
+      next()
     }
-    console.log(xid)
-    next()
-  }}
+  }
 }
 const authCheckedit = (req, res, next) => {
   if (req.query.platform == "APP") {
-    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
-      admin=0
-      var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+    if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin = 0
+      var y = CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
       if (y[7] == 'false') {
         return res.send(false)
       }
-      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      xid = CryptoJS.AES.decrypt(req.query.id2 + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
     } else {
-      admin=1
-      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      admin = 1
+      xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
       console.log(xid)
     }
     office = req.query.off
     next()
   } else {
-  if (isEmpty(req.user)) {
-    //user is not logged in
-    res.redirect('/login')
-  } else {
-    if (req.user[0].admin == '0') {
-      xid = req.user[0].userId
-      var y = req.user[0].access.split(';')
-      if (y[7] == 'false') {
-        return res.send({ message: "You dont have access to edit " })
+    if (isEmpty(req.user)) {
+      //user is not logged in
+      res.redirect('/login')
+    } else {
+      if (req.user[0].admin == '0') {
+        xid = req.user[0].userid
+        var y = req.user[0].access.split(';')
+        if (y[7] == 'false') {
+          return res.send({ message: "You dont have access to edit " })
+        }
+      } else {
+        xid = req.user[0].id
       }
-    }else{
-      xid = req.user[0].id
+      next()
     }
-    next()
   }
-}
 }
 route.get('/add_holiday', authCheckview, (req, res) => {
   res.sendFile(path.join(__dirname, '../views/add_holiday.html'))
@@ -97,7 +98,7 @@ route.get('/css', (req, res) => {
 route.post('/add_holpost', authCheckedit, (req, res) => {
   console.log("Hey")
   Holiday.create({
-    userId: xid,
+    userid: xid,
     holname: req.body.name,
     year: req.body.year,
     date: req.body.date,
@@ -127,7 +128,7 @@ route.get('/api/holiday', authCheckview, (req, res) => {
         })
       })
   } else {
-    Holiday.findAll({ where: { userId: xid } })
+    Holiday.findAll({ where: { userid: xid } })
       .then((emps) => {
         res.status(200).send(emps)
       })

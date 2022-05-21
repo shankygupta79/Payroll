@@ -29,14 +29,14 @@ passport.deserializeUser((id, done) => {
 })
 passport.use(
     new GoogleStrategy({
-        callbackURL: "https://payrollv2.herokuapp.com/auth/google/redirect",
+        callbackURL: "http://localhost:3420/auth/google/redirect",
         clientID: process.env.clientIDg,
         clientSecret: process.env.clientSecretg
         //options for google strategy
     }, (accessToken, refreshToken, profile, done) => {
         console.log("passport callback function fired ")
         console.log(profile)
-        User.findAll({ where: { userId: profile.id, authenticationType: 'Google' } })
+        User.findAll({ where: { userid: profile.id, authenticationtype: 'Google' } })
             .then((currentUser) => {
                 if (!isEmpty(currentUser)) {
                     //already user exist
@@ -45,11 +45,11 @@ passport.use(
                     done(null, currentUser)
                 } else {
                     User.create({
-                        userId: profile.id,
+                        userid: profile.id,
                         fullname: profile.displayName,
                         thumbnail: profile._json.picture,
-                        emailId: profile._json.email,
-                        authenticationType: 'Google',
+                        emailid: profile._json.email,
+                        authenticationtype: 'Google',
                         admin: 1,
                         currency: '₹',
                         logo: "https://res.cloudinary.com/shankygupta79/image/upload/v1592489600/love_bird_transparent_bg_dlwkpq.png",
@@ -57,7 +57,7 @@ passport.use(
 
                     }).then((newUser) => {
                         Setting.create({
-                            userId: newUser.id,
+                            userid: newUser.id,
                         })
                             .then((setting) => {
                                 console.log('new User Created', newUser)
@@ -79,7 +79,7 @@ passport.use(
 passport.use(new FacebookStrategy({
     clientID: process.env.clientIDf,
     clientSecret: process.env.clientSecretf,
-    callbackURL: "https://payrollv2.herokuapp.com/auth/facebook/redirect",
+    callbackURL: "http://localhost:3420/auth/facebook/redirect",
     profileFields: ['id', 'displayName', 'photos', 'email']
 },
     function (accessToken, refreshToken, profile, done) {
@@ -87,7 +87,7 @@ passport.use(new FacebookStrategy({
         console.log(profile)
         console.log(profile.id)
         console.log(profile._json.picture.data)
-        User.findAll({ where: { userId: profile.id, authenticationType: 'Facebook' } })
+        User.findAll({ where: { userid: profile.id, authenticationtype: 'Facebook' } })
             .then((currentUser) => {
                 console.log(currentUser)
                 if (!isEmpty(currentUser)) {
@@ -99,11 +99,11 @@ passport.use(new FacebookStrategy({
                     done(null, currentUser)
                 } else {
                     User.create({
-                        userId: profile.id,
+                        userid: profile.id,
                         fullname: profile.displayName,
                         thumbnail: profile._json.picture.data.url,
-                        emailId: profile._json.email,
-                        authenticationType: 'Facebook',
+                        emailid: profile._json.email,
+                        authenticationtype: 'Facebook',
                         admin: 1,
                         currency: '₹',
                         logo: "https://res.cloudinary.com/shankygupta79/image/upload/v1592489600/love_bird_transparent_bg_dlwkpq.png",
@@ -111,7 +111,7 @@ passport.use(new FacebookStrategy({
                     }).then((newUser) => {
 
                         Setting.create({
-                            userId: newUser.id,
+                            userid: newUser.id,
                         })
                             .then((setting) => {
                                 console.log('new User Created', newUser)
@@ -141,16 +141,16 @@ passport.use('login', new LocalStrategy({
     console.log(email)
     console.log(password)
     console.log(expotoken)
-    User.findOne({ where: { emailId: email } })
+    User.findOne({ where: { emailid: email } })
         .then((user) => {
             var users = [user.dataValues];
             console.log(users)
-            if (users[0].authenticationType == 'local' && users[0].valid == '0') {
+            if (users[0].authenticationtype == 'local' && users[0].valid == '0') {
                 return done(null, false, { message: "ve" }) //The email is not validate till not
             }
-            if (users[0].authenticationType == 'Google') {
+            if (users[0].authenticationtype == 'Google') {
                 return done(null, false, { message: "ag" }) //The user exist with google
-            } else if (users[0].authenticationType == 'Facebook') {
+            } else if (users[0].authenticationtype == 'Facebook') {
                 return done(null, false, { message: "af" })
             } //The user exist with facebook
             salti = user.salt
@@ -158,10 +158,10 @@ passport.use('login', new LocalStrategy({
             hash_created = crypto.pbkdf2Sync(password, salti, 1000, 64, `sha512`).toString(`hex`);
             if (hash_created == hash) {
                 console.log(expotoken)
-                console.log(user.Expotoken)
-                if (expotoken != undefined && expotoken != user.Expotoken) {
+                console.log(user.expotoken)
+                if (expotoken != undefined && expotoken != user.expotoken) {
                     User.update({
-                        Expotoken: expotoken,
+                        expotoken: expotoken,
 
                     }, { where: { id: user.id } })
                 }

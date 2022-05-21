@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
     <link rel="stylesheet" href="../payslips/css">
 
 
@@ -163,7 +163,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -278,17 +278,17 @@
                     var content = app.$refs.content2
                     content.style.display = "none"
                 }, download(idx) {
-                    var x = "https://payrollv2.herokuapp.com/payslips/printsingle?id=" + idx + "&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&action=download";
+                    var x = "http://localhost:3420/payslips/printsingle?id=" + idx + "&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&action=download";
                     window.open(x, "_blank")
 
                 }, print(idx) {
-                    var x = "https://payrollv2.herokuapp.com/payslips/printsingle?id=" + idx + "&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&action=print";
+                    var x = "http://localhost:3420/payslips/printsingle?id=" + idx + "&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&action=print";
                     window.open(x, "_blank")
                 }, printall() {
-                    var x = "https://payrollv2.herokuapp.com/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year;
+                    var x = "http://localhost:3420/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year;
                     window.open(x, "_blank")
                 }, downall() {
-                    var x = "https://payrollv2.herokuapp.com/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&op=d";
+                    var x = "http://localhost:3420/payslips/printmultiple?&month=" + this.arr[this.monthlist.indexOf(this.select_month)] + this.select_year + "&op=d";
                     window.open(x, "_blank")
                 }, calc() {
                     for (var i = 0; i < log.myArray.length; i++) {
@@ -331,7 +331,7 @@
                     log.totalb = 0
                     log.totaln = 0
                     $('#abc').show();
-                    axios.get('https://payrollv2.herokuapp.com/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
+                    axios.get('http://localhost:3420/payslips/api/data?date=' + log.arr[log.monthlist.indexOf(log.select_month)] + log.select_year)
                         .then(function (Response1) {
                             if (Response1.length == 0) {
                                 console.log(Response1)
@@ -345,7 +345,7 @@
                             }
                             log.myArray = Response1
                             log.calc()
-                            axios.get('https://payrollv2.herokuapp.com/settings/api/symbol')
+                            axios.get('http://localhost:3420/settings/api/symbol')
                                 .then(function (Response2) {
                                     log.symbol = Response2
                                 })
@@ -380,7 +380,7 @@
         })
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>

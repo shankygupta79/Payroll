@@ -128,7 +128,7 @@ route.post('/changepass', authCheck, (req, res) => {
           password: hash,
         }, { where: { id: xid } }).then((user) => {
           console.log("Password changed Successfully !")
-          return res.send({ message: 'true'})
+          return res.send({ message: 'true' })
 
         }).catch((err) => {
           console.log(err)
@@ -139,9 +139,9 @@ route.post('/changepass', authCheck, (req, res) => {
       })
       .catch((err) => {
         console.log(err)
-          return res.send({
-            message: "Could not retrive data"
-          })
+        return res.send({
+          message: "Could not retrive data"
+        })
       })
 
   } else {
@@ -171,10 +171,12 @@ route.post('/changepass', authCheck, (req, res) => {
 
 })
 route.get('/api/setting', authCheck, (req, res) => {
-  Setting.findOne({ where: { userId: xid } })
+  Setting.findOne({ where: { userid: xid } })
     .then((emps) => {
-      User.findOne({ where: { id: xid },attributes: [
-        'currency'] })
+      User.findOne({
+        where: { id: xid }, attributes: [
+          'currency']
+      })
         .then((currency2) => {
           res.status(200).send([emps, currency2.currency, alreadylogo, office, photu])
         })
@@ -195,8 +197,10 @@ route.get('/api/setting', authCheck, (req, res) => {
 
 })
 route.get('/api/symbol', authCheck, (req, res) => {
-  User.findOne({ where: { id: xid },attributes: [
-    'currency'] })
+  User.findOne({
+    where: { id: xid }, attributes: [
+      'currency']
+  })
     .then((currency2) => {
       console.log(currency2)
       res.status(200).send(currency2.currency)
@@ -238,8 +242,8 @@ route.post('/edit', authCheck, (req, res) => {
   if (logo2 == '') {
     logo2 = req.body.logo
   }
-  if(req.query.platform=="APP"){
-    logo2=req.body.logo
+  if (req.query.platform == "APP") {
+    logo2 = req.body.logo
   }
   console.log(logo2)
   User.update({
@@ -249,7 +253,7 @@ route.post('/edit', authCheck, (req, res) => {
   }, {
     where: Sequelize.or(
       { id: xid },
-      { userId: xid }
+      { userid: xid }
     )
   }).then((user1) => {
     Setting.update({
@@ -260,7 +264,7 @@ route.post('/edit', authCheck, (req, res) => {
       add: req.body.address,
       state: req.body.state,
       country: req.body.country,
-    }, { where: { userId: xid } }).then((user2) => {
+    }, { where: { userid: xid } }).then((user2) => {
       console.log("Configurations Edited Successfully !")
       return res.send({ message: 'true' })
 

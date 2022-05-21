@@ -13,35 +13,35 @@ function isEmpty(obj) {
   return true;
 }
 var xid = 0
-var alreadylogo='';
-var arr=['01-','02-','03-','04-','05-','06-','07-','08-','09-','10-','11-','12-']
+var alreadylogo = '';
+var arr = ['01-', '02-', '03-', '04-', '05-', '06-', '07-', '08-', '09-', '10-', '11-', '12-']
 const authCheck = (req, res, next) => {
-  if(req.query.platform=='APP'){
-    console.log(CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8))
-    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
-      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+  if (req.query.platform == 'APP') {
+    console.log(CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8))
+    if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      xid = CryptoJS.AES.decrypt(req.query.id2 + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
     } else {
-      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
       console.log(xid)
     }
     next()
-  }else{
+  } else {
     if (isEmpty(req.user)) {
       //user is not logged in
       res.redirect('/login')
     } else {
       if (req.user[0].admin == '0') {
-        xid = req.user[0].userId
-  
+        xid = req.user[0].userid
+
       } else {
         xid = req.user[0].id
       }
-     
-      alreadylogo=req.user[0].logo
+
+      alreadylogo = req.user[0].logo
       next()
     }
   }
-  
+
 }
 route.get('/logo', authCheck, (req, res) => {
   res.status(200).send(alreadylogo)
@@ -65,22 +65,22 @@ route.get('/style2', (req, res) => {
 route.get('/api/dash', authCheck, (req, res) => {
   var total = 0;
   var dep = 0;
-  var today0 = new Date().getTime()+60*60*1000*5.5;
+  var today0 = new Date().getTime() + 60 * 60 * 1000 * 5.5;
   var a = new Date(today0);
-  var z=a.getDate()+"P"
+  var z = a.getDate() + "P"
   console.log(today0)
   console.log(a)
   console.log(z)
   Emp.count({
-    where: { userId: xid ,status:'Active'}
+    where: { userid: xid, status: 'Active' }
   }).then((emps) => {
     Dep.count({
-      where: { userId: xid }
+      where: { userid: xid }
     }).then((deps) => {
       Att.count({
-        where: { userId: xid ,monthyear:arr[a.getMonth()]+a.getFullYear() , quick:z}
+        where: { userid: xid, monthyear: arr[a.getMonth()] + a.getFullYear(), quick: z }
       }).then((att) => {
-        res.status(200).send([emps,deps,att,emps-att])
+        res.status(200).send([emps, deps, att, emps - att])
       }).catch((err) => {
         console.log(err)
         res.send({

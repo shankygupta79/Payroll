@@ -159,12 +159,12 @@ route.post('/add_userpost', authCheck, (req, res) => {
   var newsalt = crypto.randomBytes(16).toString('hex');
   var hash = crypto.pbkdf2Sync(req.body.password, newsalt, 1000, 64, `sha512`).toString(`hex`);
   User.create({
-    userId: xid,
+    userid: xid,
     username: req.body.name,
-    fullname:req.body.name,
+    fullname: req.body.name,
     thumbnail: photu,
-    emailId: req.body.mail,
-    authenticationType: 'local',
+    emailid: req.body.mail,
+    authenticationtype: 'local',
     password: hash,
     salt: newsalt,
     valid: 1,
@@ -214,7 +214,7 @@ route.get('/api/user', authCheck, (req, res) => {
         })
       })
   } else {
-    User.findAll({ where: { userId: xid } })
+    User.findAll({ where: { userid: xid } })
       .then((emps) => {
         res.status(200).send(emps)
       })

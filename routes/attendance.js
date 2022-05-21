@@ -20,16 +20,16 @@ var office = '';
 var y5 = 'true';
 const authCheckmark = (req, res, next) => {
   if (req.query.platform == "APP") {
-    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
-      admin=0
-      var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+    if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin = 0
+      var y = CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
       if (y[4] == 'false') {
         return res.send(false)
       }
-      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      xid = CryptoJS.AES.decrypt(req.query.id2 + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
     } else {
-      admin=1
-      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      admin = 1
+      xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
       console.log(xid)
     }
     office = req.query.off
@@ -41,7 +41,7 @@ const authCheckmark = (req, res, next) => {
     } else {
       if (req.user[0].admin == '0') {
         admin = 0
-        xid = req.user[0].userId
+        xid = req.user[0].userid
         var y = req.user[0].access.split(';')
         y5 = y[5];
         if (y[4] == 'false') {
@@ -60,39 +60,39 @@ const authCheckmark = (req, res, next) => {
 }
 const authCheckedit = (req, res, next) => {
   if (req.query.platform == "APP") {
-    if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
-      admin=0
-      var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+    if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+      admin = 0
+      var y = CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
       if (y[5] == 'false') {
         return res.send(false)
       }
-      xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      xid = CryptoJS.AES.decrypt(req.query.id2 + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
     } else {
-      admin=1
-      xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+      admin = 1
+      xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
       console.log(xid)
     }
     office = req.query.off
     next()
   } else {
-  if (isEmpty(req.user)) {
-    //user is not logged in
-    res.redirect('/login')
-  } else {
-    if (req.user[0].admin == '0') {
-      admin = 0;
-      xid = req.user[0].userId
-      var y = req.user[0].access.split(';')
-      y5 = y[5];
-      if (y[5] == 'false') {
-        return res.send({ message: "You dont have access to edit " })
-      }
+    if (isEmpty(req.user)) {
+      //user is not logged in
+      res.redirect('/login')
     } else {
-      admin = 1
-      xid = req.user[0].id
+      if (req.user[0].admin == '0') {
+        admin = 0;
+        xid = req.user[0].userid
+        var y = req.user[0].access.split(';')
+        y5 = y[5];
+        if (y[5] == 'false') {
+          return res.send({ message: "You dont have access to edit " })
+        }
+      } else {
+        admin = 1
+        xid = req.user[0].id
+      }
+      next()
     }
-    next()
-  }
   }
 }
 route.get('/daily_attendance', authCheckmark, (req, res) => {
@@ -106,7 +106,7 @@ route.get('/css', (req, res) => {
 })
 route.get('/api/holiday', authCheckmark, (req, res) => {
   console.log(req.query.date)
-  Hol.findOne({ where: { date: req.query.date, userId: xid } })
+  Hol.findOne({ where: { date: req.query.date, userid: xid } })
     .then((emps) => {
       if (emps != null || office[req.query.day] == '1') {
         res.status(200).send(true)
@@ -123,7 +123,7 @@ route.get('/api/holiday', authCheckmark, (req, res) => {
 })
 function create(data, x2) {
   return Att.create({
-    userId: xid,
+    userid: xid,
     emp_id: data.emp_id,
     monthyear: x2,
     present: "-------------------------------",
@@ -157,14 +157,14 @@ route.get('/api/attendance', authCheckmark, (req, res) => {
   Emp.hasMany(Att, { foreignKey: 'emp_id' })
   Att.belongsTo(Emp, { foreignKey: 'emp_id' })
 
-  Att.findAll({ where: { monthyear: req.query.date, userId: xid }, include: [Emp] })
+  Att.findAll({ where: { monthyear: req.query.date, userid: xid }, include: [Emp] })
     .then((emps) => {
       if (emps[0]) {
         return res.status(200).send(emps)
         next()
 
       } else {
-        Emp.findAll({ where: { userId: xid, status: 'Active' } })
+        Emp.findAll({ where: { userid: xid, status: 'Active' } })
           .then(async (emps) => {
             for (var i = 0; i < emps.length; i++) {
               var x = await create(emps[i], req.query.date)

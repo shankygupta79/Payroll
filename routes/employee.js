@@ -62,7 +62,7 @@ const authCheckview = (req, res, next) => {
     } else {
       symbol = req.user[0].currency
       if (req.user[0].admin == '0') {
-        xid = req.user[0].userId
+        xid = req.user[0].userid
         var y = req.user[0].access.split(';')
         if (y[0] == 'false') {
 
@@ -100,7 +100,7 @@ const authCheckedit = (req, res, next) => {
       res.redirect('/login')
     } else {
       if (req.user[0].admin == '0') {
-        xid = req.user[0].userId
+        xid = req.user[0].userid
         var y = req.user[0].access.split(';')
         if (y[1] == 'false') {
           return res.send({ message: "You dont have access to edit " })
@@ -173,7 +173,7 @@ route.post('/edit_empdata', authCheckedit, (req, res) => {
     doc4: arr2[3],
     doc5: arr2[4],
 
-  }, { where: { userId: xid, emp_id: req.body.empid } }).then((user) => {
+  }, { where: { userid: xid, emp_id: req.body.empid } }).then((user) => {
     if (photu == '') {
       photu = req.body.photo
     }
@@ -188,7 +188,7 @@ route.post('/edit_empdata', authCheckedit, (req, res) => {
       status: req.body.status,
       salary: req.body.salary,
 
-    }, { where: { userId: xid, emp_id: req.body.empid } }).then((user) => {
+    }, { where: { userid: xid, emp_id: req.body.empid } }).then((user) => {
       photu = "",
         arr2 = [],
         console.log("Employee Edited Successfully !")
@@ -214,17 +214,17 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
       photu = "https://res.cloudinary.com/shankygupta79/image/upload/v1592573098/emp_fem_y1vkfa.jpg";
     }
   }
-  var depart=req.body.dep
-  if(req.body.dep==''){
-    depart="Default"
+  var depart = req.body.dep
+  if (req.body.dep == '') {
+    depart = "Default"
   }
   console.log(req.body.photu)
-  if(req.body.photu!=undefined){
-    photu=req.body.photu;
+  if (req.body.photu != undefined) {
+    photu = req.body.photu;
   }
   console.log(photu)
   Emp.create({
-    userId: xid,
+    userid: xid,
     fname: req.body.fname,
     mname: req.body.mname,
     gender: req.body.gender,
@@ -250,7 +250,7 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
   }).then((user) => {
     Empq.create({
 
-      userId: xid,
+      userid: xid,
       name: req.body.name,
       doj: req.body.doj,
       salary: req.body.salary,
@@ -292,7 +292,7 @@ route.post('/add_empdata', authCheckedit, (req, res) => {
           }
         }
         Att.create({
-          userId: xid,
+          userid: xid,
           emp_id: user.emp_id,
           monthyear: mt + "-" + dt.getFullYear(),
           present: present,
@@ -341,7 +341,7 @@ route.get('/api/quickemp', authCheckview, (req, res) => {
 
   if (req.query.empid != undefined) {
     Empq.findOne({
-      where: { userId: xid, emp_id: req.query.empid },
+      where: { userid: xid, emp_id: req.query.empid },
       order: [
         ['status', 'ASC'],
         ['name', 'ASC'],
@@ -358,7 +358,7 @@ route.get('/api/quickemp', authCheckview, (req, res) => {
       })
   } else {
     Empq.findAll({
-      where: { userId: xid }, order: [
+      where: { userid: xid }, order: [
         ['status', 'ASC'],
         ['name', 'ASC'],
       ],
@@ -405,7 +405,7 @@ route.post('/api/active', authCheckedit, (req, res) => {
       }
     }
     Att.create({
-      userId: xid,
+      userid: xid,
       emp_id: req.body.emp_id,
       monthyear: mt + "-" + dt.getFullYear(),
       present: present,
@@ -476,7 +476,7 @@ route.post('/api/active', authCheckedit, (req, res) => {
 
 })
 route.get('/api/quickempactive', authCheckview, (req, res) => {
-  Empq.findAll({ where: { userId: xid, status: 'Active' } })
+  Empq.findAll({ where: { userid: xid, status: 'Active' } })
     .then((emps) => {
       res.status(200).send(emps)
     })
@@ -489,7 +489,7 @@ route.get('/api/quickempactive', authCheckview, (req, res) => {
 })
 route.get('/api/emp', authCheckview, (req, res) => {
   console.log(req.query)
-  Emp.findOne({ where: { userId: xid, emp_id: req.query.empid } })
+  Emp.findOne({ where: { userid: xid, emp_id: req.query.empid } })
     .then((emps) => {
       res.status(200).send([emps, symbol])
     })

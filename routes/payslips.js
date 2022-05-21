@@ -15,42 +15,42 @@ function isEmpty(obj) {
 }
 const authCheckview = (req, res, next) => {
     if (req.query.platform == "APP") {
-        if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
-          admin=0
-          var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
-          if (y[8] == 'false') {
-            return res.send(false)
-          }
-          xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+        if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+            admin = 0
+            var y = CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+            if (y[8] == 'false') {
+                return res.send(false)
+            }
+            xid = CryptoJS.AES.decrypt(req.query.id2 + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
         } else {
-          admin=1
-          xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
-          console.log(xid)
+            admin = 1
+            xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
+            console.log(xid)
         }
         office = req.query.off
         next()
-      } else {
-    if (isEmpty(req.user)) {
-        //user is not logged in
-        res.redirect('/login')
     } else {
-        if (req.user[0].admin == '0') {
-            xid = req.user[0].userId
-            var y = req.user[0].access.split(';')
-            if (y[8] == 'false') {
-
-                res.redirect('../users/lock')
-            }
+        if (isEmpty(req.user)) {
+            //user is not logged in
+            res.redirect('/login')
         } else {
-            xid = req.user[0].id
+            if (req.user[0].admin == '0') {
+                xid = req.user[0].userid
+                var y = req.user[0].access.split(';')
+                if (y[8] == 'false') {
+
+                    res.redirect('../users/lock')
+                }
+            } else {
+                xid = req.user[0].id
+            }
+            console.log(xid)
+            next()
         }
-        console.log(xid)
-        next()
     }
 }
-}
 const authCheck = (req, res, next) => {
-    
+
     if (isEmpty(req.user)) {
         //user is not logged in
         res.redirect('/login')
@@ -64,37 +64,37 @@ const authCheck = (req, res, next) => {
 }
 const authCheckedit = (req, res, next) => {
     if (req.query.platform == "APP") {
-        if (CryptoJS.AES.decrypt(req.query.admin+"", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
-          admin=0
-          var y = CryptoJS.AES.decrypt(req.query.access+"", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
-          if (y[9] == 'false') {
-            return res.send(false)
-          }
-          xid = CryptoJS.AES.decrypt(req.query.id2+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
+        if (CryptoJS.AES.decrypt(req.query.admin + "", process.env.appkey).toString(CryptoJS.enc.Utf8) == '0') {
+            admin = 0
+            var y = CryptoJS.AES.decrypt(req.query.access + "", process.env.appkey).toString(CryptoJS.enc.Utf8).split(';')
+            if (y[9] == 'false') {
+                return res.send(false)
+            }
+            xid = CryptoJS.AES.decrypt(req.query.id2 + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
         } else {
-          admin=1
-          xid = CryptoJS.AES.decrypt(req.query.id+"", process.env.appkey).toString(CryptoJS.enc.Utf8)
-          console.log(xid)
+            admin = 1
+            xid = CryptoJS.AES.decrypt(req.query.id + "", process.env.appkey).toString(CryptoJS.enc.Utf8)
+            console.log(xid)
         }
         office = req.query.off
         next()
-      } else {
-    if (isEmpty(req.user)) {
-        //user is not logged in
-        res.redirect('/login')
     } else {
-        if (req.user[0].admin == '0') {
-            xid = req.user[0].userId
-            var y = req.user[0].access.split(';')
-            if (y[9] == 'false') {
-                return res.send({ message: "You dont have access to edit " })
-            }
+        if (isEmpty(req.user)) {
+            //user is not logged in
+            res.redirect('/login')
         } else {
-            xid = req.user[0].id
+            if (req.user[0].admin == '0') {
+                xid = req.user[0].userid
+                var y = req.user[0].access.split(';')
+                if (y[9] == 'false') {
+                    return res.send({ message: "You dont have access to edit " })
+                }
+            } else {
+                xid = req.user[0].id
+            }
+            next()
         }
-        next()
     }
-}
 }
 route.get('/calc', authCheckedit, (req, res) => {
     res.sendFile(path.join(__dirname, '../views/calculator.html'))
@@ -187,7 +187,7 @@ route.post('/api/calc', authCheckedit, async (req, res) => {
 })
 function loanadd(amount, type, text, date, emp_id) {
     return Loan.create({
-        userId: xid,
+        userid: xid,
         amount: amount,
         text: text,
         emp_id: emp_id,
@@ -228,7 +228,7 @@ function loanadd(amount, type, text, date, emp_id) {
 }
 function advadd(amount, type, text, date, emp_id, monthyear) {
     return Adv.create({
-        userId: xid,
+        userid: xid,
         amount: amount,
         text: text,
         emp_id: emp_id,
@@ -298,7 +298,7 @@ route.get('/api/data', authCheckview, (req, res) => {
         Emp.hasMany(Att, { foreignKey: 'emp_id' })
         Att.belongsTo(Emp, { foreignKey: 'emp_id' })
 
-        Att.findOne({ where: { monthyear: req.query.date, userId: xid ,emp_id:req.query.emp }, include: [Emp] })
+        Att.findOne({ where: { monthyear: req.query.date, userid: xid, emp_id: req.query.emp }, include: [Emp] })
             .then((emps) => {
                 return res.status(200).send(emps)
             })
@@ -310,7 +310,7 @@ route.get('/api/data', authCheckview, (req, res) => {
         Emp.hasMany(Att, { foreignKey: 'emp_id' })
         Att.belongsTo(Emp, { foreignKey: 'emp_id' })
 
-        Att.findAll({ where: { monthyear: req.query.date, userId: xid }, include: [Emp] })
+        Att.findAll({ where: { monthyear: req.query.date, userid: xid }, include: [Emp] })
             .then((emps) => {
                 return res.status(200).send(emps)
             })
@@ -322,7 +322,7 @@ route.get('/api/data', authCheckview, (req, res) => {
 })
 route.get('/getloan', authCheckview, (req, res) => {
 
-    Loan.findAll({ where: { emp_id: req.query.idx, userId: xid } })
+    Loan.findAll({ where: { emp_id: req.query.idx, userid: xid } })
         .then((emps) => {
             return res.status(200).send(emps)
         })
@@ -336,7 +336,7 @@ route.get('/getloan', authCheckview, (req, res) => {
 })
 route.get('/getadv', authCheckview, (req, res) => {
 
-    Adv.findAll({ where: { emp_id: req.query.idx, userId: xid, monthyear: req.query.monthyear } })
+    Adv.findAll({ where: { emp_id: req.query.idx, userid: xid, monthyear: req.query.monthyear } })
         .then((emps) => {
             return res.status(200).send(emps)
         })

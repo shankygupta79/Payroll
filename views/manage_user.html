@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/settings/style2">
-    <link rel="stylesheet" href="https://payrollv2.herokuapp.com/users/css">
+    <link rel="stylesheet" href="http://localhost:3420/settings/style2">
+    <link rel="stylesheet" href="http://localhost:3420/users/css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
@@ -70,7 +70,7 @@
                         <tr v-for="i in myArray.length"
                             v-if="myArray[i-1].username.toLowerCase().includes(query.toLowerCase()) && i>=start && i<=end">
                             <td>{{myArray[i-1].username}}</td>
-                            <td>{{myArray[i-1].emailId}}</td>
+                            <td>{{myArray[i-1].emailid}}</td>
                             <td><button @click="edit(myArray[i-1].id)" class="btn btn-success"><i
                                         class="fa fa-pencil-square" style="color:white" aria-hidden="true"></i>&nbsp
                                     Edit <div class="media">User
@@ -113,7 +113,7 @@
 
     </div>
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://payrollv2.herokuapp.com/navbar2"></script>
+    <script src="http://localhost:3420/navbar2"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script>
@@ -138,7 +138,7 @@
             },
             methods: {
                 load: function () {
-                    axios.get('https://payrollv2.herokuapp.com/users/api/user')
+                    axios.get('http://localhost:3420/users/api/user')
                         .then(function (Response) {
                             log.myArray = Response
                             log.loaderoff()
@@ -245,7 +245,7 @@
         })
     </script>
 
-    <script src="https://payrollv2.herokuapp.com/navbar2/collapsing"></script>
+    <script src="http://localhost:3420/navbar2/collapsing"></script>
 </body>
 
 </html>
