@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
 const dotenv = require("dotenv")
 dotenv.config()
-const db = new Sequelize("d8o6lcfjqesniq", "ppyaymlosadpfv", "f0b80c939d271bf0380bad36f7ff60bbb5c7e7cf1c37c03fb4801f6c37fb810c", {
-    host: "ec2-52-202-66-191.compute-1.amazonaws.com",
+const db = new Sequelize(process.env.DATABASE, process.env.USERR, process.env.PASSWORD, {
+    host: process.env.HOST,
     dialect: 'postgres',
     port: 5432,
     operatorsAliases: false,
