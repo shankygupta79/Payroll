@@ -1,5 +1,5 @@
 ## Payroll Version 2.0
-http://localhost:3420/
+https://payrollv2.herokuapp.com/
 heroku git:remote -a payrollv2
 
 ## Currently Used by
