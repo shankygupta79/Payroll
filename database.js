@@ -244,7 +244,7 @@ const Loan = db.define('loan', {
         field: 'updatedat'
     },
 })
-const Adv = db.define('Adv', {
+const Adv = db.define('adv', {
     userid: Sequelize.INTEGER,
     type: Sequelize.INTEGER,
     amount: Sequelize.INTEGER,
@@ -252,6 +252,15 @@ const Adv = db.define('Adv', {
     emp_id: Sequelize.INTEGER,
     date: Sequelize.STRING,
     monthyear: Sequelize.STRING,
+    createdAt: {
+        type: Sequelize.DATE,
+        field: 'createdat'
+    },
+    
+    updatedAt: {
+        type: Sequelize.DATE,
+        field: 'updatedat'
+    },
 })
 db.sync()
     .then(() => console.log("Database has been synced"))
