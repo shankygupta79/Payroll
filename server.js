@@ -29,7 +29,7 @@ app.use(cookieSession({
 //initialoze passport
 app.use(passport.initialize())
 app.use(passport.session())
-
+app.use(express.bodyParser({limit: '50mb'}));
 
 app.set('views', path.join(__dirname, 'views/'));
 app.use((req, res, next) => {
