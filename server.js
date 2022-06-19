@@ -7,6 +7,8 @@ const passportSetup = require('./config/passport-setup')
 const cookieSession = require('cookie-session')
 const passport = require('passport')
 const dotenv = require("dotenv")
+var bodyParser = require('body-parser');
+
 dotenv.config()
 const profileroutes = require('./routes/profile-routes').route
 var cors = require('cors')
@@ -29,7 +31,10 @@ app.use(cookieSession({
 //initialoze passport
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(express.bodyParser({limit: '50mb'}));
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 
 app.set('views', path.join(__dirname, 'views/'));
 app.use((req, res, next) => {
