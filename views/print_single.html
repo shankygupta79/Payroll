@@ -31,9 +31,14 @@
             <div class="center info headin" style="height: 110px;"><img v-bind:src="logoimg" width="100px"
                     style="float: left;" height="100px">
                 <div style="vertical-align: middle;"><br>{{company}}</div>
+
+                <div style="font-size: 12px; font-weight: 400;" class="center">
+                    Address : {{add}}<br>
+                    Phone : {{phone}} | Website : {{website}}
+                </div>
             </div>
             <div class="roww info"></div>
-            <div class="center info" style="font-size: 18px;"><b>PAYSLIP FOR MONTH OF {{month}}-{{year}}</b></div><br>
+            <div class="center info" style="font-size: 18px;"><b>PAYSLIP FOR MONTH OF {{month}}{{year}}</b></div><br>
 
             <table class="info">
                 <tr>
@@ -162,30 +167,35 @@
                     </th>
                 </tr>
                 <tr>
-                    <td>
+                    <td colspan="2">
 
                     </td>
-                    <td>
-
-                    </td>
-                    <td>
-                        Transfer
-                    </td>
-                    <td>
-                        {{symbol}}{{parseInt(myArray.transfer).toLocaleString('en-IN')}}
-                    </td>
-                </tr>
-                <tr>
-                    <th colspan="2" style="border: none;">
-
-                    </th>
-                    <th>
+                    <th style="background-color:aquamarine">
                         Net Pay
                     </th>
-                    <th>
+                    <th style="background-color:aquamarine">
                         {{symbol}}{{parseInt(myArray.netpay).toLocaleString('en-IN')}}
                     </th>
                 </tr>
+                <tr>
+                    <td colspan="4">
+                        &ensp;Total Amount Payable (in words) : {{words}}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="color: white">
+                        &ensp;.
+                    </td>
+                </tr>
+                <tr style="height: 60px">
+                    <td colspan="2" rowspan="3">
+                        <b>&ensp;Signature by Employer</b>
+                    </td>
+                    <td colspan="2" rowspan="3">
+                        <b>&ensp;Signature of Employee</b>
+                    </td>
+                </tr>
+
 
 
             </table>
@@ -210,6 +220,10 @@
                 year: '2020',
                 logoimg: '',
                 company: 'Company Name',
+                phone: "1234567890",
+                website: "www.payrollv2.herokuapp.com",
+                add: "Sample Street Delhi",
+                words: "zero",
             },
             created: function () {
                 this.load();
@@ -221,9 +235,12 @@
 
                     axios.get('https://payrollv2.herokuapp.com/payslips/api/dataprint?date=' + params.month + "&id=" + params.id)
                         .then(function (Response1) {
+                            Response1.netpay = Response1.netpay + Response1.transfer
                             log.myArray = Response1
+                            log.words = log.inWords(log.myArray.netpay)
                             log.month = params.month
                             log.year = params.year
+                            console.log(params.year)
                             log.name = log.myArray['employee_quick'].name
                         })
 
@@ -235,15 +252,19 @@
                         })
                     axios.get('https://payrollv2.herokuapp.com/settings/api/setting')
                         .then(function (Response2) {
+                            console.log(Response2)
                             log.logoimg = Response2[2]
                             log.company = Response2[0].name
+                            log.add = Response2[0].add
+                            log.phone = Response2[0].phone
+                            log.website = Response2[0].website
                             log.symbol = Response2[1]
                             setTimeout(() => {
                                 if (params.action == 'download') {
                                     log.down()
                                 } else {
                                     this.print()
-                                    window.close()
+                                    //window.close()
                                 }
                             }, 100)
 
@@ -282,6 +303,19 @@
                         console.log("Erorr Occured", error)
                     });
 
+                }, inWords(num) {
+                    console.log(num)
+                    var a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+                    var b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+                    if ((num = num.toString()).length > 9) return 'overflow';
+                    n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+                    if (!n) return; var str = '';
+                    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+                    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+                    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+                    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+                    str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
+                    return str;
                 }
 
             }
