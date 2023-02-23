@@ -33,7 +33,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.7.3",
     "react-native-expandable-listview": "^1.2.11",
-    "sequelize": "^5.22.5",
+    "sequelize": "^6.28.2",
     "web-push": "^3.4.5"
   }
 }
